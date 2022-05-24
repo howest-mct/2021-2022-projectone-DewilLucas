@@ -22,11 +22,10 @@ def setup_gpio():
 
 def leesTemperatuur():
     while True:
-
-        status = DataRepository.read_temperatuur()
-        socketio.emit('B2F_temperatuur', {
-            'temperatuur': status}, broadcast=True)
-        time.sleep(5)
+        while True:
+            lees = TemperatuurClass(temperatuurSensor)
+            socketio.emit('B2F_temperatuur', {
+                'temperatuur': lees.leesTemp()}, broadcast=True)
 
 
 def meetTemperatuur():
@@ -135,8 +134,8 @@ if __name__ == '__main__':
         setup_gpio()
         start_thread()
         start_chrome_thread()
-        temperatuur_thread()
         read_temperatuur_thread()
+        temperatuur_thread()
         print("**** Starting APP ****")
         socketio.run(app, debug=False, host='0.0.0.0')
     except KeyboardInterrupt:

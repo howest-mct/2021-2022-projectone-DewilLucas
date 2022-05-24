@@ -2,8 +2,16 @@
 const lanIP = `${window.location.hostname}:5000`;
 const socket = io(`http://${lanIP}`);
 // #region ***  DOM references   ***********
+let htmlIndex;
 // #endregion 
 // #region ***  Callback-Visualisation - show___         ***********      
+const showTemp = function(temp) {
+  console.log("hey")
+  let htmlTemp = document.querySelector(".js-temperatuur");
+  let htmlUitvoer = ``;
+  htmlUitvoer = `Huidige temperatuur: ${temp}`;
+  htmlTemp.innerHtml = htmlUitvoer;
+}
 // #endregion 
 
 // #region ***  Callback-No Visualisation - callback___  ***********
@@ -18,17 +26,19 @@ const listenToSocket = function () {
     console.log("verbonden met socket");
   });
   socket.on("B2F_temperatuur",function (json) {
-    const temp = `${json.temperatuur.waarde}°C`
+    const temp = `${json.temperatuur.waarde}°C`;
     console.log(
       `huidige temperatuur : ${temp}`
     );
+    showTemp(temp);
   })
 }
 // #endregion      
 // #region ***  Init / DOMContentLoaded                  ***********   
 const init = function () {
   console.info("DOM geladen");
-  listenToSocket()
+  htmlIndex = document.querySelector(".js-index");
+  htmlIndex?listenToSocket():false;
 } 
 document.addEventListener("DOMContentLoaded", init);
 // #endregion

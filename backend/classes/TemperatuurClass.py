@@ -1,11 +1,11 @@
 from repositories.DataRepository import DataRepository
 import time
-from RPi import GPIO
 
 
 class TemperatuurClass:
     def __init__(self, partempFile):
         self.tempsensor = partempFile
+        self.sensorFile = open(self.tempsensor, 'r')
 
     def meetTemp(self):
         while True:
@@ -21,6 +21,12 @@ class TemperatuurClass:
                         uitvoer = f"temperatuur succesvol toegevoegd: {round(temperatuur, 2)}"
                         print(uitvoer)
             time.sleep(5)
+
+    def leesTemp(self):
+        while True:
+            self.status = DataRepository.read_temperatuur()
+            time.sleep(5)
+            return self.status
 
     def sluitTemp(self):
         self.sensorFile.close()
