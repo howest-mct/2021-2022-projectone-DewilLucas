@@ -16,7 +16,13 @@ class DataRepository:
         return Database.get_rows(sql)
 
     @staticmethod
+    def write_temperatuur(temp):
+        sql = "insert into Historiek(DeviceID,Waarde,Tijdstip) values(%s,%s,now())"
+        params = [1, temp]
+        return Database.execute_sql(sql, params)
+
+    @staticmethod
     def read_temperatuur():
-        sql = "SELECT waarde FROM smartfridgeDB.Historiek where DeviceID = %s;"
+        sql = "SELECT waarde FROM Historiek where DeviceID = %s order by Tijdstip desc LIMIT 1;"
         param = [1]
         return Database.get_one_row(sql, param)
