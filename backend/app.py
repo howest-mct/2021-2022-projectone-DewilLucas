@@ -44,9 +44,9 @@ def hallo():
 def initial_connection():
     print('A new client connect')
     # # Send to the client!
-    #status = DataRepository.read_temperatuur()
+    # status = DataRepository.read_temperatuur()
     # print(status)
-    #emit('B2F_temperatuur', {'temperatuur': status}, broadcast=True)
+    # emit('B2F_temperatuur', {'temperatuur': status}, broadcast=True)
 # Thread
 
 
@@ -116,10 +116,10 @@ def meetTemperatuur():
             if pos > 0:
                 temperatuur = int(line.strip(
                     '\n')[pos+2:])/1000.0
-                insert_temp = DataRepository.write_temperatuur(temperatuur)
+                insert_temp = DataRepository.write_temperatuur(
+                    round((temperatuur), 2))
                 if insert_temp > 0:
                     print("temperatuur succesvol toegevoegd: ", temperatuur)
-                    socketio.emit('B2F_newTemp', {'amount': temperatuur})
 
         time.sleep(5)
 
@@ -127,7 +127,8 @@ def meetTemperatuur():
 def leesTemperatuur():
     while True:
         status = DataRepository.read_temperatuur()
-        emit('B2F_temperatuur', {'temperatuur': status}, broadcast=True)
+        socketio.emit('B2F_temperatuur', {
+            'temperatuur': status}, broadcast=True)
         time.sleep(5)
 
 
