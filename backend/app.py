@@ -44,15 +44,27 @@ def hallo():
 def initial_connection():
     print('A new client connect')
     # # Send to the client!
-    status = DataRepository.read_temperatuur()
-    print(status)
-    emit('B2F_temperatuur', {'temperatuur': status}, broadcast=True)
+    #status = DataRepository.read_temperatuur()
+    # print(status)
+    #emit('B2F_temperatuur', {'temperatuur': status}, broadcast=True)
 # Thread
 
 
 def start_thread():
     print("**** Starting THREAD ****")
+    thread = threading.Thread(target=leesHistoriek, args=(), daemon=True)
+    thread.start()
+
+
+def temperatuur_thread():
+    print("**** write Temperature THREAD ****")
     thread = threading.Thread(target=meetTemperatuur, args=(), daemon=True)
+    thread.start()
+
+
+def read_temperatuur_thread():
+    print("**** Read Temperature THREAD ****")
+    thread = threading.Thread(target=leesTemperatuur, args=(), daemon=True)
     thread.start()
 
 
@@ -104,12 +116,23 @@ def meetTemperatuur():
             if pos > 0:
                 temperatuur = int(line.strip(
                     '\n')[pos+2:])/1000.0
-                print(f'Het is {temperatuur} °C')
                 insert_temp = DataRepository.write_temperatuur(temperatuur)
                 if insert_temp > 0:
                     print("temperatuur succesvol toegevoegd: ", temperatuur)
                     socketio.emit('B2F_newTemp', {'amount': temperatuur})
+
         time.sleep(5)
+
+
+def leesTemperatuur():
+    while True:
+        status = DataRepository.read_temperatuur()
+        emit('B2F_temperatuur', {'temperatuur': status}, broadcast=True)
+        time.sleep(5)
+
+
+def leesHistoriek():
+    pass
 
 
 if __name__ == '__main__':
@@ -117,6 +140,8 @@ if __name__ == '__main__':
         setup_gpio()
         start_thread()
         start_chrome_thread()
+        temperatuur_thread()
+        read_temperatuur_thread()
         print("**** Starting APP ****")
         socketio.run(app, debug=False, host='0.0.0.0')
     except KeyboardInterrupt:
