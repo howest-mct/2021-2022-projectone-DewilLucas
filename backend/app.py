@@ -44,28 +44,27 @@ def hallo():
 def initial_connection():
     print('A new client connect')
     # # Send to the client!
-    status = DataRepository.read_historiek()
-    emit('B2F_historiek', {'historiek': status}, broadcast=True)
+    # status = DataRepository.read_temperatuur()
+    # print(status)
+    # emit('B2F_temperatuur', {'temperatuur': status}, broadcast=True)
 # Thread
-
-
-def meetTemperatuur():
-    global sensorFile
-    while True:
-        sensorFile = open(temperatuurSensor, 'r')
-        for line in sensorFile:
-            pos = line.find('t=')
-            if pos > 0:
-                temperatuur = int(line.strip(
-                    '\n')[pos+2:])/1000.0
-                print(f'Het is {temperatuur} °C')
-
-        time.sleep(5)
 
 
 def start_thread():
     print("**** Starting THREAD ****")
+    thread = threading.Thread(target=leesHistoriek, args=(), daemon=True)
+    thread.start()
+
+
+def temperatuur_thread():
+    print("**** write Temperature THREAD ****")
     thread = threading.Thread(target=meetTemperatuur, args=(), daemon=True)
+    thread.start()
+
+
+def read_temperatuur_thread():
+    print("**** Read Temperature THREAD ****")
+    thread = threading.Thread(target=leesTemperatuur, args=(), daemon=True)
     thread.start()
 
 
@@ -107,11 +106,43 @@ def start_chrome_thread():
 
 
 # ANDERE FUNCTIES
+
+def meetTemperatuur():
+    global sensorFile
+    while True:
+        sensorFile = open(temperatuurSensor, 'r')
+        for line in sensorFile:
+            pos = line.find('t=')
+            if pos > 0:
+                temperatuur = int(line.strip(
+                    '\n')[pos+2:])/1000.0
+                insert_temp = DataRepository.write_temperatuur(
+                    round((temperatuur), 2))
+                if insert_temp > 0:
+                    print("temperatuur succesvol toegevoegd: ", temperatuur)
+
+        time.sleep(5)
+
+
+def leesTemperatuur():
+    while True:
+        status = DataRepository.read_temperatuur()
+        socketio.emit('B2F_temperatuur', {
+            'temperatuur': status}, broadcast=True)
+        time.sleep(5)
+
+
+def leesHistoriek():
+    pass
+
+
 if __name__ == '__main__':
     try:
         setup_gpio()
         start_thread()
         start_chrome_thread()
+        temperatuur_thread()
+        read_temperatuur_thread()
         print("**** Starting APP ****")
         socketio.run(app, debug=False, host='0.0.0.0')
     except KeyboardInterrupt:

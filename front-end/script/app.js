@@ -13,9 +13,22 @@ const socket = io(`http://${lanIP}`);
 // #endregion 
 
 // #region ***  Event Listeners - listenTo___            ***********       
+const listenToSocket = function () {
+  socket.on("connect", function () {
+    console.log("verbonden met socket");
+  });
+  socket.on("B2F_temperatuur",function (json) {
+    const temp = `${json.temperatuur.waarde}°C`
+    console.log(
+      `huidige temperatuur : ${temp}`
+    );
+  })
+}
 // #endregion      
-// #region ***  Init / DOMContentLoaded                  ***********    
-document.addEventListener("DOMContentLoaded", function () {
+// #region ***  Init / DOMContentLoaded                  ***********   
+const init = function () {
   console.info("DOM geladen");
-});
+  listenToSocket()
+} 
+document.addEventListener("DOMContentLoaded", init);
 // #endregion
