@@ -8,7 +8,7 @@ from flask import Flask, jsonify
 from repositories.DataRepository import DataRepository
 
 from selenium import webdriver
-
+from classes.TemperatuurClass import TemperatuurClass
 # from selenium import webdriver
 # from selenium.webdriver.chrome.options import Options
 temperatuurSensor = '/sys/bus/w1/devices/28-22cfd2000900/w1_slave'
@@ -18,6 +18,25 @@ temperatuurSensor = '/sys/bus/w1/devices/28-22cfd2000900/w1_slave'
 def setup_gpio():
     GPIO.setwarnings(False)
     GPIO.setmode(GPIO.BCM)
+
+
+def leesTemperatuur():
+    while True:
+
+        status = DataRepository.read_temperatuur()
+        socketio.emit('B2F_temperatuur', {
+            'temperatuur': status}, broadcast=True)
+        time.sleep(5)
+
+
+def meetTemperatuur():
+    while True:
+        huidigTemp = TemperatuurClass(temperatuurSensor)
+        return huidigTemp.meetTemp()
+
+
+def leesHistoriek():
+    pass
 
 
 # Code voor Flask
@@ -58,8 +77,12 @@ def start_thread():
 
 def temperatuur_thread():
     print("**** write Temperature THREAD ****")
-    thread = threading.Thread(target=meetTemperatuur, args=(), daemon=True)
-    thread.start()
+    try:
+        thread = threading.Thread(
+            target=meetTemperatuur, args=(), daemon=True)
+        thread.start()
+    except Exception as ex:
+        print(ex)
 
 
 def read_temperatuur_thread():
@@ -106,38 +129,9 @@ def start_chrome_thread():
 
 
 # ANDERE FUNCTIES
-
-def meetTemperatuur():
-    global sensorFile
-    while True:
-        sensorFile = open(temperatuurSensor, 'r')
-        for line in sensorFile:
-            pos = line.find('t=')
-            if pos > 0:
-                temperatuur = int(line.strip(
-                    '\n')[pos+2:])/1000.0
-                insert_temp = DataRepository.write_temperatuur(
-                    round((temperatuur), 2))
-                if insert_temp > 0:
-                    print("temperatuur succesvol toegevoegd: ", temperatuur)
-
-        time.sleep(5)
-
-
-def leesTemperatuur():
-    while True:
-        status = DataRepository.read_temperatuur()
-        socketio.emit('B2F_temperatuur', {
-            'temperatuur': status}, broadcast=True)
-        time.sleep(5)
-
-
-def leesHistoriek():
-    pass
-
-
 if __name__ == '__main__':
     try:
+        temp = TemperatuurClass(temperatuurSensor)
         setup_gpio()
         start_thread()
         start_chrome_thread()
@@ -148,5 +142,5 @@ if __name__ == '__main__':
     except KeyboardInterrupt:
         print('KeyboardInterrupt exception is caught')
     finally:
-        sensorFile.close()
+        temp.sluitTemp()
         GPIO.cleanup()
