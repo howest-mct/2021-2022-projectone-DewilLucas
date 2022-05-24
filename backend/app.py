@@ -44,8 +44,8 @@ def hallo():
 def initial_connection():
     print('A new client connect')
     # # Send to the client!
-    status = DataRepository.read_historiek()
-    emit('B2F_historiek', {'historiek': status}, broadcast=True)
+    status = DataRepository.read_temperatuur()
+    emit('B2F_temperatuur', {'temperatuur': status}, broadcast=True)
 # Thread
 
 

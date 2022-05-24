@@ -14,3 +14,9 @@ class DataRepository:
     def read_historiek():
         sql = "SELECT * FROM Historiek;"
         return Database.get_rows(sql)
+
+    @staticmethod
+    def read_temperatuur():
+        sql = "SELECT waarde FROM smartfridgeDB.Historiek where DeviceID = %s;"
+        param = [1]
+        return Database.get_one_row(sql, param)
