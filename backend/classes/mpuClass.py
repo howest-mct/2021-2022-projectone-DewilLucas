@@ -18,7 +18,7 @@ class MPU6050:
 
     def printAlles(self):
         print("***")
-        print(f'Raw_data : {sum(self.raw, [])}')
+        #print(f'Raw_data : {sum(self.raw, [])}')
         self.raw = []
         print(f'De temperatuur is {self.temperatuur()}°C')
         accel = self.read_accel()
