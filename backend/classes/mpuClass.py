@@ -1,14 +1,6 @@
 import time
 from smbus import SMBus
-<<<<<<< HEAD
-<<<<<<< HEAD
-²
-=======
 
->>>>>>> c79045e15a6f1c41d1b58831aaa46634c79558f5
-=======
-
->>>>>>> c79045e15a6f1c41d1b58831aaa46634c79558f5
 i2c = SMBus()
 i2c.open(1)
 
