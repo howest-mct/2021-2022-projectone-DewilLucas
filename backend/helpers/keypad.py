@@ -17,8 +17,8 @@ def vangToets():
     for j in range(len(kolum)):
         GPIO.setup(kolum[j], GPIO.OUT)
         GPIO.output(kolum[j], GPIO.LOW)
-        for i in range(len(rij)):
-            GPIO.setup(rij[i], GPIO.IN, pull_up_down=GPIO.PUD_UP)
+    for i in range(len(rij)):
+        GPIO.setup(rij[i], GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
     rowVal = -1
     for i in range(len(rij)):
@@ -46,7 +46,6 @@ def vangToets():
 
 
 def exit():
-    # Reinitialize all rows and columns as input at exit
     for i in range(len(rij)):
         GPIO.setup(rij[i], GPIO.IN, pull_up_down=GPIO.PUD_UP)
     for j in range(len(kolum)):

@@ -7,12 +7,15 @@ from flask_socketio import SocketIO, emit, send
 from flask import Flask, jsonify
 from repositories.DataRepository import DataRepository
 from classes.mpuClass import MPU6050
+from classes.keypadClass import clKeypad
 from selenium import webdriver
 from classes.TemperatuurClass import TemperatuurClass
 # from selenium import webdriver
 # from selenium.webdriver.chrome.options import Options
 temperatuurSensor = '/sys/bus/w1/devices/28-22cfd2000900/w1_slave'
 mpu = MPU6050(0x68)
+rijKeypad = [9, 6, 22, 27]
+kolumKeypad = [17, 21, 5]
 # Code voor Hardware
 
 
@@ -38,6 +41,18 @@ def meetTemperatuur():
     while True:
         huidigTemp = TemperatuurClass(temperatuurSensor)
         return huidigTemp.meetTemp()
+
+
+def leesKeypad():
+    while True:
+        key = clKeypad(rijKeypad, kolumKeypad)
+        toets = None
+        if toets == None:
+            toets = key.vangToets()
+            if toets != None:
+                print(toets)
+            else:
+                pass
 
 
 def leesHistoriek():
@@ -101,6 +116,15 @@ def temperatuur_thread():
         print(ex)
 
 
+def keypad_thread():
+    print("**** Read keypad THREAD *****")
+    try:
+        thread = threading.Thread(target=leesKeypad, args=(), daemon=True)
+        thread.start()
+    except Exception as ex:
+        print(ex)
+
+
 def read_temperatuur_thread():
     print("**** Read Temperature THREAD ****")
     try:
@@ -157,6 +181,7 @@ if __name__ == '__main__':
         read_temperatuur_thread()
         temperatuur_thread()
         MPU_thread()
+        keypad_thread()
         print("**** Starting APP ****")
         socketio.run(app, debug=False, host='0.0.0.0')
     except KeyboardInterrupt:
