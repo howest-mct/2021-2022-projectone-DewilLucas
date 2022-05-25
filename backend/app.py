@@ -6,12 +6,13 @@ from flask_cors import CORS
 from flask_socketio import SocketIO, emit, send
 from flask import Flask, jsonify
 from repositories.DataRepository import DataRepository
-
+from classes.mpuClass import MPU6050
 from selenium import webdriver
 from classes.TemperatuurClass import TemperatuurClass
 # from selenium import webdriver
 # from selenium.webdriver.chrome.options import Options
 temperatuurSensor = '/sys/bus/w1/devices/28-22cfd2000900/w1_slave'
+mpu = MPU6050(0x68)
 # Code voor Hardware
 
 
@@ -20,12 +21,16 @@ def setup_gpio():
     GPIO.setmode(GPIO.BCM)
 
 
+def leesMPU():
+    while True:
+        mpu.printAlles()
+
+
 def leesTemperatuur():
     while True:
-        while True:
-            lees = TemperatuurClass(temperatuurSensor)
-            socketio.emit('B2F_temperatuur', {
-                'temperatuur': lees.leesTemp()}, broadcast=True)
+        lees = TemperatuurClass(temperatuurSensor)
+        socketio.emit('B2F_temperatuur', {
+            'temperatuur': lees.leesTemp()}, broadcast=True)
 
 
 def meetTemperatuur():
@@ -71,6 +76,15 @@ def start_thread():
     print("**** Starting THREAD ****")
     try:
         thread = threading.Thread(target=leesHistoriek, args=(), daemon=True)
+        thread.start()
+    except Exception as ex:
+        print(ex)
+
+
+def MPU_thread():
+    print("**** MPU THREAD ****")
+    try:
+        thread = threading.Thread(target=leesMPU, args=(), daemon=True)
         thread.start()
     except Exception as ex:
         print(ex)
@@ -141,10 +155,12 @@ if __name__ == '__main__':
         start_chrome_thread()
         read_temperatuur_thread()
         temperatuur_thread()
+        MPU_thread()
         print("**** Starting APP ****")
         socketio.run(app, debug=False, host='0.0.0.0')
     except KeyboardInterrupt:
         print('KeyboardInterrupt exception is caught')
     finally:
+        mpu.sluit()
         temp.sluitTemp()
         GPIO.cleanup()
