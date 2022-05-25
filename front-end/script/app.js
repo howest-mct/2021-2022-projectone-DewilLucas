@@ -6,11 +6,9 @@ let htmlIndex;
 // #endregion 
 // #region ***  Callback-Visualisation - show___         ***********      
 const showTemp = function(temp) {
-  console.log("hey")
   let htmlTemp = document.querySelector(".js-temperatuur");
-  let htmlUitvoer = ``;
-  htmlUitvoer = `Huidige temperatuur: ${temp}`;
-  htmlTemp.innerHtml = htmlUitvoer;
+  let htmlUitvoer = `Huidige temperatuur: ${temp}`;
+  htmlTemp.innerHTML = htmlUitvoer;
 }
 // #endregion 
 

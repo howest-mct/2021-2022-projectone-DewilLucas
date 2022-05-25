@@ -62,16 +62,18 @@ def hallo():
 def initial_connection():
     print('A new client connect')
     # # Send to the client!
-    # status = DataRepository.read_temperatuur()
-    # print(status)
-    # emit('B2F_temperatuur', {'temperatuur': status}, broadcast=True)
+
+
 # Thread
 
 
 def start_thread():
     print("**** Starting THREAD ****")
-    thread = threading.Thread(target=leesHistoriek, args=(), daemon=True)
-    thread.start()
+    try:
+        thread = threading.Thread(target=leesHistoriek, args=(), daemon=True)
+        thread.start()
+    except Exception as ex:
+        print(ex)
 
 
 def temperatuur_thread():
@@ -86,8 +88,11 @@ def temperatuur_thread():
 
 def read_temperatuur_thread():
     print("**** Read Temperature THREAD ****")
-    thread = threading.Thread(target=leesTemperatuur, args=(), daemon=True)
-    thread.start()
+    try:
+        thread = threading.Thread(target=leesTemperatuur, args=(), daemon=True)
+        thread.start()
+    except Exception as ex:
+        print(ex)
 
 
 def start_chrome_kiosk():
