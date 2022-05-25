@@ -95,6 +95,7 @@ def start_thread():
         thread.start()
     except Exception as ex:
         print(ex)
+        #
 
 
 def MPU_thread():
