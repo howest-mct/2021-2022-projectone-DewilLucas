@@ -24,6 +24,7 @@ def setup_gpio():
 def leesMPU():
     while True:
         mpu.printAlles()
+        # Checken voor open en dicht soon...
 
 
 def leesTemperatuur():
