@@ -6,16 +6,12 @@ from flask_cors import CORS
 from flask_socketio import SocketIO, emit, send
 from flask import Flask, jsonify
 from repositories.DataRepository import DataRepository
-from classes.mpuClass import MPU6050
-from classes.keypadClass import clKeypad
+
 from selenium import webdriver
 from classes.TemperatuurClass import TemperatuurClass
 # from selenium import webdriver
 # from selenium.webdriver.chrome.options import Options
 temperatuurSensor = '/sys/bus/w1/devices/28-22cfd2000900/w1_slave'
-mpu = MPU6050(0x68)
-rijKeypad = [9, 6, 22, 27]
-kolumKeypad = [17, 21, 5]
 # Code voor Hardware
 
 
@@ -24,35 +20,18 @@ def setup_gpio():
     GPIO.setmode(GPIO.BCM)
 
 
-def leesMPU():
-    while True:
-        mpu.printAlles()
-        # Checken voor open en dicht soon...
-
-
 def leesTemperatuur():
     while True:
-        lees = TemperatuurClass(temperatuurSensor)
-        socketio.emit('B2F_temperatuur', {
-            'temperatuur': lees.leesTemp()}, broadcast=True)
+        while True:
+            lees = TemperatuurClass(temperatuurSensor)
+            socketio.emit('B2F_temperatuur', {
+                'temperatuur': lees.leesTemp()}, broadcast=True)
 
 
 def meetTemperatuur():
     while True:
         huidigTemp = TemperatuurClass(temperatuurSensor)
         return huidigTemp.meetTemp()
-
-
-def leesKeypad():
-    while True:
-        key = clKeypad(rijKeypad, kolumKeypad)
-        toets = None
-        if toets == None:
-            toets = key.vangToets()
-            if toets != None:
-                print(toets)
-            else:
-                pass
 
 
 def leesHistoriek():
@@ -97,29 +76,11 @@ def start_thread():
         print(ex)
 
 
-def MPU_thread():
-    print("**** MPU THREAD ****")
-    try:
-        thread = threading.Thread(target=leesMPU, args=(), daemon=True)
-        thread.start()
-    except Exception as ex:
-        print(ex)
-
-
 def temperatuur_thread():
     print("**** write Temperature THREAD ****")
     try:
         thread = threading.Thread(
             target=meetTemperatuur, args=(), daemon=True)
-        thread.start()
-    except Exception as ex:
-        print(ex)
-
-
-def keypad_thread():
-    print("**** Read keypad THREAD *****")
-    try:
-        thread = threading.Thread(target=leesKeypad, args=(), daemon=True)
         thread.start()
     except Exception as ex:
         print(ex)
@@ -180,13 +141,10 @@ if __name__ == '__main__':
         start_chrome_thread()
         read_temperatuur_thread()
         temperatuur_thread()
-        MPU_thread()
-        keypad_thread()
         print("**** Starting APP ****")
         socketio.run(app, debug=False, host='0.0.0.0')
     except KeyboardInterrupt:
         print('KeyboardInterrupt exception is caught')
     finally:
-        mpu.sluit()
         temp.sluitTemp()
         GPIO.cleanup()
