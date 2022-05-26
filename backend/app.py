@@ -92,6 +92,9 @@ def start_thread():
     print("**** Starting THREAD ****")
     try:
         thread = threading.Thread(target=leesHistoriek, args=(), daemon=True)
+        thread2 = threading.Thread(
+            target=meetTemperatuur, args=(), daemon=True)
+        thread2.start()
         thread.start()
     except Exception as ex:
         print(ex)
