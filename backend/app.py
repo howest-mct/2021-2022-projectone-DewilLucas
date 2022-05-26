@@ -1,7 +1,8 @@
 import time
 from RPi import GPIO
 import threading
-
+import sys
+import os
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit, send
 from flask import Flask, jsonify
@@ -12,16 +13,29 @@ from selenium import webdriver
 from classes.TemperatuurClass import TemperatuurClass
 # from selenium import webdriver
 # from selenium.webdriver.chrome.options import Options
+
+# Variables
 temperatuurSensor = '/sys/bus/w1/devices/28-22cfd2000900/w1_slave'
 mpu = MPU6050(0x68)
 rijKeypad = [9, 6, 22, 27]
 kolumKeypad = [17, 21, 5]
+button = 18
 # Code voor Hardware
 
 
 def setup_gpio():
     GPIO.setwarnings(False)
     GPIO.setmode(GPIO.BCM)
+    GPIO.setup(button, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+    GPIO.add_event_detect(button, GPIO.FALLING, pushed, 200)
+
+
+def pushed(knop):
+    print("TURNED OFF")
+    time.sleep(5)
+    os.system("sudo shutdown -h now")
+    sys.exit()
+    # quits the code
 
 
 def leesMPU():
@@ -92,10 +106,11 @@ def start_thread():
     print("**** Starting THREAD ****")
     try:
         thread = threading.Thread(target=leesHistoriek, args=(), daemon=True)
-        thread2 = threading.Thread(
-            target=meetTemperatuur, args=(), daemon=True)
-        thread2.start()
         thread.start()
+        temperatuur_thread()
+        read_temperatuur_thread()
+        MPU_thread()
+        keypad_thread()
     except Exception as ex:
         print(ex)
 
@@ -181,10 +196,7 @@ if __name__ == '__main__':
         setup_gpio()
         start_thread()
         start_chrome_thread()
-        read_temperatuur_thread()
-        temperatuur_thread()
-        MPU_thread()
-        keypad_thread()
+
         print("**** Starting APP ****")
         socketio.run(app, debug=False, host='0.0.0.0')
     except KeyboardInterrupt:
