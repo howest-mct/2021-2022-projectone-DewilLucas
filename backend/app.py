@@ -2,6 +2,7 @@ import time
 from RPi import GPIO
 import threading
 import sys
+from subprocess import check_output
 import os
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit, send
@@ -111,6 +112,12 @@ def start_thread():
         read_temperatuur_thread()
         MPU_thread()
         keypad_thread()
+        ips = check_output(
+            ['hostname', '--all-ip-addresses']).split()
+        # Eerste ip die binnenkomt aka de ip van de ethernetpoort
+        eth = ips[0]
+        wlan = ips[1]  # de ip van de raspberry
+        print(f"eth0={eth.decode()} wlan0={wlan.decode()}")
     except Exception as ex:
         print(ex)
 
