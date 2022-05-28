@@ -27,19 +27,21 @@ class Lcd:
         # false is omte zeggen dat we een command gaan vertsuren
 
         self.send_instruction(0x33, False)  # Initialize
-        self.send_instruction(0x32, False)  # Set to 4-bit mode
-        self.send_instruction(0x06, False)  # Cursor move direction
-        self.send_instruction(0x0C, False)  # Turn cursor off
+        # zeg tegen display dat het in 4bits mode verstuurd word
+        self.send_instruction(0x32, False)
+        self.send_instruction(0x06, False)  # beweeg de cursor
+        self.send_instruction(0x0C, False)  # zet de cursor uit
         self.send_instruction(0x28, False)  # 2 line display
-        self.send_instruction(0x01, False)
-        time.sleep(0.0005)
+        self.send_instruction(0x01, False)  # clear je display
 
     def send_instruction(self, bits, mode):
         # High bits
-        GPIO.output(self.rs, mode)  # RS
-
+        # RS --> indien false: GPIO is low, klaar voor een instructie mee te geven
+        GPIO.output(self.rs, mode)
+        # RS --> indien True: GPIO is high, klaar om een karakter mee te geven
         for db in self.databits:
             GPIO.setup(db, GPIO.OUT, initial=GPIO.LOW)
+
         if bits & 0x10 == 0x10:
             GPIO.output(self.databits[0], GPIO.HIGH)
         if bits & 0x20 == 0x20:
@@ -48,7 +50,9 @@ class Lcd:
             GPIO.output(self.databits[2], GPIO.HIGH)
         if bits & 0x80 == 0x80:
             GPIO.output(self.databits[3], GPIO.HIGH)
+
         self.wacht()
+
         for db in self.databits:
             GPIO.setup(db, GPIO.OUT, initial=GPIO.LOW)
         if bits & 0x01 == 0x01:
@@ -62,17 +66,15 @@ class Lcd:
         self.wacht()
 
     def wacht(self):
-        time.sleep(0.01)
+        time.sleep(0.0001)
         GPIO.output(self.e, GPIO.HIGH)
-        time.sleep(0.01)
+        time.sleep(0.0001)
         GPIO.output(self.e, GPIO.LOW)
-        time.sleep(0.01)
+        # niet te lang wachten zodat het snel op het display komt en het klaar is voor volgende taak
+        time.sleep(0.0001)
 
     def write_message(self, message, line):
-        # Send text to display
         message = message.ljust(16, " ")
-
         self.send_instruction(line, False)
-
         for i in range(16):
             self.send_instruction(ord(message[i]), True)
