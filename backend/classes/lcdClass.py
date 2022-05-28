@@ -25,7 +25,6 @@ class Lcd:
 
     def init_LCD(self):
         # false is omte zeggen dat we een command gaan vertsuren
-
         self.send_instruction(0x33, False)  # Initialize
         # zeg tegen display dat het in 4bits mode verstuurd word
         self.send_instruction(0x32, False)
@@ -43,12 +42,16 @@ class Lcd:
             GPIO.setup(db, GPIO.OUT, initial=GPIO.LOW)
 
         if bits & 0x10 == 0x10:
+            # 00010000 eerste instructie voor eerste databit
             GPIO.output(self.databits[0], GPIO.HIGH)
         if bits & 0x20 == 0x20:
+            # 00100000 tweede instructie voor tweede databit
             GPIO.output(self.databits[1], GPIO.HIGH)
         if bits & 0x40 == 0x40:
+            # 01000000 derde instructie voor derde databit
             GPIO.output(self.databits[2], GPIO.HIGH)
         if bits & 0x80 == 0x80:
+            # Je raad het nooit...10000000 vierde instructie voor vierde databit
             GPIO.output(self.databits[3], GPIO.HIGH)
 
         self.wacht()
