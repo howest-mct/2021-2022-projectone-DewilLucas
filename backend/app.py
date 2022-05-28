@@ -25,6 +25,7 @@ button = 18
 lcdPins = [23, 26, 19, 13]
 E = 20
 RS = 21
+lcd = Lcd(E, RS, lcdPins)
 # Code voor Hardware
 
 
@@ -44,14 +45,15 @@ def pushed(knop):
 
 
 def schrijfLCD():
-    lcd = Lcd(E, RS, lcdPins)
+
+    lcd.init_LCD()  # kuis het eerst op
     ips = check_output(
         ['hostname', '--all-ip-addresses']).split()
     # Eerste ip die binnenkomt aka de ip van de ethernetpoort
     eth = ips[0]
     wlan = ips[1]  # de ip van de raspberry
-    lcd.write_message(f"{eth.decode()}", 0x80)
-    lcd.write_message(f"{wlan.decode()}", 0xC0)
+    lcd.write_message(f"{eth.decode()}", 0x80)  # 0x80 is lijn 1 van de LCD
+    lcd.write_message(f"{wlan.decode()}", 0xC0)  # 0xC0 is lijn 2 van de LCD
 
 
 def leesMPU():
@@ -230,4 +232,5 @@ if __name__ == '__main__':
     finally:
         mpu.sluit()
         temp.sluitTemp()
+        lcd.init_LCD()
         GPIO.cleanup()
