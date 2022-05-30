@@ -2,7 +2,7 @@
 const lanIP = `${window.location.hostname}:5000`;
 const socket = io(`http://${lanIP}`);
 // #region ***  DOM references   ***********
-let htmlIndex;
+let htmlIndex,htmlHistory;
 // #endregion 
 // #region ***  Callback-Visualisation - show___         ***********      
 const showTemp = function(temp) {
@@ -37,6 +37,8 @@ const init = function () {
   console.info("DOM geladen");
   htmlIndex = document.querySelector(".js-index");
   htmlIndex?listenToSocket():false;
+  htmlHistory = document.querySelector(".js-history");
+  htmlHistory?listenToSocket:false;
 }
 document.addEventListener("DOMContentLoaded", init);
 // #endregion
