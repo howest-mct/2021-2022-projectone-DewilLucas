@@ -6,7 +6,7 @@ from subprocess import check_output
 import os
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit, send
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from repositories.DataRepository import DataRepository
 from classes.mpuClass import MPU6050
 from classes.keypadClass import clKeypad
@@ -92,15 +92,15 @@ def leesKeypad():
 
 def defaultconverter(o):
     if isinstance(o, datetime.datetime):
-        return o.__str__()
+        return o.strftime('%Y-%m-%d %H:%M:%S')
 
 
 def leesHistoriek():
     while True:
+        print("leesHistoriek")
         hist = DataRepository.read_historiek()
-        hist2 = json.dumps(hist, default=defaultconverter)
-        print({'data': hist2})
-        socketio.emit("B2F_history", {'data': hist2}, broadcast=True)
+        socketio.emit("B2F_history", hist, broadcast=True)
+        time.sleep(5)
 
 
 def start():
@@ -116,18 +116,28 @@ socketio = SocketIO(app, cors_allowed_origins="*", logger=False,
 CORS(app)
 
 
-@socketio.on_error()        # Handles the default namespace
+@ socketio.on_error()        # Handles the default namespace
 def error_handler(e):
     print(e)
+
+
 # API ENDPOINTS
+endpoint = '/api/v1'
 
 
-@app.route('/')
+@app.route(endpoint + '/historiek/', methods=['GET'])
+def get_histo():
+    if request.method == 'GET':
+        hist = DataRepository.read_historiek()
+        return jsonify(historiek=hist), 200
+
+
+@ app.route('/')
 def hallo():
     return "Server is running, er zijn momenteel geen API endpoints beschikbaar."
 
 
-@socketio.on('connect')
+@ socketio.on('connect')
 def initial_connection():
     print('A new client connect')
     # # Send to the client!
@@ -154,6 +164,7 @@ def start_thread():
 
 def hist_thread():
     try:
+        print("**** HIST THREAD ****")
         thread = threading.Thread(target=leesHistoriek, args=(), daemon=True)
         thread.start()
     except Exception as ex:
