@@ -56,12 +56,12 @@ const listenToSocket = function () {
     showTemp(temp);
   });
   }
-  console.log("htmlHistory?", htmlHistory)
+
   if(htmlHistory){
     socket.on("connect", function () {
     console.log("verbonden met socket");
   });
-console.log("listen B2F_history")
+    console.log("listen B2F_history")
     socket.on("B2F_history", (data) => {
       //console.log("B2F_history", data)
       showHistory(data)
