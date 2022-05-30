@@ -37,6 +37,6 @@ const init = function () {
   console.info("DOM geladen");
   htmlIndex = document.querySelector(".js-index");
   htmlIndex?listenToSocket():false;
-} 
+}
 document.addEventListener("DOMContentLoaded", init);
 // #endregion
