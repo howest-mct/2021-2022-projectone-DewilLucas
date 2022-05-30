@@ -12,6 +12,7 @@ from classes.mpuClass import MPU6050
 from classes.keypadClass import clKeypad
 from selenium import webdriver
 from classes.TemperatuurClass import TemperatuurClass
+from classes.lcdClass import Lcd
 # from selenium import webdriver
 # from selenium.webdriver.chrome.options import Options
 
@@ -19,8 +20,12 @@ from classes.TemperatuurClass import TemperatuurClass
 temperatuurSensor = '/sys/bus/w1/devices/28-22cfd2000900/w1_slave'
 mpu = MPU6050(0x68)
 rijKeypad = [9, 6, 22, 27]
-kolumKeypad = [17, 21, 5]
+kolumKeypad = [17, 16, 5]
 button = 18
+lcdPins = [23, 26, 19, 13]
+E = 20
+RS = 21
+lcd = Lcd(E, RS, lcdPins)
 # Code voor Hardware
 
 
@@ -32,11 +37,23 @@ def setup_gpio():
 
 
 def pushed(knop):
-    print("TURNED OFF")
     time.sleep(5)
+    print("TURNED OFF")
     os.system("sudo shutdown -h now")
     sys.exit()
     # quits the code
+
+
+def schrijfLCD():
+
+    lcd.init_LCD()  # kuis het eerst op
+    ips = check_output(
+        ['hostname', '--all-ip-addresses']).split()
+    # Eerste ip die binnenkomt aka de ip van de ethernetpoort
+    eth = ips[0]
+    wlan = ips[1]  # de ip van de raspberry
+    lcd.write_message(f"{eth.decode()}", 0x80)  # 0x80 is lijn 1 van de LCD
+    lcd.write_message(f"{wlan.decode()}", 0xC0)  # 0xC0 is lijn 2 van de LCD
 
 
 def leesMPU():
@@ -112,12 +129,17 @@ def start_thread():
         read_temperatuur_thread()
         MPU_thread()
         keypad_thread()
-        ips = check_output(
-            ['hostname', '--all-ip-addresses']).split()
-        # Eerste ip die binnenkomt aka de ip van de ethernetpoort
-        eth = ips[0]
-        wlan = ips[1]  # de ip van de raspberry
-        print(f"eth0={eth.decode()} wlan0={wlan.decode()}")
+        lcd_thread()
+
+    except Exception as ex:
+        print(ex)
+
+
+def lcd_thread():
+    print("**** LCD DISPLAY ****")
+    try:
+        thread = threading.Thread(target=schrijfLCD, args=(), daemon=True)
+        thread.start()
     except Exception as ex:
         print(ex)
 
@@ -203,7 +225,6 @@ if __name__ == '__main__':
         setup_gpio()
         start_thread()
         start_chrome_thread()
-
         print("**** Starting APP ****")
         socketio.run(app, debug=False, host='0.0.0.0')
     except KeyboardInterrupt:
@@ -211,4 +232,5 @@ if __name__ == '__main__':
     finally:
         mpu.sluit()
         temp.sluitTemp()
+        lcd.init_LCD()
         GPIO.cleanup()
