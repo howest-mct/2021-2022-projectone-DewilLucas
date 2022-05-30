@@ -10,6 +10,9 @@ const showTemp = function(temp) {
   let htmlUitvoer = `Huidige temperatuur: ${temp}`;
   htmlTemp.innerHTML = htmlUitvoer;
 }
+const showHistory = function(){
+
+}
 // #endregion 
 
 // #region ***  Callback-No Visualisation - callback___  ***********
@@ -30,6 +33,15 @@ const listenToSocket = function () {
     );
     showTemp(temp);
   });
+  
+}
+const listenToSocketHistory = function(){
+  socket.on("connect", function () {
+    console.log("verbonden met socket");
+  });
+  socket.on("B2F_history",function (json) {
+    console.log("kiekeboe");
+  });
 }
 // #endregion      
 // #region ***  Init / DOMContentLoaded                  ***********   
@@ -38,7 +50,7 @@ const init = function () {
   htmlIndex = document.querySelector(".js-index");
   htmlIndex?listenToSocket():false;
   htmlHistory = document.querySelector(".js-history");
-  htmlHistory?listenToSocket:false;
+  htmlHistory?listenToSocketHistory():false;
 }
 document.addEventListener("DOMContentLoaded", init);
 // #endregion

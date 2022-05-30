@@ -13,6 +13,8 @@ from classes.keypadClass import clKeypad
 from selenium import webdriver
 from classes.TemperatuurClass import TemperatuurClass
 from classes.lcdClass import Lcd
+import datetime
+import json
 # from selenium import webdriver
 # from selenium.webdriver.chrome.options import Options
 
@@ -88,7 +90,20 @@ def leesKeypad():
                 pass
 
 
+def defaultconverter(o):
+    if isinstance(o, datetime.datetime):
+        return o.__str__()
+
+
 def leesHistoriek():
+    while True:
+        hist = DataRepository.read_historiek()
+        hist2 = json.dumps(hist, default=defaultconverter)
+        print({'data': hist2})
+        socketio.emit("B2F_history", {'data': hist2}, broadcast=True)
+
+
+def start():
     pass
 
 
@@ -124,14 +139,23 @@ def initial_connection():
 def start_thread():
     print("**** Starting THREAD ****")
     try:
-        thread = threading.Thread(target=leesHistoriek, args=(), daemon=True)
+        thread = threading.Thread(target=start, args=(), daemon=True)
         thread.start()
         temperatuur_thread()
         read_temperatuur_thread()
         MPU_thread()
         keypad_thread()
         lcd_thread()
+        hist_thread()
 
+    except Exception as ex:
+        print(ex)
+
+
+def hist_thread():
+    try:
+        thread = threading.Thread(target=leesHistoriek, args=(), daemon=True)
+        thread.start()
     except Exception as ex:
         print(ex)
 
