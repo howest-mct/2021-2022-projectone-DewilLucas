@@ -90,11 +90,6 @@ def leesKeypad():
                 pass
 
 
-def defaultconverter(o):
-    if isinstance(o, datetime.datetime):
-        return o.strftime('%Y-%m-%d %H:%M:%S')
-
-
 def leesHistoriek():
     while True:
         print("leesHistoriek")
