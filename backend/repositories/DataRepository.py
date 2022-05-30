@@ -26,3 +26,8 @@ class DataRepository:
         sql = "SELECT waarde FROM Historiek where DeviceID = %s order by Tijdstip desc LIMIT 1;"
         param = [1]
         return Database.get_one_row(sql, param)
+
+    def write_keypad(number):
+        sql = "insert into Historiek(DeviceID,Waarde,Tijdstip) values(%s,%s,now())"
+        param = [6, number]
+        return Database.execute_sql(sql, param)

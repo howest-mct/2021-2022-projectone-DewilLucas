@@ -83,6 +83,9 @@ def leesKeypad():
             toets = key.vangToets()
             if toets != None:
                 print(toets)
+                DataRepository.write_keypad(toets)
+                socketio.emit('B2F_keypad', {
+                    'keypadValue': toets}, broadcast=True)
             else:
                 pass
 
