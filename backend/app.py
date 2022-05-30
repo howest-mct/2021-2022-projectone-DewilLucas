@@ -37,8 +37,8 @@ def setup_gpio():
 
 
 def pushed(knop):
-    print("TURNED OFF")
     time.sleep(5)
+    print("TURNED OFF")
     os.system("sudo shutdown -h now")
     sys.exit()
     # quits the code
