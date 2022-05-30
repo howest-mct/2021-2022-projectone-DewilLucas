@@ -12,16 +12,22 @@ const showTemp = function(temp) {
 }
 const showHistory = function(json){
   console.log(json);
-  let htmldata = document.querySelector(".js-data");
+  let htmldata = document.querySelector(".js-table");
+  let htmlHeader = ``;
   let htmlUitvoer = ``;
+  htmlHeader = `<th>idmeting</th>
+                <th>DeviceID</th>
+                <th>Waarde</th>
+                <th>Tijdstip</th>`
+  htmlUitvoer += htmlHeader
   for(let obj of json){
     htmlUitvoer +=`
-            <tr>
+    <tr>
             <td>${obj.idMeting}</td>
             <td>${obj.DeviceID}</td>
             <td>${obj.Waarde}</td>
             <td>${obj.Tijdstip}</td>
-            </tr>`;
+    </tr>`;
   }
   htmldata.innerHTML = htmlUitvoer;
 }

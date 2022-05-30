@@ -13,8 +13,6 @@ from classes.keypadClass import clKeypad
 from selenium import webdriver
 from classes.TemperatuurClass import TemperatuurClass
 from classes.lcdClass import Lcd
-import datetime
-import json
 # from selenium import webdriver
 # from selenium.webdriver.chrome.options import Options
 
