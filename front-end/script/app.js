@@ -24,12 +24,12 @@ const listenToSocket = function () {
     console.log("verbonden met socket");
   });
   socket.on("B2F_temperatuur",function (json) {
-    const temp = `${json.temperatuur.waarde}°C`;
+    let temp = `${json.temperatuur.waarde}°C`;
     console.log(
       `huidige temperatuur : ${temp}`
     );
     showTemp(temp);
-  })
+  });
 }
 // #endregion      
 // #region ***  Init / DOMContentLoaded                  ***********   
