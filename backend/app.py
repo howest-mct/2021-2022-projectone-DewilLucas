@@ -54,14 +54,18 @@ def barcodeInput():
         else:
             print(barcode)
             lcd.init_LCD()
-            lcd.write_message("Geef vervaldatum", 0x80)
             print("**** Read keypad THREAD *****")
             try:
                 zoek = DataRepository.zoekByBaarcode(barcode)
-                print(zoek)
                 if zoek == -1:
                     DataRepository.write_barcode(barcode)
-                    print("ingevoegd")
+                    lcd.write_message("Verander de naam", 0X80)
+                    lcd.write_message("Op de webapp", 0xC0)
+                    print("nieuwe product ingevoegd")
+                    time.sleep(2)
+                    lcd.init_LCD()
+
+                lcd.write_message("Geef vervaldatum", 0x80)
                 lstDatum = []
                 thread = threading.Thread(
                     target=leesKeypad, args=(), daemon=True)
