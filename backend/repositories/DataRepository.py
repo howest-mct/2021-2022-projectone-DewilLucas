@@ -48,6 +48,6 @@ class DataRepository:
 
     def add_product_in_inventory(id, datum, verschil, aantal):
 
-        sql = "insert into ProductAanwezig(idProduct,invoerdatum,HoudbaarheidsDatum,AantalDagenResterend,aanwezig,aantal,idGebruiker) values(%s,now(),%s,%s,1)"
-        param = [id, datum, verschil]
+        sql = "insert into ProductAanwezig(idProduct,invoerdatum,HoudbaarheidsDatum,AantalDagenResterend,aanwezig,aantal,idGebruiker) values(%s,now(),%s,%s,1,%s,%s)"
+        param = [id, datum, verschil, aantal, 1]
         return Database.execute_sql(sql, param)

@@ -46,6 +46,14 @@ def pushed(knop):
     # quits the code
 
 
+def converteerListNaarStr(lstString):
+    verwijder1haak = lstString.replace("[", "")
+    verwijder2haak = verwijder1haak.replace("]", "")
+    verwijderkomma = verwijder2haak.replace(",", "")
+    getallen = verwijderkomma.replace(" ", "")
+    return getallen
+
+
 def barcodeInput():
     while True:
         barcode = input("")
@@ -79,11 +87,8 @@ def barcodeInput():
                     else:
                         lstDatum.append(waarde)
                         strDatum = str(lstDatum)
-                        verwijder1haak = strDatum.replace("[", "")
-                        verwijder2haak = verwijder1haak.replace("]", "")
-                        verwijderkomma = verwijder2haak.replace(",", "")
-                        getallen = verwijderkomma.replace(" ", "")
-                        finalString = f"{getallen[:2]}-{getallen[2:4]}-{getallen[4:len(getallen)]}"
+                        newStrdatum = converteerListNaarStr(strDatum)
+                        finalString = f"{newStrdatum[:2]}-{newStrdatum[2:4]}-{newStrdatum[4:len(newStrdatum)]}"
                         lcd.write_message(finalString, 0XC0)
                 else:
 
@@ -108,14 +113,10 @@ def barcodeInput():
                             else:
                                 lstAantal.append(aantal)
                                 strAantal = str(lstAantal)
-                                verwijder1haak = strAantal.replace("[", "")
-                                verwijder2haak = verwijder1haak.replace(
-                                    "]", "")
-                                verwijderkomma = verwijder2haak.replace(
-                                    ",", "")
-                                getallen = verwijderkomma.replace(" ", "")
+                                convStrAantal = converteerListNaarStr(
+                                    strAantal)
                                 global final
-                                final = f"{getallen}"
+                                final = f"{convStrAantal}"
                                 lcd.write_message(final, 0XC0)
 
                         DataRepository.add_product_in_inventory(
