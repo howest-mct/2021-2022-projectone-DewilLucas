@@ -57,7 +57,6 @@ def barcodeInput():
             lcd.write_message("Geef vervaldatum", 0x80)
             print("**** Read keypad THREAD *****")
             try:
-
                 lstDatum = []
                 thread = threading.Thread(
                     target=leesKeypad, args=(), daemon=True)
