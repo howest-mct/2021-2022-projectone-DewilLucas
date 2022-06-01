@@ -51,3 +51,8 @@ class DataRepository:
         sql = "insert into ProductAanwezig(idProduct,invoerdatum,HoudbaarheidsDatum,AantalDagenResterend,aanwezig,aantal,idGebruiker) values(%s,now(),%s,%s,1,%s,%s)"
         param = [id, datum, verschil, aantal, 1]
         return Database.execute_sql(sql, param)
+
+    def write_scan_history(barcode):
+        sql = "insert into Historiek(DeviceID,Waarde,Tijdstip) values(%s,%s,now())"
+        params = [2, barcode]
+        return Database.execute_sql(sql, params)

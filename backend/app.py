@@ -64,6 +64,7 @@ def barcodeInput():
             lcd.init_LCD()
             print("**** Read keypad THREAD *****")
             try:
+                DataRepository.write_scan_history(barcode)
                 zoek = DataRepository.zoekByBaarcode(barcode)
                 if zoek == -1:
                     DataRepository.write_barcode(barcode)
