@@ -12,7 +12,7 @@ class DataRepository:
 
     @staticmethod
     def read_historiek():
-        sql = "SELECT * FROM Historiek;"
+        sql = "SELECT idMeting , DeviceID, Waarde,concat(Tijdstip)as `Tijdstip` FROM smartfridgeDB.Historiek order by Tijdstip desc;"
         return Database.get_rows(sql)
 
     @staticmethod
@@ -31,3 +31,28 @@ class DataRepository:
         sql = "insert into Historiek(DeviceID,Waarde,Tijdstip) values(%s,%s,now())"
         param = [6, number]
         return Database.execute_sql(sql, param)
+
+    def write_barcode(barcodeValue):
+        try:
+            sql = "insert into Product(Naam,EersteInvoeg,Barcode) values(%s,now(),%s)"
+            params = ["Nog geen naam", barcodeValue]
+            return Database.execute_sql(sql, params)
+        except ValueError as ex:
+            print(ex)
+            return -1
+
+    def zoekByBaarcode(barcode):
+        sql = "SELECT idproduct from  Product where Barcode = %s"
+        params = [barcode]
+        return Database.get_one_row(sql, params)
+
+    def add_product_in_inventory(id, datum, verschil, aantal):
+
+        sql = "insert into ProductAanwezig(idProduct,invoerdatum,HoudbaarheidsDatum,AantalDagenResterend,aanwezig,aantal,idGebruiker) values(%s,now(),%s,%s,1,%s,%s)"
+        param = [id, datum, verschil, aantal, 1]
+        return Database.execute_sql(sql, param)
+
+    def write_scan_history(barcode):
+        sql = "insert into Historiek(DeviceID,Waarde,Tijdstip) values(%s,%s,now())"
+        params = [2, barcode]
+        return Database.execute_sql(sql, params)

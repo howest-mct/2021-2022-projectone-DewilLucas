@@ -58,7 +58,7 @@ class Database:
                 raise ValueError("Resultaten zijn onbestaand.[DB Error]")
         except Exception as error:
             print(error)  # development boodschap
-            result = None
+            result = -1
         finally:
             db.close()
             return result

@@ -6,13 +6,14 @@ from subprocess import check_output
 import os
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit, send
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from repositories.DataRepository import DataRepository
 from classes.mpuClass import MPU6050
 from classes.keypadClass import clKeypad
 from selenium import webdriver
 from classes.TemperatuurClass import TemperatuurClass
 from classes.lcdClass import Lcd
+import datetime
 # from selenium import webdriver
 # from selenium.webdriver.chrome.options import Options
 
@@ -26,6 +27,7 @@ lcdPins = [23, 26, 19, 13]
 E = 20
 RS = 21
 lcd = Lcd(E, RS, lcdPins)
+
 # Code voor Hardware
 
 
@@ -44,6 +46,98 @@ def pushed(knop):
     # quits the code
 
 
+def converteerListNaarStr(lstString):
+    verwijder1haak = lstString.replace("[", "")
+    verwijder2haak = verwijder1haak.replace("]", "")
+    verwijderkomma = verwijder2haak.replace(",", "")
+    getallen = verwijderkomma.replace(" ", "")
+    return getallen
+
+
+def barcodeInput():
+    while True:
+        barcode = input("")
+        if barcode == "":
+            pass
+        else:
+            print(barcode)
+            lcd.init_LCD()
+            print("**** Read keypad THREAD *****")
+            try:
+                DataRepository.write_scan_history(barcode)
+                zoek = DataRepository.zoekByBaarcode(barcode)
+                if zoek == -1:
+                    DataRepository.write_barcode(barcode)
+                    lcd.write_message("Verander de naam", 0X80)
+                    lcd.write_message("Op de webapp", 0xC0)
+                    print("nieuwe product ingevoegd")
+                    time.sleep(2)
+                    lcd.init_LCD()
+                    zoek = DataRepository.zoekByBaarcode(barcode)
+
+                lcd.write_message("Geef vervaldatum", 0x80)
+                lstDatum = []
+                thread = threading.Thread(
+                    target=leesKeypad, args=(), daemon=True)
+                thread.start()
+
+                while len(lstDatum) != 8:
+                    waarde = leesKeypad()
+                    if waarde == None:
+                        pass
+                    else:
+                        lstDatum.append(waarde)
+                        strDatum = str(lstDatum)
+                        newStrdatum = converteerListNaarStr(strDatum)
+                        finalString = f"{newStrdatum[:2]}-{newStrdatum[2:4]}-{newStrdatum[4:len(newStrdatum)]}"
+                        lcd.write_message(finalString, 0XC0)
+                else:
+
+                    eersteGetal = str(lstDatum[0]) + str(lstDatum[1])
+                    tweedeGetal = str(lstDatum[2]) + str(lstDatum[3])
+                    jaartal = str(lstDatum[4])+str(lstDatum[5]) + \
+                        str(lstDatum[6]) + str(lstDatum[7])
+                    try:
+                        d = datetime.date(int(jaartal), int(
+                            tweedeGetal), int(eersteGetal))
+                        huidigeDatum = datetime.date.today()
+                        verschil = d-huidigeDatum
+                        lcd.init_LCD()
+                        lcd.write_message("Hoeveel?", 0x80)
+                        lstAantal = []
+
+                        aantal = ""
+                        while aantal != "#":
+                            aantal = leesKeypad()
+                            if aantal == None or aantal == "#" or aantal == "*":
+                                pass
+                            else:
+                                lstAantal.append(aantal)
+                                strAantal = str(lstAantal)
+                                convStrAantal = converteerListNaarStr(
+                                    strAantal)
+                                global final
+                                final = f"{convStrAantal}"
+                                lcd.write_message(final, 0XC0)
+
+                        DataRepository.add_product_in_inventory(
+                            zoek['idproduct'], d, verschil.days, int(final))
+                        print(d)
+                        lcd.init_LCD()
+                        lcd.write_message("Dit is een...", 0x80)
+                        lcd.write_message("Succes! :)", 0XC0)
+                        time.sleep(3)
+                        schrijfLCD()
+                    except Exception as ex:
+                        print("datum ongeldig")
+                        lcd.write_message("datum ongeldig", 0X80)
+                        lcd.write_message("herscan barcode", 0xC0)
+                        print(ex)
+
+            except Exception as ex:
+                print(ex)
+
+
 def schrijfLCD():
 
     lcd.init_LCD()  # kuis het eerst op
@@ -59,6 +153,7 @@ def schrijfLCD():
 def leesMPU():
     while True:
         mpu.printAlles()
+        time.sleep(10)
         # Checken voor open en dicht soon...
 
 
@@ -75,6 +170,11 @@ def meetTemperatuur():
         return huidigTemp.meetTemp()
 
 
+def keypadInputDoorgeven():
+    uitvoer = leesKeypad()
+    return uitvoer
+
+
 def leesKeypad():
     while True:
         key = clKeypad(rijKeypad, kolumKeypad)
@@ -83,12 +183,25 @@ def leesKeypad():
             toets = key.vangToets()
             if toets != None:
                 print(toets)
-                DataRepository.write_keypad(toets)
+                if toets == "#":
+                    DataRepository.write_keypad(12)
+                elif toets == "*":
+                    DataRepository.write_keypad(10)
+                else:
+                    DataRepository.write_keypad(toets)
+                return toets
             else:
-                pass
+                return None
 
 
 def leesHistoriek():
+    while True:
+        hist = DataRepository.read_historiek()
+        socketio.emit("B2F_history", hist, broadcast=True)
+        time.sleep(5)
+
+
+def start():
     pass
 
 
@@ -101,18 +214,28 @@ socketio = SocketIO(app, cors_allowed_origins="*", logger=False,
 CORS(app)
 
 
-@socketio.on_error()        # Handles the default namespace
+@ socketio.on_error()        # Handles the default namespace
 def error_handler(e):
     print(e)
+
+
 # API ENDPOINTS
+endpoint = '/api/v1'
 
 
-@app.route('/')
+@app.route(endpoint + '/historiek/', methods=['GET'])
+def get_histo():
+    if request.method == 'GET':
+        hist = DataRepository.read_historiek()
+        return jsonify(historiek=hist), 200
+
+
+@ app.route('/')
 def hallo():
     return "Server is running, er zijn momenteel geen API endpoints beschikbaar."
 
 
-@socketio.on('connect')
+@ socketio.on('connect')
 def initial_connection():
     print('A new client connect')
     # # Send to the client!
@@ -124,14 +247,32 @@ def initial_connection():
 def start_thread():
     print("**** Starting THREAD ****")
     try:
-        thread = threading.Thread(target=leesHistoriek, args=(), daemon=True)
+        thread = threading.Thread(target=start, args=(), daemon=True)
         thread.start()
         temperatuur_thread()
         read_temperatuur_thread()
         MPU_thread()
-        keypad_thread()
         lcd_thread()
+        hist_thread()
+        barcode_thread()
+    except Exception as ex:
+        print(ex)
 
+
+def barcode_thread():
+    try:
+        print("**** barcode thread ****")
+        thread = threading.Thread(target=barcodeInput, args=(), daemon=True)
+        thread.start()
+    except Exception as ex:
+        print(ex)
+
+
+def hist_thread():
+    try:
+        print("**** HIST THREAD ****")
+        thread = threading.Thread(target=leesHistoriek, args=(), daemon=True)
+        thread.start()
     except Exception as ex:
         print(ex)
 
@@ -159,15 +300,6 @@ def temperatuur_thread():
     try:
         thread = threading.Thread(
             target=meetTemperatuur, args=(), daemon=True)
-        thread.start()
-    except Exception as ex:
-        print(ex)
-
-
-def keypad_thread():
-    print("**** Read keypad THREAD *****")
-    try:
-        thread = threading.Thread(target=leesKeypad, args=(), daemon=True)
         thread.start()
     except Exception as ex:
         print(ex)
