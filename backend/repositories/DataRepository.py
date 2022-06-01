@@ -33,6 +33,15 @@ class DataRepository:
         return Database.execute_sql(sql, param)
 
     def write_barcode(barcodeValue):
-        sql = "insert into Product(Naam,EersteInvoeg,Barcode) values(%s,now(),%s)"
-        params = ["Nog geen naam", barcodeValue]
-        return Database.execute_sql(sql, params)
+        try:
+            sql = "insert into Product(Naam,EersteInvoeg,Barcode) values(%s,now(),%s)"
+            params = ["Nog geen naam", barcodeValue]
+            return Database.execute_sql(sql, params)
+        except ValueError as ex:
+            print(ex)
+            return -1
+
+    def zoekByBaarcode(barcode):
+        sql = "SELECT idproduct from  Product where Barcode = %s"
+        params = [barcode]
+        return Database.get_one_row(sql, params)

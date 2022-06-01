@@ -57,6 +57,11 @@ def barcodeInput():
             lcd.write_message("Geef vervaldatum", 0x80)
             print("**** Read keypad THREAD *****")
             try:
+                zoek = DataRepository.zoekByBaarcode(barcode)
+                print(zoek)
+                if zoek == -1:
+                    DataRepository.write_barcode(barcode)
+                    print("ingevoegd")
                 lstDatum = []
                 thread = threading.Thread(
                     target=leesKeypad, args=(), daemon=True)
@@ -76,7 +81,7 @@ def barcodeInput():
                         finalString = f"{getallen[:2]}-{getallen[2:4]}-{getallen[4:len(getallen)]}"
                         lcd.write_message(finalString, 0XC0)
                 else:
-                    DataRepository.write_barcode(barcode)
+
                     eersteGetal = str(lstDatum[0]) + str(lstDatum[1])
                     tweedeGetal = str(lstDatum[2]) + str(lstDatum[3])
                     jaartal = str(lstDatum[4])+str(lstDatum[5]) + \
@@ -115,6 +120,7 @@ def schrijfLCD():
 def leesMPU():
     while True:
         mpu.printAlles()
+        time.sleep(10)
         # Checken voor open en dicht soon...
 
 
