@@ -52,7 +52,6 @@ def barcodeInput():
         if barcode == "":
             pass
         else:
-            stop_thread = False
             print(barcode)
             lcd.init_LCD()
             lcd.write_message("Geef vervaldatum", 0x80)
