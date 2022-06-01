@@ -121,11 +121,10 @@ def barcodeInput():
 
                         DataRepository.add_product_in_inventory(
                             zoek['idproduct'], d, verschil.days, int(final))
-
                         print(d)
                         lcd.init_LCD()
-                        #print("Product opgeslagen!")
-                        lcd.write_message("Succes!", 0x80)
+                        lcd.write_message("Dit is een...", 0x80)
+                        lcd.write_message("Succes! :)", 0XC0)
                         time.sleep(3)
                         schrijfLCD()
                     except Exception as ex:
