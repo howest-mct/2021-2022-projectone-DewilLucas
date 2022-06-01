@@ -13,6 +13,7 @@ from classes.keypadClass import clKeypad
 from selenium import webdriver
 from classes.TemperatuurClass import TemperatuurClass
 from classes.lcdClass import Lcd
+import datetime
 # from selenium import webdriver
 # from selenium.webdriver.chrome.options import Options
 
@@ -51,12 +52,13 @@ def barcodeInput():
         if barcode == "":
             pass
         else:
+            stop_thread = False
             print(barcode)
             lcd.init_LCD()
             lcd.write_message("Geef vervaldatum", 0x80)
             print("**** Read keypad THREAD *****")
             try:
-                stop_thread = False
+
                 lstDatum = []
                 thread = threading.Thread(
                     target=leesKeypad, args=(), daemon=True)
@@ -77,15 +79,25 @@ def barcodeInput():
                         lcd.write_message(finalString, 0XC0)
                 else:
                     DataRepository.write_barcode(barcode)
-                    lcd.init_LCD()
-                    print("Product opgeslagen!")
-                    lcd.write_message("Succes!", 0x80)
-                    time.sleep(3)
-                    schrijfLCD()
-                    stop_thread = True
-                    thread.join()
-                    if stop_thread == True:
-                        break
+                    eersteGetal = str(lstDatum[0]) + str(lstDatum[1])
+                    tweedeGetal = str(lstDatum[2]) + str(lstDatum[3])
+                    jaartal = str(lstDatum[4])+str(lstDatum[5]) + \
+                        str(lstDatum[6]) + str(lstDatum[7])
+                    try:
+                        d = datetime.date(int(jaartal), int(
+                            tweedeGetal), int(eersteGetal))
+                        print(d)
+                        lcd.init_LCD()
+                        #print("Product opgeslagen!")
+                        lcd.write_message("Succes!", 0x80)
+                        time.sleep(3)
+                        schrijfLCD()
+                    except Exception as ex:
+                        print("datum ongeldig")
+                        lcd.write_message("datum ongeldig", 0X80)
+                        lcd.write_message("herscan barcode", 0xC0)
+                        print(ex)
+
             except Exception as ex:
                 print(ex)
 
