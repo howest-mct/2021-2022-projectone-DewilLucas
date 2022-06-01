@@ -26,6 +26,7 @@ lcdPins = [23, 26, 19, 13]
 E = 20
 RS = 21
 lcd = Lcd(E, RS, lcdPins)
+
 # Code voor Hardware
 
 
@@ -45,7 +46,48 @@ def pushed(knop):
 
 
 def barcodeInput():
-    pass
+    while True:
+        barcode = input("")
+        if barcode == "":
+            pass
+        else:
+            print(barcode)
+            lcd.init_LCD()
+            lcd.write_message("Geef vervaldatum", 0x80)
+            print("**** Read keypad THREAD *****")
+            try:
+                stop_thread = False
+                lstDatum = []
+                thread = threading.Thread(
+                    target=leesKeypad, args=(), daemon=True)
+                thread.start()
+
+                while len(lstDatum) != 8:
+                    waarde = leesKeypad()
+                    if waarde == None:
+                        pass
+                    else:
+                        lstDatum.append(waarde)
+                        strDatum = str(lstDatum)
+                        verwijder1haak = strDatum.replace("[", "")
+                        verwijder2haak = verwijder1haak.replace("]", "")
+                        verwijderkomma = verwijder2haak.replace(",", "")
+                        getallen = verwijderkomma.replace(" ", "")
+                        finalString = f"{getallen[:2]}-{getallen[2:4]}-{getallen[4:len(getallen)]}"
+                        lcd.write_message(finalString, 0XC0)
+                else:
+                    DataRepository.write_barcode(barcode)
+                    lcd.init_LCD()
+                    print("Product opgeslagen!")
+                    lcd.write_message("Succes!", 0x80)
+                    time.sleep(3)
+                    schrijfLCD()
+                    stop_thread = True
+                    thread.join()
+                    if stop_thread == True:
+                        break
+            except Exception as ex:
+                print(ex)
 
 
 def schrijfLCD():
@@ -79,6 +121,11 @@ def meetTemperatuur():
         return huidigTemp.meetTemp()
 
 
+def keypadInputDoorgeven():
+    uitvoer = leesKeypad()
+    return uitvoer
+
+
 def leesKeypad():
     while True:
         key = clKeypad(rijKeypad, kolumKeypad)
@@ -87,14 +134,19 @@ def leesKeypad():
             toets = key.vangToets()
             if toets != None:
                 print(toets)
-                DataRepository.write_keypad(toets)
+                if toets == "#":
+                    DataRepository.write_keypad(12)
+                elif toets == "*":
+                    DataRepository.write_keypad(10)
+                else:
+                    DataRepository.write_keypad(toets)
+                return toets
             else:
-                pass
+                return None
 
 
 def leesHistoriek():
     while True:
-        print("leesHistoriek")
         hist = DataRepository.read_historiek()
         socketio.emit("B2F_history", hist, broadcast=True)
         time.sleep(5)
@@ -151,10 +203,9 @@ def start_thread():
         temperatuur_thread()
         read_temperatuur_thread()
         MPU_thread()
-        keypad_thread()
         lcd_thread()
         hist_thread()
-
+        barcode_thread()
     except Exception as ex:
         print(ex)
 
@@ -200,15 +251,6 @@ def temperatuur_thread():
     try:
         thread = threading.Thread(
             target=meetTemperatuur, args=(), daemon=True)
-        thread.start()
-    except Exception as ex:
-        print(ex)
-
-
-def keypad_thread():
-    print("**** Read keypad THREAD *****")
-    try:
-        thread = threading.Thread(target=leesKeypad, args=(), daemon=True)
         thread.start()
     except Exception as ex:
         print(ex)

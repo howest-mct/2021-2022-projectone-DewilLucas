@@ -31,3 +31,8 @@ class DataRepository:
         sql = "insert into Historiek(DeviceID,Waarde,Tijdstip) values(%s,%s,now())"
         param = [6, number]
         return Database.execute_sql(sql, param)
+
+    def write_barcode(barcodeValue):
+        sql = "insert into Product(Naam,EersteInvoeg,Barcode) values(%s,now(),%s)"
+        params = ["Nog geen naam", barcodeValue]
+        return Database.execute_sql(sql, params)
