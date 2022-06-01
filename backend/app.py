@@ -83,7 +83,7 @@ def barcodeInput():
 
                 while len(lstDatum) != 8:
                     waarde = leesKeypad()
-                    if waarde == None  or waarde == "#" or waarde == "*":
+                    if waarde == None or waarde == "#" or waarde == "*":
                         pass
                     else:
                         lstDatum.append(waarde)
