@@ -44,6 +44,10 @@ def pushed(knop):
     # quits the code
 
 
+def barcodeInput():
+    pass
+
+
 def schrijfLCD():
 
     lcd.init_LCD()  # kuis het eerst op
@@ -151,6 +155,15 @@ def start_thread():
         lcd_thread()
         hist_thread()
 
+    except Exception as ex:
+        print(ex)
+
+
+def barcode_thread():
+    try:
+        print("**** barcode thread ****")
+        thread = threading.Thread(target=barcodeInput, args=(), daemon=True)
+        thread.start()
     except Exception as ex:
         print(ex)
 
