@@ -45,3 +45,9 @@ class DataRepository:
         sql = "SELECT idproduct from  Product where Barcode = %s"
         params = [barcode]
         return Database.get_one_row(sql, params)
+
+    def add_product_in_inventory(id, datum, verschil, aantal):
+
+        sql = "insert into ProductAanwezig(idProduct,invoerdatum,HoudbaarheidsDatum,AantalDagenResterend,aanwezig,aantal,idGebruiker) values(%s,now(),%s,%s,1)"
+        param = [id, datum, verschil]
+        return Database.execute_sql(sql, param)

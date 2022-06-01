@@ -64,6 +64,7 @@ def barcodeInput():
                     print("nieuwe product ingevoegd")
                     time.sleep(2)
                     lcd.init_LCD()
+                    zoek = DataRepository.zoekByBaarcode(barcode)
 
                 lcd.write_message("Geef vervaldatum", 0x80)
                 lstDatum = []
@@ -93,6 +94,33 @@ def barcodeInput():
                     try:
                         d = datetime.date(int(jaartal), int(
                             tweedeGetal), int(eersteGetal))
+                        huidigeDatum = datetime.date.today()
+                        verschil = d-huidigeDatum
+                        lcd.init_LCD()
+                        lcd.write_message("Hoeveel?", 0x80)
+                        lstAantal = []
+
+                        aantal = ""
+                        while aantal != "#":
+                            aantal = leesKeypad()
+                            if aantal == None or aantal == "#" or aantal == "*":
+                                pass
+                            else:
+                                lstAantal.append(aantal)
+                                strAantal = str(lstAantal)
+                                verwijder1haak = strAantal.replace("[", "")
+                                verwijder2haak = verwijder1haak.replace(
+                                    "]", "")
+                                verwijderkomma = verwijder2haak.replace(
+                                    ",", "")
+                                getallen = verwijderkomma.replace(" ", "")
+                                global final
+                                final = f"{getallen}"
+                                lcd.write_message(final, 0XC0)
+
+                        DataRepository.add_product_in_inventory(
+                            zoek['idproduct'], d, verschil.days, int(final))
+
                         print(d)
                         lcd.init_LCD()
                         #print("Product opgeslagen!")
