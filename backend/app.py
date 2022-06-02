@@ -13,6 +13,7 @@ from classes.keypadClass import clKeypad
 from selenium import webdriver
 from classes.TemperatuurClass import TemperatuurClass
 from classes.lcdClass import Lcd
+from classes.OLEDCLass import OLED
 import datetime
 # from selenium import webdriver
 # from selenium.webdriver.chrome.options import Options
@@ -27,7 +28,8 @@ lcdPins = [23, 26, 19, 13]
 E = 20
 RS = 21
 lcd = Lcd(E, RS, lcdPins)
-
+oled = OLED(128, 64, 5)
+huidigeTemp = 0
 # Code voor Hardware
 
 
@@ -44,6 +46,15 @@ def pushed(knop):
     os.system("sudo shutdown -h now")
     sys.exit()
     # quits the code
+
+
+def showOled():
+    while True:
+        huidigeTemp = leesTemperatuur()
+        print(huidigeTemp)
+        uitvoerOLED = f"{str(huidigeTemp['waarde'])}°C"
+        oled.Clear_oled()
+        oled.draw(uitvoerOLED)
 
 
 def converteerListNaarStr(lstString):
@@ -163,6 +174,7 @@ def leesTemperatuur():
         lees = TemperatuurClass(temperatuurSensor)
         socketio.emit('B2F_temperatuur', {
             'temperatuur': lees.leesTemp()}, broadcast=True)
+        return lees.leesTemp()
 
 
 def meetTemperatuur():
@@ -252,10 +264,21 @@ def start_thread():
         thread.start()
         temperatuur_thread()
         read_temperatuur_thread()
-        MPU_thread()
+        oled_thread()
         lcd_thread()
         hist_thread()
         barcode_thread()
+        MPU_thread()
+
+    except Exception as ex:
+        print(ex)
+
+
+def oled_thread():
+    try:
+        print("**** OLED thread ****")
+        thread = threading.Thread(target=showOled, args=(), daemon=True)
+        thread.start()
     except Exception as ex:
         print(ex)
 
