@@ -14,6 +14,7 @@ from selenium import webdriver
 from classes.TemperatuurClass import TemperatuurClass
 from classes.lcdClass import Lcd
 from classes.OLEDCLass import OLED
+import random
 import datetime
 # from selenium import webdriver
 # from selenium.webdriver.chrome.options import Options
@@ -48,13 +49,27 @@ def pushed(knop):
     # quits the code
 
 
+def geefAantal():
+    while True:
+        totaalAanwezig = DataRepository.aantal_aanwezigeproducten()
+        if totaalAanwezig == -1:
+            print(totaalAanwezig)
+            return "Geen aanwezige producten"
+        else:
+            print(totaalAanwezig)
+            return f"Aantal producten:{totaalAanwezig['totaalAanwezig']}"
+
+
 def showOled():
     while True:
         huidigeTemp = leesTemperatuur()
         print(huidigeTemp)
-        uitvoerOLED = f"{str(huidigeTemp['waarde'])}°C"
+        aanwezig = geefAantal()
+        print(aanwezig)
+        uitvoerTemp = f"{str(huidigeTemp['waarde'])}°C"
+        uitvoerAantal = aanwezig
         oled.Clear_oled()
-        oled.draw(uitvoerOLED)
+        oled.draw(uitvoerTemp, uitvoerAantal)
 
 
 def converteerListNaarStr(lstString):
@@ -236,7 +251,7 @@ def error_handler(e):
 endpoint = '/api/v1'
 
 
-@app.route(endpoint + '/historiek/', methods=['GET'])
+@ app.route(endpoint + '/historiek/', methods=['GET'])
 def get_histo():
     if request.method == 'GET':
         hist = DataRepository.read_historiek()
