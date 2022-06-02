@@ -41,7 +41,7 @@ class OLED:
 
         # Get drawing object to draw on image.
         draw = ImageDraw.Draw(image)
-        #image = Image.open('happycat_oled_64.ppm').convert('1')
+        # image = Image.open('happycat_oled_64.ppm').convert('1')
         # Draw a white background
         draw.rectangle((0, 0, self.oled.width, self.oled.height),
                        outline=255, fill=255)
@@ -50,16 +50,10 @@ class OLED:
         # Draw a black filled box to clear the image.
         draw.rectangle((0, 0, self.oled.width, self.oled.height),
                        outline=0, fill=0)
-
         # Pi Stats Display
         draw.text((0, 0), "temperatuur: " +
                   temp, font=self.font, fill=255)
         draw.text((0, 16), aantal, font=self.font, fill=255)
-
-        #draw.text((0, 16), str(CPU, 'utf-8') + "%", font=font, fill=255)
-        #draw.text((80, 16), str(temp, 'utf-8'), font=font, fill=255)
-        #draw.text((0, 32), str(MemUsage, 'utf-8'), font=font, fill=255)
-        #draw.text((0, 48), str(Disk, 'utf-8'), font=font, fill=255)
 
         # Display image
         self.oled.image(image)
