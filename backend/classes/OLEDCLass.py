@@ -9,12 +9,6 @@ from PIL import Image, ImageDraw, ImageFont
 import adafruit_ssd1306
 # Use for I2C.
 i2c = board.I2C()
-batman = {
-    0x00, 0x00, 0x00, 0x00, 0x00, 0x60, 0x06, 0x00, 0x01, 0xc1, 0x83, 0x80, 0x07, 0xc3, 0xc3, 0xe0,
-    0x0f, 0xe3, 0xc7, 0xf0, 0x0f, 0xff, 0xff, 0xf0, 0x1f, 0xff, 0xff, 0xf8, 0x1f, 0xff, 0xff, 0xf8,
-    0x0f, 0xff, 0xff, 0xf0, 0x0f, 0x3b, 0xdc, 0xf0, 0x06, 0x01, 0x80, 0x60, 0x03, 0x01, 0x80, 0xc0,
-    0x00, 0x00, 0x00, 0x00
-}
 
 
 class OLED:
@@ -35,7 +29,6 @@ class OLED:
         self.oled.show()
 
     def draw(self, temp, aantal):
-        # Create blank image for drawing.
         # Make sure to create image with mode '1' for 1-bit color.
         image = Image.new("1", (self.oled.width, self.oled.height))
 
@@ -58,4 +51,11 @@ class OLED:
         # Display image
         self.oled.image(image)
         self.oled.show()
-        time.sleep(.01)
+        time.sleep(3)
+
+    def tekenFoto(self):
+        image = Image.new("1", (self.oled.width, self.oled.height))
+        image = Image.open('test.bmp').convert('1')
+        self.oled.image(image)
+        self.oled.show()
+        time.sleep(2)
