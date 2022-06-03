@@ -56,3 +56,8 @@ class DataRepository:
         sql = "insert into Historiek(DeviceID,Waarde,Tijdstip) values(%s,%s,now())"
         params = [2, barcode]
         return Database.execute_sql(sql, params)
+
+    def aantal_aanwezigeproducten():
+        sql = "SELECT sum(Aantal) as `totaalAanwezig` FROM smartfridgeDB.ProductAanwezig where aanwezig =%s;"
+        param = [1]
+        return Database.get_one_row(sql, param)
