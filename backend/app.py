@@ -70,6 +70,7 @@ def showOled():
         uitvoerAantal = aanwezig
         oled.Clear_oled()
         oled.draw(uitvoerTemp, uitvoerAantal)
+        time.sleep(1)
         oled.Clear_oled()
         oled.tekenFoto()
 

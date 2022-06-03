@@ -1,12 +1,9 @@
-# Created by: Michael Klements
-# For Raspberry Pi Desktop Case with OLED Stats Display
-# Base on Adafruit CircuitPython & SSD1306 Libraries
-# Installation & Setup Instructions - https://www.the-diy-life.com/add-an-oled-stats-display-to-raspberry-pi-os-bullseye/
 import time
 import board
 import digitalio
 from PIL import Image, ImageDraw, ImageFont
 import adafruit_ssd1306
+import os
 # Use for I2C.
 i2c = board.I2C()
 
@@ -54,8 +51,74 @@ class OLED:
         time.sleep(3)
 
     def tekenFoto(self):
-        image = Image.new("1", (self.oled.width, self.oled.height))
-        image = Image.open('test.bmp').convert('1')
-        self.oled.image(image)
-        self.oled.show()
-        time.sleep(2)
+        while True:
+            image = Image.new("1", (self.oled.width, self.oled.height))
+            image = Image.open('nar/frame_00_delay-0.14s.jpg').convert('1')
+            self.oled.image(image)
+            self.oled.show()
+            time.sleep(0.001)
+            image = Image.new("1", (self.oled.width, self.oled.height))
+            image = Image.open('nar/frame_01_delay-0.14s.jpg').convert('1')
+            self.oled.image(image)
+            self.oled.show()
+            time.sleep(0.001)
+            image = Image.new("1", (self.oled.width, self.oled.height))
+            image = Image.open('nar/frame_02_delay-0.14s.jpg').convert('1')
+            self.oled.image(image)
+            self.oled.show()
+            time.sleep(0.001)
+            image = Image.new("1", (self.oled.width, self.oled.height))
+            image = Image.open('nar/frame_03_delay-0.14s.jpg').convert('1')
+            self.oled.image(image)
+            self.oled.show()
+            time.sleep(0.001)
+            image = Image.new("1", (self.oled.width, self.oled.height))
+            image = Image.open('nar/frame_04_delay-0.14s.jpg').convert('1')
+            self.oled.image(image)
+            self.oled.show()
+            time.sleep(0.001)
+            image = Image.new("1", (self.oled.width, self.oled.height))
+            image = Image.open('nar/frame_05_delay-0.14s.jpg').convert('1')
+            self.oled.image(image)
+            self.oled.show()
+            time.sleep(0.001)
+            image = Image.new("1", (self.oled.width, self.oled.height))
+            image = Image.open('nar/frame_06_delay-0.14s.jpg').convert('1')
+            self.oled.image(image)
+            self.oled.show()
+            time.sleep(0.001)
+            image = Image.new("1", (self.oled.width, self.oled.height))
+            image = Image.open('nar/frame_07_delay-0.14s.jpg').convert('1')
+            self.oled.image(image)
+            self.oled.show()
+            time.sleep(0.001)
+            image = Image.new("1", (self.oled.width, self.oled.height))
+            image = Image.open('nar/frame_08_delay-0.14s.jpg').convert('1')
+            self.oled.image(image)
+            self.oled.show()
+            time.sleep(0.001)
+            image = Image.new("1", (self.oled.width, self.oled.height))
+            image = Image.open('nar/frame_09_delay-0.14s.jpg').convert('1')
+            self.oled.image(image)
+            self.oled.show()
+            time.sleep(0.001)
+            image = Image.new("1", (self.oled.width, self.oled.height))
+            image = Image.open('nar/frame_10_delay-0.14s.jpg').convert('1')
+            self.oled.image(image)
+            self.oled.show()
+            time.sleep(0.001)
+            image = Image.new("1", (self.oled.width, self.oled.height))
+            image = Image.open('nar/frame_11_delay-0.14s.jpg').convert('1')
+            self.oled.image(image)
+            self.oled.show()
+            time.sleep(0.001)
+            image = Image.new("1", (self.oled.width, self.oled.height))
+            image = Image.open('nar/frame_12_delay-0.14s.jpg').convert('1')
+            self.oled.image(image)
+            self.oled.show()
+            time.sleep(0.001)
+            image = Image.new("1", (self.oled.width, self.oled.height))
+            image = Image.open('nar/frame_13_delay-0.14s.jpg').convert('1')
+            self.oled.image(image)
+            self.oled.show()
+            break
