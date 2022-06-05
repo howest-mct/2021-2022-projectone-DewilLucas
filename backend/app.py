@@ -70,9 +70,12 @@ def showOled():
         uitvoerAantal = aanwezig
         oled.Clear_oled()
         oled.draw(uitvoerTemp, uitvoerAantal)
-        time.sleep(1)
+        time.sleep(10)
         oled.Clear_oled()
-        oled.tekenFoto()
+        pic = oled.tekenFoto()
+        if(pic == 1):
+            oled.Clear_oled()
+            oled.draw(uitvoerTemp, uitvoerAantal)
 
 
 def converteerListNaarStr(lstString):
