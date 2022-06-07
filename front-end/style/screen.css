@@ -18,7 +18,7 @@ html {
     /*stap 1 : FONT SIZE AANPASSEN */
     line-height: 32px;
     /*stap 2 : Line Height AANPASSEN*/
-    font-family: "Inter Web", sans-serif;
+    font-family: "Azo Sans", sans-serif;
     /*stap 6 : Font Family aanpassen naaar custom*/
     color: #F7F6F2;
     /*stap 3: Color aanpassen*/
@@ -60,7 +60,7 @@ html {
     justify-content: center;
     align-items: center;
     color: #1A1917;
-    font-size: 32px;
+    font-size: 16px;
     text-decoration: none;
 }
 
@@ -85,6 +85,59 @@ html {
 /*------------------------------------*\
   #OBJECTS
 \*------------------------------------*/
+/*
+    Objects: container
+    
+*/
+.o-container {
+    width: 1300px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+}
+
+/*
+
+    objects : cards
+
+*/
+
+.c-cards {
+    margin: 70px auto 20px auto;
+    max-width: 1300px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+
+}
+
+.c-cards .c-card {
+    text-align: center;
+    background-color: #F7F6F2;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
+    padding: 3rem 2rem;
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
+    outline-offset: -1.5rem;
+    cursor: pointer;
+
+}
+
+.c-card--name,
+.c-card--date {
+    color: #1A1917;
+}
+
+.c-card__content {
+    display: block;
+    line-height: 1.5;
+    font-size: 0.9em;
+    padding: 15px;
+    background: #fafafa;
+}
+
+.c-card__content span {
+    color: #1A1917;
+}
 
 /*
     Objects: Row
