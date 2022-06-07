@@ -61,3 +61,8 @@ class DataRepository:
         sql = "SELECT sum(Aantal) as `totaalAanwezig` FROM smartfridgeDB.ProductAanwezig where aanwezig =%s;"
         param = [1]
         return Database.get_one_row(sql, param)
+
+    def geef_alle_producten():
+        sql = "SELECT p.idproduct,concat(pa.HoudbaarheidsDatum) as `houdbaarheidsdatum`,cast(sum(Aantal) as int) as `aantal`,p.Naam FROM smartfridgeDB.Product p join smartfridgeDB.ProductAanwezig pa on p.idproduct = pa.idProduct where pa.aanwezig = %s group by pa.idProduct;"
+        param = [1]
+        return Database.get_rows(sql, param)

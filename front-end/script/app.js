@@ -3,6 +3,8 @@ const lanIP = `${window.location.hostname}:5000`;
 const socket = io(`http://${lanIP}`);
 // #region ***  DOM references   ***********
 let htmlIndex,htmlHistory;
+let htmlCards;
+let htmlSingleCard;
 // #endregion 
 // #region ***  Callback-Visualisation - show___         ***********      
 const showTemp = function(temp) {
@@ -31,18 +33,49 @@ const showHistory = function(json){
   }
   htmldata.innerHTML = htmlUitvoer;
 }
+const showFood = function (json) {
+  console.log(json);
+  
+  let htmlUitvoer = ``;
+
+  for(let obj of json){
+    console.log(obj.houdbaarheidsdatum);
+    htmlUitvoer += `<div class="c-card js-card"  data-id="${obj.idproduct}">
+              <div class="c-card__image-container ">
+                <img src="https://fakeimg.pl/400x300/f1db26/000/" alt="" class="c-card__img">
+                <h3 class="c-card--name">${obj.Naam}</h3>
+              </div>
+                <div class="c-card__content">
+                <p><span class="c-card--date">${obj.houdbaarheidsdatum}</span> <span class="material-icons u-icons">notifications</span><span class="material-icons u-icons">edit</span><span class="material-icons u-icons">delete</span></p>
+                </div>
+            </div>`;
+  }
+  htmlCards.innerHTML = htmlUitvoer;
+  listenToUI();
+}
 // #endregion 
 
 // #region ***  Callback-No Visualisation - callback___  ***********
 // #endregion
 
 // #region ***  Data Access - get___                     ***********
-const getHistoriek = function () {
-   handleData(`http://192.168.168.169:5000/api/v1/historiek/`, showHistory);
-};
+
 // #endregion 
 
-// #region ***  Event Listeners - listenTo___            ***********       
+// #region ***  Event Listeners - listenTo___            ***********     
+
+const listenToUI = function(){
+  if(htmlIndex){
+    
+    htmlSingleCard = document.querySelectorAll(".js-card");
+    for(let obj of htmlSingleCard){
+      console.log("kiekeboe");
+      obj.addEventListener("click",function(){
+        console.log(obj.getAttribute("data-id"));
+      })
+    }
+  }
+}
 const listenToSocket = function () {
   if(htmlIndex){
     socket.on("connect", function () {
@@ -55,6 +88,9 @@ const listenToSocket = function () {
     );
     showTemp(temp);
   });
+  socket.on("B2F_connected",function(json){
+    showFood(json);
+  });
   }
 
   if(htmlHistory){
@@ -63,7 +99,6 @@ const listenToSocket = function () {
   });
     console.log("listen B2F_history")
     socket.on("B2F_history", (data) => {
-      //console.log("B2F_history", data)
       showHistory(data)
     })
   }
@@ -76,7 +111,8 @@ const init = function () {
   console.info("DOM geladen");
   htmlIndex = document.querySelector(".js-index");
   htmlHistory = document.querySelector(".js-history");
-  listenToSocket()
+  htmlCards = document.querySelector(".js-cards");
+  listenToSocket();
 }
 document.addEventListener("DOMContentLoaded", init);
 // #endregion

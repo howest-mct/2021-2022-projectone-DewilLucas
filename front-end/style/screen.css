@@ -114,6 +114,8 @@ html {
     border-radius: 5px;
 }
 
+
+
 .c-card--name,
 .c-card--date {
     color: #1A1917;
@@ -140,7 +142,7 @@ html {
     display: block;
     line-height: 1.5;
     font-size: 0.9em;
-    padding: 15px;
+    padding: 20px;
     background: #FFC200;
     border-radius: 0 0px 5px 5px;
 }
@@ -169,6 +171,38 @@ html {
     height: 240;
     width: 320;
     color: white;
+}
+
+/*
+    components: Popup screen
+*/
+
+.c-edit-product {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    background: rgba(77, 77, 77, 0.7);
+    transition: all 0.2s;
+}
+
+.c-edit-product_click {
+    display: flex;
+    opacity: 1;
+}
+
+.c-popup {
+    position: relative;
+    background: #FFC200;
+    width: 500px;
+    max-width: 90%;
+    padding: 1em, 2em;
+    border-radius: 5px;
 }
 
 /*

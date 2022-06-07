@@ -272,6 +272,8 @@ def hallo():
 @ socketio.on('connect')
 def initial_connection():
     print('A new client connect')
+    data = DataRepository.geef_alle_producten()
+    socketio.emit("B2F_connected", data)
     # # Send to the client!
 
 
