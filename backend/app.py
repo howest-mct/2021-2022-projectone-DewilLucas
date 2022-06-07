@@ -30,7 +30,7 @@ E = 20
 RS = 21
 lcd = Lcd(E, RS, lcdPins)
 oled = OLED(128, 64, 5)
-huidigeTemp = 0
+lees = TemperatuurClass(temperatuurSensor)
 # Code voor Hardware
 
 
