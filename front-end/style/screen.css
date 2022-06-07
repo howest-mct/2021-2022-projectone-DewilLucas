@@ -1,7 +1,7 @@
 /*------------------------------------*\
   #FONTS
 \*------------------------------------*/
-
+@import url("https://use.typekit.net/buv0ixq.css");
 /*------------------------------------*\
   #GENERIC
 \*------------------------------------*/
@@ -18,7 +18,7 @@ html {
     /*stap 1 : FONT SIZE AANPASSEN */
     line-height: 32px;
     /*stap 2 : Line Height AANPASSEN*/
-    font-family: "Azo Sans", sans-serif;
+    font-family: "azo-sans-web", sans-serif;
     /*stap 6 : Font Family aanpassen naaar custom*/
     color: #F7F6F2;
     /*stap 3: Color aanpassen*/
@@ -105,21 +105,13 @@ html {
     margin: 70px auto 20px auto;
     max-width: 1300px;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 20px;
-
 }
 
 .c-cards .c-card {
-    text-align: center;
-    background-color: #F7F6F2;
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
-    border-radius: 3px;
-    padding: 3rem 2rem;
-    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
-    outline-offset: -1.5rem;
-    cursor: pointer;
-
+    border-radius: 5px;
 }
 
 .c-card--name,
@@ -127,16 +119,56 @@ html {
     color: #1A1917;
 }
 
+.c-card--date {
+    float: left;
+    font-size: 20px;
+    margin-top: -20px;
+}
+
+.c-card--name {
+    position: absolute;
+    bottom: 8px;
+    left: 16px;
+    color: #1A1917;
+    font-weight: 700;
+    font-style: normal;
+    font-size: 24px;
+    text-transform: uppercase;
+}
+
 .c-card__content {
     display: block;
     line-height: 1.5;
     font-size: 0.9em;
     padding: 15px;
-    background: #fafafa;
+    background: #FFC200;
+    border-radius: 0 0px 5px 5px;
 }
+
+.c-card__content>p:last-of-type {
+    margin-bottom: 0;
+}
+
+/*.grid {
+    margin-top: 20px;
+}*/
 
 .c-card__content span {
     color: #1A1917;
+}
+
+.c-card__img {
+    width: 100%;
+    display: block;
+    border-radius: 5px 5px 0px 0px;
+}
+
+.c-card__image-container {
+    position: relative;
+    text-align: center;
+    height: 240;
+    width: 320;
+    color: white;
 }
 
 /*
@@ -357,6 +389,14 @@ html {
 /*------------------------------------*\
   #UTILITIES
 \*------------------------------------*/
+/*
+    Utilities: icons
+*/
+.u-icons {
+    float: right;
+    position: relative;
+    margin-top: -15px;
+}
 
 /*
     Utilities: color
