@@ -6,6 +6,7 @@ let htmlIndex,htmlHistory;
 let htmlCards;
 let htmlSingleCard;
 let htmlEdit;
+let htmlAdd;
 // #endregion 
 // #region ***  Callback-Visualisation - show___         ***********      
 const showTemp = function(temp) {
@@ -71,14 +72,25 @@ const listenToUI = function(){
     htmlSingleCard = document.querySelectorAll(".js-card");
     htmlEdit = document.querySelector(".js-edit");
     for(let obj of htmlSingleCard){
-      console.log("kiekeboe");
       obj.addEventListener("click",function(){
         console.log(obj.getAttribute("data-id"));
-        htmlEdit.className = "c-edit-product_click";
-        
       })
     }
   }
+  
+}
+const listenToAdd = function(){
+    const htmlButton = document.querySelector(".js-add-button");
+    htmlButton.addEventListener("click",function(){
+      console.log("toevoegen van nieuwe product");
+      const jsonObj = {
+        naam : document.querySelector(".js-naam").value,
+        datum : document.querySelector(".js-date").value,
+        aantal : document.querySelector(".js-aantal").value
+      };
+      console.log(jsonObj);
+      socket.emit("F2B_add-product",jsonObj);
+    })
 }
 const listenToSocket = function () {
   if(htmlIndex){
@@ -116,6 +128,10 @@ const init = function () {
   htmlIndex = document.querySelector(".js-index");
   htmlHistory = document.querySelector(".js-history");
   htmlCards = document.querySelector(".js-cards");
+  htmlAdd = document.querySelector(".js-form");
+  if(htmlAdd){
+    listenToAdd();
+  }
   listenToSocket();
 }
 document.addEventListener("DOMContentLoaded", init);

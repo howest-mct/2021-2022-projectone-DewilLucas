@@ -1,5 +1,7 @@
 from .Database import Database
 
+import random
+
 
 class DataRepository:
     @staticmethod
@@ -66,3 +68,28 @@ class DataRepository:
         sql = "SELECT p.idproduct,concat(pa.HoudbaarheidsDatum) as `houdbaarheidsdatum`,cast(sum(Aantal) as int) as `aantal`,p.Naam FROM smartfridgeDB.Product p join smartfridgeDB.ProductAanwezig pa on p.idproduct = pa.idProduct where pa.aanwezig = %s group by pa.idProduct;"
         param = [1]
         return Database.get_rows(sql, param)
+
+    def add_product_by_web(naam, datum, verschil, aantal):
+        sql3 = "SELECT idproduct from  smartfridgeDB.Product where naam = %s"
+        paraamA = [naam]
+        test1 = Database.get_one_row(sql3, paraamA)
+        if test1 != -1 or test1 != None:
+            sql1 = "insert into Product(Naam,Eersteinvoeg,barcode) values(%s,now(),%s)"
+            param = [naam, random.randrange(1, 10000)]
+            Database.execute_sql(sql1, param)
+
+            sql2 = "SELECT idproduct from  smartfridgeDB.Product where naam = %s"
+            paraam = [naam]
+            uitvoer = Database.get_one_row(sql2, paraam)
+            print(uitvoer)
+            sql = "insert into ProductAanwezig(idproduct,invoerdatum,HoudbaarheidsDatum,AantalDagenResterend,aanwezig,aantal,idGebruiker) values(%s,now(),%s,%s,1,%s,%s)"
+            params = [uitvoer['idproduct'], datum, verschil, aantal, 1]
+            return Database.execute_sql(sql, params)
+        else:
+            sql4 = "SELECT idproduct from  smartfridgeDB.Product where naam = %s"
+            paraam2 = [test1]
+            uitvoer = Database.get_one_row(sql4, paraam2)
+            print(uitvoer)
+            sql = "insert into ProductAanwezig(idproduct,invoerdatum,HoudbaarheidsDatum,AantalDagenResterend,aanwezig,aantal,idGebruiker) values(%s,now(),%s,%s,1,%s,%s)"
+            params = [uitvoer['idproduct'], datum, verschil, aantal, 1]
+            return Database.execute_sql(sql, params)

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add product</title>
+    <link rel="stylesheet" href="style/screen.css" />
+    <script src="https://cdn.socket.io/4.0.1/socket.io.min.js" integrity="sha384-LzhRnpGmQP+lOvWruF/lgkcqD+WDVt9fU3H4BWmwP5u5LTmkUGafMcpZKNObVMLU" crossorigin="anonymous"></script>
+    <script src="script/datahandler.js"></script>
+    <script src="script/app.js"></script>
+</head>
+<body class="js-form">
+    <form class="c-form js-add">
+        <div class="c-form__item">
+            <label for="productname">Naam van het product</label><br>
+            <input type="text" class="c-input js-naam" placeholder="Naam product" name="productname" id="productname">
+        </div>
+        <div class="c-form__item">
+            <label for="datum">Houdbaarheidsdatum</label><br>
+            <input type="date" name="datum" id="datum" class="c-input js-date">
+        </div>
+        <div class="c-form__item">
+            <label for="aantal">Aantal producten</label><br>
+            <input type="number" name="aantal" id="aantal" class="js-aantal" min="0" max="100"> 
+        </div>
+        <div class="c-form__item">
+            <button class="js-add-button">Voeg product toe</button>
+        </div>
+    </form>
+</body>
+</html>

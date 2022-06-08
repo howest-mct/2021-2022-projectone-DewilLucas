@@ -15,7 +15,9 @@ from classes.TemperatuurClass import TemperatuurClass
 from classes.lcdClass import Lcd
 from classes.OLEDCLass import OLED
 import random
-import datetime
+from datetime import datetime
+from datetime import date
+
 # from selenium import webdriver
 # from selenium.webdriver.chrome.options import Options
 
@@ -132,7 +134,7 @@ def barcodeInput():
                     try:
                         d = datetime.date(int(jaartal), int(
                             tweedeGetal), int(eersteGetal))
-                        huidigeDatum = datetime.date.today()
+                        huidigeDatum = date.today()
                         verschil = d-huidigeDatum
                         lcd.init_LCD()
                         lcd.write_message("Hoeveel?", 0x80)
@@ -276,6 +278,19 @@ def initial_connection():
     socketio.emit("B2F_connected", data)
     # # Send to the client!
 
+
+@socketio.on("F2B_add-product")
+def add(data):
+    print('new product')
+    try:
+        d = datetime.strptime(data["datum"], '%Y-%m-%d').date()
+        huidigeDatum = date.today()
+        verschil = d-huidigeDatum
+        print(verschil.days)
+        DataRepository.add_product_by_web(
+            data["naam"], data["datum"], int(verschil.days), int(data["aantal"]))
+    except Exception as ex:
+        print(ex)
 
 # Thread
 
