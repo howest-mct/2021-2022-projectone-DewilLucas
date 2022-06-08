@@ -5,6 +5,7 @@ const socket = io(`http://${lanIP}`);
 let htmlIndex,htmlHistory;
 let htmlCards;
 let htmlSingleCard;
+let htmlEdit;
 // #endregion 
 // #region ***  Callback-Visualisation - show___         ***********      
 const showTemp = function(temp) {
@@ -68,10 +69,13 @@ const listenToUI = function(){
   if(htmlIndex){
     
     htmlSingleCard = document.querySelectorAll(".js-card");
+    htmlEdit = document.querySelector(".js-edit");
     for(let obj of htmlSingleCard){
       console.log("kiekeboe");
       obj.addEventListener("click",function(){
         console.log(obj.getAttribute("data-id"));
+        htmlEdit.className = "c-edit-product_click";
+        
       })
     }
   }
