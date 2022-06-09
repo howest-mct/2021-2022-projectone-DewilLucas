@@ -289,6 +289,7 @@ def add(data):
         print(verschil.days)
         DataRepository.add_product_by_web(
             data["naam"], data["datum"], int(verschil.days), int(data["aantal"]), data['barcode'])
+        #var == -1
     except Exception as ex:
         print(ex)
 
