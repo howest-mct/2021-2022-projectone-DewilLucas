@@ -1,5 +1,5 @@
 from .Database import Database
-
+from datetime import datetime
 import random
 
 
@@ -69,27 +69,35 @@ class DataRepository:
         param = [1]
         return Database.get_rows(sql, param)
 
-    def add_product_by_web(naam, datum, verschil, aantal):
-        sql3 = "SELECT idproduct from  smartfridgeDB.Product where naam = %s"
-        paraamA = [naam]
+    def add_product_by_web(naam, datum, verschil, aantal, barcode):
+        sql3 = "SELECT idproduct from  smartfridgeDB.Product where naam = %s AND Barcode = %s"
+        paraamA = [naam, barcode]
         test1 = Database.get_one_row(sql3, paraamA)
-        if test1 != -1 or test1 != None:
-            sql1 = "insert into Product(Naam,Eersteinvoeg,barcode) values(%s,now(),%s)"
-            param = [naam, random.randrange(1, 10000)]
+        if test1 == -1 or test1 == None:
+            sql1 = "insert into Product(Naam,Eersteinvoeg,Barcode) values(%s,now(),%s)"
+            param = [naam, barcode]
             Database.execute_sql(sql1, param)
 
-            sql2 = "SELECT idproduct from  smartfridgeDB.Product where naam = %s"
-            paraam = [naam]
+            sql2 = "SELECT idproduct from  smartfridgeDB.Product where naam = %s AND Barcode = %s"
+            paraam = [naam, barcode]
             uitvoer = Database.get_one_row(sql2, paraam)
             print(uitvoer)
             sql = "insert into ProductAanwezig(idproduct,invoerdatum,HoudbaarheidsDatum,AantalDagenResterend,aanwezig,aantal,idGebruiker) values(%s,now(),%s,%s,1,%s,%s)"
             params = [uitvoer['idproduct'], datum, verschil, aantal, 1]
             return Database.execute_sql(sql, params)
         else:
-            sql4 = "SELECT idproduct from  smartfridgeDB.Product where naam = %s"
-            paraam2 = [test1]
+            sql4 = "SELECT idproduct from  smartfridgeDB.Product where naam = %s and Barcode = %s"
+            paraam2 = [naam, barcode]
             uitvoer = Database.get_one_row(sql4, paraam2)
             print(uitvoer)
-            sql = "insert into ProductAanwezig(idproduct,invoerdatum,HoudbaarheidsDatum,AantalDagenResterend,aanwezig,aantal,idGebruiker) values(%s,now(),%s,%s,1,%s,%s)"
-            params = [uitvoer['idproduct'], datum, verschil, aantal, 1]
-            return Database.execute_sql(sql, params)
+            sqlCheck = "SELECT idproduct,concat(HoudbaarheidsDatum) as `HoudbaarheidsDatum`FROM ProductAanwezig WHERE idproduct = %s and HoudbaarheidsDatum =%s"
+            param = [uitvoer['idproduct'], datum]
+            uitvoerCheck = Database.get_one_row(sqlCheck, param)
+            print(uitvoerCheck['HoudbaarheidsDatum'])
+            if uitvoerCheck['HoudbaarheidsDatum'] == datum:
+                print("al aanwezig")
+                return -1
+            else:
+                sql = "insert into ProductAanwezig(idproduct,invoerdatum,HoudbaarheidsDatum,AantalDagenResterend,aanwezig,aantal,idGebruiker) values(%s,now(),%s,%s,1,%s,%s)"
+                params = [uitvoer['idproduct'], datum, verschil, aantal, 1]
+                return Database.execute_sql(sql, params)

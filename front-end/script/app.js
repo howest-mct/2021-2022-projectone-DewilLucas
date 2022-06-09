@@ -86,7 +86,8 @@ const listenToAdd = function(){
       const jsonObj = {
         naam : document.querySelector(".js-naam").value,
         datum : document.querySelector(".js-date").value,
-        aantal : document.querySelector(".js-aantal").value
+        aantal : document.querySelector(".js-aantal").value,
+        barcode : document.querySelector(".js-barcode").value
       };
       console.log(jsonObj);
       socket.emit("F2B_add-product",jsonObj);

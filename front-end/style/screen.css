@@ -45,7 +45,7 @@ html {
 .floatingbtn {
     bottom: 120px;
     position: fixed;
-    right: 60px;
+    right: 30px;
     width: 60px;
     height: 60px;
     background: #FFC200;
@@ -60,7 +60,7 @@ html {
     justify-content: center;
     align-items: center;
     color: #1A1917;
-    font-size: 16px;
+    font-size: 24px;
     text-decoration: none;
 }
 

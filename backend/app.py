@@ -288,7 +288,7 @@ def add(data):
         verschil = d-huidigeDatum
         print(verschil.days)
         DataRepository.add_product_by_web(
-            data["naam"], data["datum"], int(verschil.days), int(data["aantal"]))
+            data["naam"], data["datum"], int(verschil.days), int(data["aantal"]), data['barcode'])
     except Exception as ex:
         print(ex)
 
