@@ -144,14 +144,11 @@ def barcodeInput(invoer=""):
                         datumke = f"{jaartal}-{tweedeGetal}-{eersteGetal}"
                         try:
                             d = datetime.strptime(datumke, '%Y-%m-%d').date()
-                            # d = datetime.datetime.date(int(jaartal), int(
-                            #    tweedeGetal), int(eersteGetal))
                             huidigeDatum = date.today()
                             verschil = d-huidigeDatum
                             lcd.init_LCD()
                             lcd.write_message("Hoeveel?", 0x80)
                             lstAantal = []
-
                             aantal = ""
                             while aantal != "#":
                                 aantal = leesKeypad()
@@ -220,7 +217,6 @@ def barcodeInput(invoer=""):
                                 else:
                                     DataRepository.update_Product(
                                         verschilVerwijdern, zoek_delete['idProduct'], zoek_delete['HoudbaarheidsDatum'])
-
                                 lcd.init_LCD()
                                 lcd.write_message("Verwijderen", 0x80)
                                 lcd.write_message("Succes!", 0xC0)
