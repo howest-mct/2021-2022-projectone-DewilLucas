@@ -51,7 +51,7 @@ const showFood = function (json) {
                 <h3 class="c-card--name">${obj.Naam}</h3>
               </div>
                 <div class="c-card__content">
-                <p><span class="c-card--date">${obj.houdbaarheidsdatum}</span> <span class="material-icons u-icons">notifications</span><a href="edit_product.html?productID=${obj.idAanwezig}"><span class="material-icons u-icons js-edit"data-id="${obj.idAanwezig}">edit</span></a><span class="material-icons u-icons">delete</span></p>
+                <p><span class="c-card--date">${obj.houdbaarheidsdatum}</span> <span class="material-icons u-icons">notifications</span><a href="edit_product.html?idaanwezig=${obj.idAanwezig}"><span class="material-icons u-icons js-edit"data-id="${obj.idAanwezig}">edit</span></a><span class="material-icons u-icons">delete</span></p>
                 </div>
             </div>`;
   }
@@ -69,9 +69,8 @@ const callbackWindow = function () {
 // #region ***  Data Access - get___                     ***********
 const getrain = function(){
   let urlParams = new URLSearchParams(window.location.search);
-  let get= urlParams.get("productID");
-  let get2 = urlParams.get("datum");
-  console.log(get2);
+  let get= urlParams.get("idaanwezig");
+  console.log(get);
 }
 // #endregion 
 
