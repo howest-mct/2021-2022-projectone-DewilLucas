@@ -349,6 +349,16 @@ def initial_connection():
     # # Send to the client!
 
 
+@socketio.on('F2B_edit')
+def edit(data):
+    uitv = DataRepository.zoekbyAanwezigId(data)
+    if uitv != None or uitv != -1:
+        print(uitv)
+        socketio.emit("B2F_edit", uitv)
+    else:
+        print("Geen data gevonden")
+
+
 @socketio.on("F2B_add-product")
 def add(data):
     print('new product')

@@ -46,7 +46,7 @@ const showFood = function (json) {
   for(let obj of json){
     htmlUitvoer += `<div class="c-card js-card">
               <div class="c-card__image-container js-img-card" data-id="${obj.idAanwezig}">
-                <a href="edit_product.html?productID=${obj.idAanwezig}"><img src="https://fakeimg.pl/400x300/f1db26/000/" alt="${obj.Naam}" class="c-card__img">
+                <a href="edit_product.html?idaanwezig=${obj.idAanwezig}"><img src="https://fakeimg.pl/400x300/f1db26/000/" alt="${obj.Naam}" class="c-card__img">
                 </a>
                 <h3 class="c-card--name">${obj.Naam}</h3>
               </div>
@@ -70,7 +70,8 @@ const callbackWindow = function () {
 const getrain = function(){
   let urlParams = new URLSearchParams(window.location.search);
   let get= urlParams.get("idaanwezig");
-  console.log(get);
+  socket.emit("F2B_edit",get);
+  listenToSocket();
 }
 // #endregion 
 
@@ -147,6 +148,11 @@ const listenToSocket = function () {
     socket.on("B2F_history", (data) => {
       showHistory(data)
     })
+  }
+  if(htmlEditPro){
+    socket.on("B2F_edit",function(data){
+      console.log(data);
+    });
   }
   
 }
