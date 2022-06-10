@@ -200,7 +200,6 @@ def barcodeInput(invoer=""):
                                     lcd.write_message("TEVEEL!", 0XC0)
                                     time.sleep(2)
                                     lcd.write_message(final2, 0XC0)
-                                    print("not possible")
                             elif vw == None:
                                 pass
                             else:
@@ -211,12 +210,25 @@ def barcodeInput(invoer=""):
 
                                 final2 = f"{convStrAantal}"
                                 lcd.write_message(final2, 0XC0)
+                        else:
+                            try:
+                                verschilVerwijdern = totaalAantal - int(final2)
+                                print(verschilVerwijdern)
+                                if verschilVerwijdern == 0:
+                                    DataRepository.delete_Product(
+                                        zoek_delete['idProduct'], zoek_delete['HoudbaarheidsDatum'])
+                                else:
+                                    DataRepository.update_Product(
+                                        verschilVerwijdern, zoek_delete['idProduct'], zoek_delete['HoudbaarheidsDatum'])
 
-                        lcd.init_LCD()
-                        lcd.write_message("Verwijderen", 0x80)
-                        lcd.write_message("Succes!", 0xC0)
-                        time.sleep(3)
-                        schrijfLCD()
+                                lcd.init_LCD()
+                                lcd.write_message("Verwijderen", 0x80)
+                                lcd.write_message("Succes!", 0xC0)
+                                time.sleep(3)
+                                schrijfLCD()
+                            except Exception as ex:
+                                print(ex)
+
                     except Exception as ex:
                         print(ex)
 

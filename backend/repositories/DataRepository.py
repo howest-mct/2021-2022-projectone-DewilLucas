@@ -90,7 +90,7 @@ class DataRepository:
             paraam2 = [naam, barcode]
             uitvoer = Database.get_one_row(sql4, paraam2)
             print(uitvoer)
-            sqlCheck = "SELECT idproduct,concat(HoudbaarheidsDatum) as `HoudbaarheidsDatum`FROM ProductAanwezig WHERE idproduct = %s and HoudbaarheidsDatum =%s"
+            sqlCheck = "SELECT idproduct,concat(HoudbaarheidsDatum) as `HoudbaarheidsDatum`FROM ProductAanwezig WHERE idproduct = %s and HoudbaarheidsDatum =%s and aanwezig =1"
             param = [uitvoer['idproduct'], datum]
             uitvoerCheck = Database.get_one_row(sqlCheck, param)
             print(uitvoerCheck)
@@ -107,10 +107,17 @@ class DataRepository:
         sql1 = "SELECT idproduct FROM smartfridgeDB.Product WHERE barcode = %s;"
         param = [barcode]
         idtjen = Database.get_one_row(sql1, param)
-        sql2 = "SELECT idProduct,HoudbaarheidsDatum,aantal FROM smartfridgeDB.ProductAanwezig WHERE idProduct = %s order by HoudbaarheidsDatum asc LIMIT 1"
+        sql2 = "SELECT idProduct,HoudbaarheidsDatum,aantal FROM smartfridgeDB.ProductAanwezig WHERE idProduct = %s and aanwezig=1 order by HoudbaarheidsDatum asc LIMIT 1"
         id = [idtjen['idproduct']]
         test = Database.get_one_row(sql2, id)
         return test
 
-    def delete_Product():
-        pass
+    def delete_Product(id, datum):
+        sql = "UPDATE smartfridgeDB.ProductAanwezig set aanwezig = 0,set aantal = 0 WHERe idProduct = %s and houdbaarheidsdatum = %s"
+        param = [id, datum]
+        return Database.execute_sql(sql, param)
+
+    def update_Product(verschil, id, datum):
+        sql = "UPDATE smartfridgeDB.ProductAanwezig set aantal = %s WHERe idProduct = %s and houdbaarheidsdatum = %s"
+        param = [verschil, id, datum]
+        return Database.execute_sql(sql, param)
