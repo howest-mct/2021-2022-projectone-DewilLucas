@@ -127,8 +127,14 @@ def barcodeInput(invoer=""):
 
                     while len(lstDatum) != 8:
                         waarde = leesKeypad()
-                        if waarde == None or waarde == "#" or waarde == "*":
+                        if waarde == None or waarde == "#":
                             pass
+                        elif waarde == "*":
+                            lcd.init_LCD()
+                            lcd.write_message("STOPGEZET", 0x80)
+                            time.sleep(2)
+                            schrijfLCD()
+                            break
                         else:
                             lstDatum.append(waarde)
                             strDatum = str(lstDatum)
@@ -136,7 +142,6 @@ def barcodeInput(invoer=""):
                             finalString = f"{newStrdatum[:2]}-{newStrdatum[2:4]}-{newStrdatum[4:len(newStrdatum)]}"
                             lcd.write_message(finalString, 0XC0)
                     else:
-
                         eersteGetal = str(lstDatum[0]) + str(lstDatum[1])
                         tweedeGetal = str(lstDatum[2]) + str(lstDatum[3])
                         jaartal = str(lstDatum[4])+str(lstDatum[5]) + \
@@ -197,6 +202,12 @@ def barcodeInput(invoer=""):
                                     lcd.write_message("TEVEEL!", 0XC0)
                                     time.sleep(2)
                                     lcd.write_message(final2, 0XC0)
+                            elif vw == "*":
+                                lcd.init_LCD()
+                                lcd.write_message("STOPGEZET", 0x80)
+                                time.sleep(2)
+                                schrijfLCD()
+                                break
                             elif vw == None:
                                 pass
                             else:
