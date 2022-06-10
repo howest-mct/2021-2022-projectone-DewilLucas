@@ -50,7 +50,7 @@ const showFood = function (json) {
                 <h3 class="c-card--name">${obj.Naam}</h3>
               </div>
                 <div class="c-card__content">
-                <p><span class="c-card--date">${obj.houdbaarheidsdatum}</span> <span class="material-icons u-icons">notifications</span><span class="material-icons u-icons">edit</span><span class="material-icons u-icons">delete</span></p>
+                <p><span class="c-card--date">${obj.houdbaarheidsdatum}</span> <span class="material-icons u-icons">notifications</span><a href="#"><span class="material-icons u-icons js-edit"data-id="${obj.idproduct}">edit</span></a><span class="material-icons u-icons">delete</span></p>
                 </div>
             </div>`;
   }
@@ -73,14 +73,17 @@ const callbackWindow = function () {
 
 const listenToUI = function(){
   if(htmlIndex){
-    
-    htmlSingleCard = document.querySelectorAll(".js-card");
     htmlImgContainer = document.querySelectorAll(".js-img-card")
-    htmlEdit = document.querySelector(".js-edit");
+    htmlEdit = document.querySelectorAll(".js-edit");
     for(let obj of htmlImgContainer){
       obj.addEventListener("click",function(){
+        //console.log(obj.getAttribute("data-id"));
+      });
+    }
+    for(let obj of htmlEdit){
+      obj.addEventListener("click",function() {
         console.log(obj.getAttribute("data-id"));
-      })
+      });
     }
   }
   
