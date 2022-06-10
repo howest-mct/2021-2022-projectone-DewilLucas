@@ -86,12 +86,8 @@ const listenToInput = function(){
     if (barcode.value.length != 13) {
       barcode.addEventListener("input",function () {
       console.log("invoer");
-      
-    });
-    }
-    if(barcode.value.length ==13){
       socket.emit("F2B_barcode",barcode.value);
-      setTimeout("location.reload(true);",1000);
+    });
     }
 }
 const listenToAdd = function(){
