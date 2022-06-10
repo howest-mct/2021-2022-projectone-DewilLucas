@@ -38,6 +38,14 @@ const showHistory = function(json){
   }
   htmldata.innerHTML = htmlUitvoer;
 }
+const showEdit = function (json) {
+  let htmlName = document.querySelector(".js-name");
+  let htmlDate = document.querySelector(".js-datum");
+  let htmlaantal = document.querySelector(".js-aantall");
+  htmlName.value= json.Naam;
+  htmlDate.value = json.HoudbaarheidsDatum;
+  htmlaantal.value = json.Aantal;
+}
 const showFood = function (json) {
   console.log(json);
   
@@ -144,14 +152,21 @@ const listenToSocket = function () {
     socket.on("connect", function () {
     console.log("verbonden met socket");
   });
-    console.log("listen B2F_history")
+    console.log("listen B2F_history");
     socket.on("B2F_history", (data) => {
-      showHistory(data)
+      showHistory(data);
     })
   }
   if(htmlEditPro){
     socket.on("B2F_edit",function(data){
       console.log(data);
+      if(data == -1){
+        console.log("niet gevonden");
+      }
+      else{
+        console.log(data);
+        showEdit(data);
+      }
     });
   }
   
