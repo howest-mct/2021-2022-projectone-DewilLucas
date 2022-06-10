@@ -59,6 +59,9 @@ const showFood = function (json) {
 // #endregion 
 
 // #region ***  Callback-No Visualisation - callback___  ***********
+const callbackWindow = function () {
+  window.location = "history.html";
+}
 // #endregion
 
 // #region ***  Data Access - get___                     ***********
@@ -102,6 +105,7 @@ const listenToAdd = function(){
       };
       console.log(jsonObj);
       socket.emit("F2B_add-product",jsonObj);
+      callbackWindow();
     })
 }
 const listenToSocket = function () {
