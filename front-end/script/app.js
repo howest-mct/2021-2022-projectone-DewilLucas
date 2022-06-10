@@ -46,11 +46,12 @@ const showFood = function (json) {
     console.log(obj.houdbaarheidsdatum);
     htmlUitvoer += `<div class="c-card js-card">
               <div class="c-card__image-container js-img-card" data-id="${obj.idproduct}">
-                <img src="https://fakeimg.pl/400x300/f1db26/000/" alt="" class="c-card__img">
+                <a href="edit_product.html?productID=${obj.idproduct}"><img src="https://fakeimg.pl/400x300/f1db26/000/" alt="${obj.Naam}" class="c-card__img">
+                </a>
                 <h3 class="c-card--name">${obj.Naam}</h3>
               </div>
                 <div class="c-card__content">
-                <p><span class="c-card--date">${obj.houdbaarheidsdatum}</span> <span class="material-icons u-icons">notifications</span><a href="#"><span class="material-icons u-icons js-edit"data-id="${obj.idproduct}">edit</span></a><span class="material-icons u-icons">delete</span></p>
+                <p><span class="c-card--date">${obj.houdbaarheidsdatum}</span> <span class="material-icons u-icons">notifications</span><a href="edit_product.html?productID=${obj.idproduct}"><span class="material-icons u-icons js-edit"data-id="${obj.idproduct}">edit</span></a><span class="material-icons u-icons">delete</span></p>
                 </div>
             </div>`;
   }
