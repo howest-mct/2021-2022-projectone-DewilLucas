@@ -93,6 +93,7 @@ class DataRepository:
             sqlCheck = "SELECT idproduct,concat(HoudbaarheidsDatum) as `HoudbaarheidsDatum`FROM ProductAanwezig WHERE idproduct = %s and HoudbaarheidsDatum =%s"
             param = [uitvoer['idproduct'], datum]
             uitvoerCheck = Database.get_one_row(sqlCheck, param)
+            print(uitvoerCheck)
             print(uitvoerCheck['HoudbaarheidsDatum'])
             if uitvoerCheck['HoudbaarheidsDatum'] == datum:
                 print("al aanwezig")

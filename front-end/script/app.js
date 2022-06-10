@@ -7,6 +7,7 @@ let htmlCards;
 let htmlSingleCard;
 let htmlEdit;
 let htmlAdd;
+let htmlOff;
 // #endregion 
 // #region ***  Callback-Visualisation - show___         ***********      
 const showTemp = function(temp) {
@@ -79,6 +80,16 @@ const listenToUI = function(){
   }
   
 }
+const listenToInput = function(){
+    let barcode = document.querySelector(".js-barcode-offline");
+    barcode.focus();
+    if (barcode.value.length != 13) {
+      barcode.addEventListener("input",function () {
+      console.log("invoer");
+      socket.emit("F2B_barcode",barcode.value);
+    });
+    }
+}
 const listenToAdd = function(){
     const htmlButton = document.querySelector(".js-add-button");
     htmlButton.addEventListener("click",function(){
@@ -94,6 +105,11 @@ const listenToAdd = function(){
     })
 }
 const listenToSocket = function () {
+  if(htmlAdd){
+    socket.on("B2F_alAanwezig",function (json) {
+      console.log(json);
+    })
+  }
   if(htmlIndex){
     socket.on("connect", function () {
     console.log("verbonden met socket");
@@ -130,6 +146,10 @@ const init = function () {
   htmlHistory = document.querySelector(".js-history");
   htmlCards = document.querySelector(".js-cards");
   htmlAdd = document.querySelector(".js-form");
+  htmlOff = document.querySelector(".js-offline")
+  if (htmlOff) {
+    listenToInput();
+  }
   if(htmlAdd){
     listenToAdd();
   }

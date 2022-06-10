@@ -88,89 +88,90 @@ def converteerListNaarStr(lstString):
     return getallen
 
 
-def barcodeInput():
-    while True:
-        barcode = input("")
-        if barcode == "":
-            pass
-        else:
-            print(barcode)
-            lcd.init_LCD()
-            print("**** Read keypad THREAD *****")
-            try:
-                DataRepository.write_scan_history(barcode)
+def barcodeInput(invoer=""):
+    barcode = invoer
+    if barcode == "":
+        pass
+    else:
+        print(barcode)
+        lcd.init_LCD()
+        print("**** Read keypad THREAD *****")
+        try:
+            DataRepository.write_scan_history(barcode)
+            zoek = DataRepository.zoekByBaarcode(barcode)
+            if zoek == -1:
+                DataRepository.write_barcode(barcode)
+                lcd.write_message("Verander de naam", 0X80)
+                lcd.write_message("Op de webapp", 0xC0)
+                print("nieuwe product ingevoegd")
+                time.sleep(2)
+                lcd.init_LCD()
                 zoek = DataRepository.zoekByBaarcode(barcode)
-                if zoek == -1:
-                    DataRepository.write_barcode(barcode)
-                    lcd.write_message("Verander de naam", 0X80)
-                    lcd.write_message("Op de webapp", 0xC0)
-                    print("nieuwe product ingevoegd")
-                    time.sleep(2)
-                    lcd.init_LCD()
-                    zoek = DataRepository.zoekByBaarcode(barcode)
 
-                lcd.write_message("Geef vervaldatum", 0x80)
-                lstDatum = []
-                thread = threading.Thread(
-                    target=leesKeypad, args=(), daemon=True)
-                thread.start()
+            lcd.write_message("Geef vervaldatum", 0x80)
+            lstDatum = []
+            thread = threading.Thread(
+                target=leesKeypad, args=(), daemon=True)
+            thread.start()
 
-                while len(lstDatum) != 8:
-                    waarde = leesKeypad()
-                    if waarde == None or waarde == "#" or waarde == "*":
-                        pass
-                    else:
-                        lstDatum.append(waarde)
-                        strDatum = str(lstDatum)
-                        newStrdatum = converteerListNaarStr(strDatum)
-                        finalString = f"{newStrdatum[:2]}-{newStrdatum[2:4]}-{newStrdatum[4:len(newStrdatum)]}"
-                        lcd.write_message(finalString, 0XC0)
+            while len(lstDatum) != 8:
+                waarde = leesKeypad()
+                if waarde == None or waarde == "#" or waarde == "*":
+                    pass
                 else:
+                    lstDatum.append(waarde)
+                    strDatum = str(lstDatum)
+                    newStrdatum = converteerListNaarStr(strDatum)
+                    finalString = f"{newStrdatum[:2]}-{newStrdatum[2:4]}-{newStrdatum[4:len(newStrdatum)]}"
+                    lcd.write_message(finalString, 0XC0)
+            else:
 
-                    eersteGetal = str(lstDatum[0]) + str(lstDatum[1])
-                    tweedeGetal = str(lstDatum[2]) + str(lstDatum[3])
-                    jaartal = str(lstDatum[4])+str(lstDatum[5]) + \
-                        str(lstDatum[6]) + str(lstDatum[7])
-                    try:
-                        d = datetime.date(int(jaartal), int(
-                            tweedeGetal), int(eersteGetal))
-                        huidigeDatum = date.today()
-                        verschil = d-huidigeDatum
-                        lcd.init_LCD()
-                        lcd.write_message("Hoeveel?", 0x80)
-                        lstAantal = []
+                eersteGetal = str(lstDatum[0]) + str(lstDatum[1])
+                tweedeGetal = str(lstDatum[2]) + str(lstDatum[3])
+                jaartal = str(lstDatum[4])+str(lstDatum[5]) + \
+                    str(lstDatum[6]) + str(lstDatum[7])
+                datumke = f"{jaartal}-{tweedeGetal}-{eersteGetal}"
+                try:
+                    d = datetime.strptime(datumke, '%Y-%m-%d').date()
+                    # d = datetime.datetime.date(int(jaartal), int(
+                    #    tweedeGetal), int(eersteGetal))
+                    huidigeDatum = date.today()
+                    verschil = d-huidigeDatum
+                    lcd.init_LCD()
+                    lcd.write_message("Hoeveel?", 0x80)
+                    lstAantal = []
 
-                        aantal = ""
-                        while aantal != "#":
+                    aantal = ""
+                    while aantal != "#":
 
-                            aantal = leesKeypad()
-                            if aantal == None or aantal == "#" or aantal == "*":
-                                pass
-                            else:
-                                lstAantal.append(aantal)
-                                strAantal = str(lstAantal)
-                                convStrAantal = converteerListNaarStr(
-                                    strAantal)
-                                global final
-                                final = f"{convStrAantal}"
-                                lcd.write_message(final, 0XC0)
+                        aantal = leesKeypad()
+                        if aantal == None or aantal == "#" or aantal == "*":
+                            pass
+                        else:
+                            lstAantal.append(aantal)
+                            strAantal = str(lstAantal)
+                            convStrAantal = converteerListNaarStr(
+                                strAantal)
+                            global final
+                            final = f"{convStrAantal}"
+                            lcd.write_message(final, 0XC0)
 
-                        DataRepository.add_product_in_inventory(
-                            zoek['idproduct'], d, verschil.days, int(final))
-                        print(d)
-                        lcd.init_LCD()
-                        lcd.write_message("Dit is een...", 0x80)
-                        lcd.write_message("Succes! :)", 0XC0)
-                        time.sleep(3)
-                        schrijfLCD()
-                    except Exception as ex:
-                        print("datum ongeldig")
-                        lcd.write_message("datum ongeldig", 0X80)
-                        lcd.write_message("herscan barcode", 0xC0)
-                        print(ex)
+                    DataRepository.add_product_in_inventory(
+                        zoek['idproduct'], d, verschil.days, int(final))
+                    print(d)
+                    lcd.init_LCD()
+                    lcd.write_message("Dit is een...", 0x80)
+                    lcd.write_message("Succes! :)", 0XC0)
+                    time.sleep(3)
+                    schrijfLCD()
+                except Exception as ex:
+                    print("datum ongeldig")
+                    lcd.write_message("datum ongeldig", 0X80)
+                    lcd.write_message("herscan barcode", 0xC0)
+                    print(ex)
 
-            except Exception as ex:
-                print(ex)
+        except Exception as ex:
+            print(ex)
 
 
 def schrijfLCD():
@@ -287,11 +288,24 @@ def add(data):
         huidigeDatum = date.today()
         verschil = d-huidigeDatum
         print(verschil.days)
-        DataRepository.add_product_by_web(
+        voegtoe = DataRepository.add_product_by_web(
             data["naam"], data["datum"], int(verschil.days), int(data["aantal"]), data['barcode'])
-        #var == -1
+        if voegtoe == -1:
+            print("Deze product is al aanwezig")
+            socketio.emit("B2F_alAanwezig", {
+                          "aanwezig": "-1"})
+        else:
+            print("nieuwe product ingevoegd")
+            socketio.emit("B2F_alAanwezig", voegtoe)
     except Exception as ex:
         print(ex)
+
+
+@socketio.on("F2B_barcode")
+def barOffline(invoer):
+    if len(invoer) >= 13:
+        print(invoer)
+        barcodeInput(invoer)
 
 # Thread
 
@@ -402,7 +416,7 @@ def start_chrome_kiosk():
     options.add_experimental_option('useAutomationExtension', False)
 
     driver = webdriver.Chrome(options=options)
-    driver.get("http://localhost")
+    driver.get("http://localhost/add_product.html")
     while True:
         pass
 
