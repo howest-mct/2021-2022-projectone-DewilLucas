@@ -411,12 +411,12 @@ def start_chrome_kiosk():
     options.add_argument('--no-sandbox')
     options.add_argument('--kiosk')
     # chrome_options.add_argument('--no-sandbox')
-    # options.add_argument("disable-infobars")
+    options.add_argument("disable-infobars")
     options.add_experimental_option("excludeSwitches", ["enable-automation"])
     options.add_experimental_option('useAutomationExtension', False)
 
     driver = webdriver.Chrome(options=options)
-    driver.get("http://localhost/add_product.html")
+    driver.get("http://localhost/barcodeScanner.html")
     while True:
         pass
 
