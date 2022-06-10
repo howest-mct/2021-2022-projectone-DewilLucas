@@ -195,6 +195,11 @@ def barcodeInput(invoer=""):
                             if vw == "#":
                                 if int(final2) > totaalAantal:
                                     vw = ""
+                                    aantalVerwijderen = []
+                                    final2 = ">"
+                                    lcd.write_message("TEVEEL!", 0XC0)
+                                    time.sleep(2)
+                                    lcd.write_message(final2, 0XC0)
                                     print("not possible")
                             elif vw == None:
                                 pass
