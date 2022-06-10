@@ -9,6 +9,7 @@ let htmlImgContainer;
 let htmlEdit;
 let htmlAdd;
 let htmlOff;
+let htmlEditPro;
 // #endregion 
 // #region ***  Callback-Visualisation - show___         ***********      
 const showTemp = function(temp) {
@@ -43,15 +44,14 @@ const showFood = function (json) {
   let htmlUitvoer = ``;
 
   for(let obj of json){
-    console.log(obj.houdbaarheidsdatum);
     htmlUitvoer += `<div class="c-card js-card">
-              <div class="c-card__image-container js-img-card" data-id="${obj.idproduct}">
-                <a href="edit_product.html?productID=${obj.idproduct}"><img src="https://fakeimg.pl/400x300/f1db26/000/" alt="${obj.Naam}" class="c-card__img">
+              <div class="c-card__image-container js-img-card" data-id="${obj.idAanwezig}">
+                <a href="edit_product.html?productID=${obj.idAanwezig}"><img src="https://fakeimg.pl/400x300/f1db26/000/" alt="${obj.Naam}" class="c-card__img">
                 </a>
                 <h3 class="c-card--name">${obj.Naam}</h3>
               </div>
                 <div class="c-card__content">
-                <p><span class="c-card--date">${obj.houdbaarheidsdatum}</span> <span class="material-icons u-icons">notifications</span><a href="edit_product.html?productID=${obj.idproduct}"><span class="material-icons u-icons js-edit"data-id="${obj.idproduct}">edit</span></a><span class="material-icons u-icons">delete</span></p>
+                <p><span class="c-card--date">${obj.houdbaarheidsdatum}</span> <span class="material-icons u-icons">notifications</span><a href="edit_product.html?productID=${obj.idAanwezig}"><span class="material-icons u-icons js-edit"data-id="${obj.idAanwezig}">edit</span></a><span class="material-icons u-icons">delete</span></p>
                 </div>
             </div>`;
   }
@@ -67,7 +67,12 @@ const callbackWindow = function () {
 // #endregion
 
 // #region ***  Data Access - get___                     ***********
-
+const getrain = function(){
+  let urlParams = new URLSearchParams(window.location.search);
+  let get= urlParams.get("productID");
+  let get2 = urlParams.get("datum");
+  console.log(get2);
+}
 // #endregion 
 
 // #region ***  Event Listeners - listenTo___            ***********     
@@ -155,12 +160,16 @@ const init = function () {
   htmlHistory = document.querySelector(".js-history");
   htmlCards = document.querySelector(".js-cards");
   htmlAdd = document.querySelector(".js-form");
-  htmlOff = document.querySelector(".js-offline")
+  htmlOff = document.querySelector(".js-offline");
+  htmlEditPro = document.querySelector(".js-edit_pro")
   if (htmlOff) {
     listenToInput();
   }
   if(htmlAdd){
     listenToAdd();
+  }
+  if(htmlEditPro){
+    getrain();
   }
   listenToSocket();
 }
