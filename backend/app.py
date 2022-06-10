@@ -97,79 +97,90 @@ def barcodeInput(invoer=""):
         lcd.init_LCD()
         print("**** Read keypad THREAD *****")
         try:
-            DataRepository.write_scan_history(barcode)
-            zoek = DataRepository.zoekByBaarcode(barcode)
-            if zoek == -1:
-                DataRepository.write_barcode(barcode)
-                lcd.write_message("Verander de naam", 0X80)
-                lcd.write_message("Op de webapp", 0xC0)
-                print("nieuwe product ingevoegd")
-                time.sleep(2)
-                lcd.init_LCD()
-                zoek = DataRepository.zoekByBaarcode(barcode)
-
-            lcd.write_message("Geef vervaldatum", 0x80)
-            lstDatum = []
             thread = threading.Thread(
                 target=leesKeypad, args=(), daemon=True)
             thread.start()
+            uit = []
+            lcd.init_LCD()
+            lcd.write_message("Invoer:#", 0X80)
+            lcd.write_message("uitvoer:*", 0xC0)
+            while len(uit) != 1:
+                inofUit = leesKeypad()
+                if inofUit == "#" or inofUit == "*":
+                    uit.append(inofUit)
 
-            while len(lstDatum) != 8:
-                waarde = leesKeypad()
-                if waarde == None or waarde == "#" or waarde == "*":
-                    pass
-                else:
-                    lstDatum.append(waarde)
-                    strDatum = str(lstDatum)
-                    newStrdatum = converteerListNaarStr(strDatum)
-                    finalString = f"{newStrdatum[:2]}-{newStrdatum[2:4]}-{newStrdatum[4:len(newStrdatum)]}"
-                    lcd.write_message(finalString, 0XC0)
             else:
-
-                eersteGetal = str(lstDatum[0]) + str(lstDatum[1])
-                tweedeGetal = str(lstDatum[2]) + str(lstDatum[3])
-                jaartal = str(lstDatum[4])+str(lstDatum[5]) + \
-                    str(lstDatum[6]) + str(lstDatum[7])
-                datumke = f"{jaartal}-{tweedeGetal}-{eersteGetal}"
-                try:
-                    d = datetime.strptime(datumke, '%Y-%m-%d').date()
-                    # d = datetime.datetime.date(int(jaartal), int(
-                    #    tweedeGetal), int(eersteGetal))
-                    huidigeDatum = date.today()
-                    verschil = d-huidigeDatum
+                lcd.init_LCD()
+                DataRepository.write_scan_history(barcode)
+                zoek = DataRepository.zoekByBaarcode(barcode)
+                if zoek == -1:
+                    DataRepository.write_barcode(barcode)
+                    lcd.write_message("Verander de naam", 0X80)
+                    lcd.write_message("Op de webapp", 0xC0)
+                    print("nieuwe product ingevoegd")
+                    time.sleep(2)
                     lcd.init_LCD()
-                    lcd.write_message("Hoeveel?", 0x80)
-                    lstAantal = []
+                    zoek = DataRepository.zoekByBaarcode(barcode)
+                if uit[0] == "#":
+                    lcd.write_message("Geef vervaldatum", 0x80)
+                    lstDatum = []
 
-                    aantal = ""
-                    while aantal != "#":
-
-                        aantal = leesKeypad()
-                        if aantal == None or aantal == "#" or aantal == "*":
+                    while len(lstDatum) != 8:
+                        waarde = leesKeypad()
+                        if waarde == None or waarde == "#" or waarde == "*":
                             pass
                         else:
-                            lstAantal.append(aantal)
-                            strAantal = str(lstAantal)
-                            convStrAantal = converteerListNaarStr(
-                                strAantal)
-                            global final
-                            final = f"{convStrAantal}"
-                            lcd.write_message(final, 0XC0)
+                            lstDatum.append(waarde)
+                            strDatum = str(lstDatum)
+                            newStrdatum = converteerListNaarStr(strDatum)
+                            finalString = f"{newStrdatum[:2]}-{newStrdatum[2:4]}-{newStrdatum[4:len(newStrdatum)]}"
+                            lcd.write_message(finalString, 0XC0)
+                    else:
 
-                    DataRepository.add_product_in_inventory(
-                        zoek['idproduct'], d, verschil.days, int(final))
-                    print(d)
-                    lcd.init_LCD()
-                    lcd.write_message("Dit is een...", 0x80)
-                    lcd.write_message("Succes! :)", 0XC0)
-                    time.sleep(3)
-                    schrijfLCD()
-                except Exception as ex:
-                    print("datum ongeldig")
-                    lcd.write_message("datum ongeldig", 0X80)
-                    lcd.write_message("herscan barcode", 0xC0)
-                    print(ex)
+                        eersteGetal = str(lstDatum[0]) + str(lstDatum[1])
+                        tweedeGetal = str(lstDatum[2]) + str(lstDatum[3])
+                        jaartal = str(lstDatum[4])+str(lstDatum[5]) + \
+                            str(lstDatum[6]) + str(lstDatum[7])
+                        datumke = f"{jaartal}-{tweedeGetal}-{eersteGetal}"
+                        try:
+                            d = datetime.strptime(datumke, '%Y-%m-%d').date()
+                            # d = datetime.datetime.date(int(jaartal), int(
+                            #    tweedeGetal), int(eersteGetal))
+                            huidigeDatum = date.today()
+                            verschil = d-huidigeDatum
+                            lcd.init_LCD()
+                            lcd.write_message("Hoeveel?", 0x80)
+                            lstAantal = []
 
+                            aantal = ""
+                            while aantal != "#":
+                                aantal = leesKeypad()
+                                if aantal == None or aantal == "#" or aantal == "*":
+                                    pass
+                                else:
+                                    lstAantal.append(aantal)
+                                    strAantal = str(lstAantal)
+                                    convStrAantal = converteerListNaarStr(
+                                        strAantal)
+                                    global final
+                                    final = f"{convStrAantal}"
+                                    lcd.write_message(final, 0XC0)
+
+                            DataRepository.add_product_in_inventory(
+                                zoek['idproduct'], d, verschil.days, int(final))
+                            print(d)
+                            lcd.init_LCD()
+                            lcd.write_message("Dit is een...", 0x80)
+                            lcd.write_message("Succes! :)", 0XC0)
+                            time.sleep(3)
+                            schrijfLCD()
+                        except Exception as ex:
+                            print("datum ongeldig")
+                            lcd.write_message("datum ongeldig", 0X80)
+                            lcd.write_message("herscan barcode", 0xC0)
+                            print(ex)
+                else:
+                    print("uitvoer")
         except Exception as ex:
             print(ex)
 
