@@ -5,6 +5,7 @@ const socket = io(`http://${lanIP}`);
 let htmlIndex,htmlHistory;
 let htmlCards;
 let htmlSingleCard;
+let htmlImgContainer;
 let htmlEdit;
 let htmlAdd;
 let htmlOff;
@@ -43,8 +44,8 @@ const showFood = function (json) {
 
   for(let obj of json){
     console.log(obj.houdbaarheidsdatum);
-    htmlUitvoer += `<div class="c-card js-card"  data-id="${obj.idproduct}">
-              <div class="c-card__image-container ">
+    htmlUitvoer += `<div class="c-card js-card">
+              <div class="c-card__image-container js-img-card" data-id="${obj.idproduct}">
                 <img src="https://fakeimg.pl/400x300/f1db26/000/" alt="" class="c-card__img">
                 <h3 class="c-card--name">${obj.Naam}</h3>
               </div>
@@ -60,7 +61,7 @@ const showFood = function (json) {
 
 // #region ***  Callback-No Visualisation - callback___  ***********
 const callbackWindow = function () {
-  window.location = "history.html";
+  window.location.href = "history.html";
 }
 // #endregion
 
@@ -74,8 +75,9 @@ const listenToUI = function(){
   if(htmlIndex){
     
     htmlSingleCard = document.querySelectorAll(".js-card");
+    htmlImgContainer = document.querySelectorAll(".js-img-card")
     htmlEdit = document.querySelector(".js-edit");
-    for(let obj of htmlSingleCard){
+    for(let obj of htmlImgContainer){
       obj.addEventListener("click",function(){
         console.log(obj.getAttribute("data-id"));
       })
@@ -105,7 +107,6 @@ const listenToAdd = function(){
       };
       console.log(jsonObj);
       socket.emit("F2B_add-product",jsonObj);
-      callbackWindow();
     })
 }
 const listenToSocket = function () {

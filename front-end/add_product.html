@@ -11,25 +11,49 @@
     <script src="script/app.js"></script>
 </head>
 <body class="js-form">
+    <header class="o-row">
+        <div class="c-header">
+             <div class="c-header__nav">
+            <nav class="c-nav">
+              <ul class="o-list c-nav__list">
+                <li class="c-nav__item">
+                  <a class="c-nav__link is-selected" href="index.html">Home</a>
+                </li>
+                <li class="c-nav__item">
+                  <a class="c-nav__link" href="#!">account</a>
+                </li>
+                <li class="c-nav__item">
+                  <a class="c-nav__link" href="#!">shopping lists</a>
+                </li>
+                <p>
+                  <a class="c-link-cta" href="history.html">history</a>
+                </p>
+              </ul>
+            </nav>
+          </div>
+        </div>
+        </div>
+        
+    </header>
     <form class="c-form js-add">
         <div class="c-form__item">
             <label for="productname">Naam van het product</label><br>
-            <input type="text" class="c-input js-naam" placeholder="Naam product" name="productname" id="productname">
+            <input type="text" class="c-input js-naam" placeholder="Naam product" name="productname" id="productname" required>
         </div>
         <div class="c-form__item">
             <label for="datum">Houdbaarheidsdatum</label><br>
-            <input type="date" name="datum" id="datum" class="c-input js-date">
+            <input type="date" name="datum" id="datum" class="c-input js-date" required>
         </div>
         <div class="c-form__item">
             <label for="aantal">Aantal producten</label><br>
-            <input type="number" name="aantal" id="aantal" class="js-aantal" min="0" max="100"> 
+            <input type="number" name="aantal" id="aantal" class="js-aantal" min="0" max="100" required> 
         </div>
         <div class="c-form__item">
             <label for="barcode">barcode</label><br>
-            <input type="text" name="barcode" id="barcode" class="c-input js-barcode"> 
+            <input type="text" name="barcode" id="barcode" class="c-input js-barcode" required> 
         </div>
         <div class="c-form__item">
-            <a href="history.html"><input type="submit" class="js-add-button" ></input></a>
+            <a  href="index.html"><input type="submit" class="js-add-button"></input></a>
         </div>
     </form>
 </body>
