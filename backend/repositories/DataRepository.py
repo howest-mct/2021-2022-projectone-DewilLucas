@@ -102,3 +102,15 @@ class DataRepository:
                 sql = "insert into ProductAanwezig(idproduct,invoerdatum,HoudbaarheidsDatum,AantalDagenResterend,aanwezig,aantal,idGebruiker) values(%s,now(),%s,%s,1,%s,%s)"
                 params = [uitvoer['idproduct'], datum, verschil, aantal, 1]
                 return Database.execute_sql(sql, params)
+
+    def zoek_for_delete_by_barcode(barcode):
+        sql1 = "SELECT idproduct FROM smartfridgeDB.Product WHERE barcode = %s;"
+        param = [barcode]
+        idtjen = Database.get_one_row(sql1, param)
+        sql2 = "SELECT idProduct,HoudbaarheidsDatum,aantal FROM smartfridgeDB.ProductAanwezig WHERE idProduct = %s order by HoudbaarheidsDatum asc LIMIT 1"
+        id = [idtjen['idproduct']]
+        test = Database.get_one_row(sql2, id)
+        return test
+
+    def delete_Product():
+        pass

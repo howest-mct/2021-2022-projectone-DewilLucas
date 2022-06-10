@@ -180,7 +180,41 @@ def barcodeInput(invoer=""):
                             lcd.write_message("herscan barcode", 0xC0)
                             print(ex)
                 else:
-                    print("uitvoer")
+                    try:
+                        zoek_delete = DataRepository.zoek_for_delete_by_barcode(
+                            barcode)
+                        print(zoek_delete)
+                        totaalAantal = zoek_delete['aantal']
+                        lcd.write_message("Hoeveel uitlezen", 0x80)
+                        lcd.write_message(">", 0xC0)
+                        aantalVerwijderen = []
+                        vw = ""
+                        final2 = ""
+                        while vw != '#':
+                            vw = leesKeypad()
+                            if vw == "#":
+                                if int(final2) > totaalAantal:
+                                    vw = ""
+                                    print("not possible")
+                            elif vw == None:
+                                pass
+                            else:
+                                aantalVerwijderen.append(vw)
+                                strVerwijderen = str(aantalVerwijderen)
+                                convStrAantal = converteerListNaarStr(
+                                    strVerwijderen)
+
+                                final2 = f"{convStrAantal}"
+                                lcd.write_message(final2, 0XC0)
+
+                        lcd.init_LCD()
+                        lcd.write_message("Verwijderen", 0x80)
+                        lcd.write_message("Succes!", 0xC0)
+                        time.sleep(3)
+                        schrijfLCD()
+                    except Exception as ex:
+                        print(ex)
+
         except Exception as ex:
             print(ex)
 
