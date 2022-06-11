@@ -10,6 +10,8 @@ let htmlEdit;
 let htmlAdd;
 let htmlOff;
 let htmlEditPro;
+let htmlDelete;
+let htmlDeletePage;
 // #endregion 
 // #region ***  Callback-Visualisation - show___         ***********      
 const showTemp = function(temp) {
@@ -61,7 +63,7 @@ const showFood = function (json) {
                 <h3 class="c-card--name">${obj.Naam}</h3>
               </div>
                 <div class="c-card__content">
-                <p><span class="c-card--date">${obj.houdbaarheidsdatum}</span> <span class="material-icons u-icons">notifications</span><a href="edit_product.html?idaanwezig=${obj.idAanwezig}"><span class="material-icons u-icons js-edit"data-id="${obj.idAanwezig}">edit</span></a><span class="material-icons u-icons">delete</span></p>
+                <span class="c-card--date">${obj.houdbaarheidsdatum}</span> <span class="material-icons u-icons">notifications</span><a href="edit_product.html?idaanwezig=${obj.idAanwezig}"><span class="material-icons u-icons js-edit"data-id="${obj.idAanwezig}">edit</span></a><a href="delete.html?${obj.idAanwezig}"><span  class="material-icons u-icons js-delete">delete</span></a>
                 </div>
             </div>`;
   }
@@ -89,20 +91,17 @@ const getrain = function(){
 
 const listenToUI = function(){
   if(htmlIndex){
-    htmlImgContainer = document.querySelectorAll(".js-img-card")
-    htmlEdit = document.querySelectorAll(".js-edit");
-    for(let obj of htmlImgContainer){
+    htmlDelete = document.querySelectorAll(".js-delete");
+    for(let obj of htmlDelete){
       obj.addEventListener("click",function(){
-        //console.log(obj.getAttribute("data-id"));
-      });
-    }
-    for(let obj of htmlEdit){
-      obj.addEventListener("click",function() {
         console.log(obj.getAttribute("data-id"));
       });
     }
   }
   
+}
+const listenToChoiceDelet = function(){
+  const buttonJa = document.querySelector("")
 }
 const listenToInput = function(){
     let barcode = document.querySelector(".js-barcode-offline");
@@ -194,7 +193,16 @@ const init = function () {
   htmlCards = document.querySelector(".js-cards");
   htmlAdd = document.querySelector(".js-form");
   htmlOff = document.querySelector(".js-offline");
-  htmlEditPro = document.querySelector(".js-edit_pro")
+  htmlEditPro = document.querySelector(".js-edit_pro");
+  htmlDeletePage = document.querySelector(".js-delete-page");
+  if(htmlIndex){
+    let urlParams = new URLSearchParams(window.location.search);
+    let get= urlParams.get("del");
+    if (get != null || get != 'undefind') {
+      console.log(get);
+      console.log("product verwijderd");
+    }
+  }
   if (htmlOff) {
     listenToInput();
   }
@@ -203,6 +211,9 @@ const init = function () {
   }
   if(htmlEditPro){
     getrain();
+  }
+  if(htmlDeletePage){
+    listenToChoiceDelete();
   }
   listenToSocket();
 }
