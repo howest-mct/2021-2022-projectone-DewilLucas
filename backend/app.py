@@ -392,8 +392,6 @@ def update_product(data):
         if aanwezigID != None or aanwezigID != -1:
             DataRepository.update_by_website_product(
                 aanwezigID, data["naam"], data['datum'], data['aantal'], data["barcode"], int(verschil.days))
-            print(aanwezigID)
-            print(data)
         else:
             print("Geen data gevonden")
 
