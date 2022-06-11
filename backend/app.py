@@ -17,7 +17,7 @@ from classes.OLEDCLass import OLED
 import random
 from datetime import datetime
 from datetime import date
-
+import hashlib
 # from selenium import webdriver
 # from selenium.webdriver.chrome.options import Options
 
