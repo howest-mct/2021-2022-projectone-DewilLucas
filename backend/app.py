@@ -351,6 +351,9 @@ def initial_connection():
 
 @socketio.on('F2B_edit')
 def edit(data):
+    global aanwezigID
+    global uitv
+    aanwezigID = data
     uitv = DataRepository.zoekbyAanwezigId(data)
     if uitv != None or uitv != -1:
         socketio.emit("B2F_edit", uitv)
@@ -382,7 +385,18 @@ def add(data):
 @socketio.on("F2B_edit_product")
 def update_product(data):
     try:
-        update = DataRepository.update_by_website_product()
+        d = datetime.strptime(data["datum"], '%Y-%m-%d').date()
+        huidigeDatum = date.today()
+        verschil = d-huidigeDatum
+        print(verschil)
+        if aanwezigID != None or aanwezigID != -1:
+            DataRepository.update_by_website_product(
+                aanwezigID, data["naam"], data['datum'], data['aantal'], data["barcode"], int(verschil.days))
+            print(aanwezigID)
+            print(data)
+        else:
+            print("Geen data gevonden")
+
     except Exception as ex:
         print(ex)
 

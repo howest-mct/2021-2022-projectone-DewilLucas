@@ -29,11 +29,13 @@ class DataRepository:
         param = [1]
         return Database.get_one_row(sql, param)
 
+    @staticmethod
     def write_keypad(number):
         sql = "insert into Historiek(DeviceID,Waarde,Tijdstip) values(%s,%s,now())"
         param = [6, number]
         return Database.execute_sql(sql, param)
 
+    @staticmethod
     def write_barcode(barcodeValue):
         try:
             sql = "insert into Product(Naam,EersteInvoeg,Barcode) values(%s,now(),%s)"
@@ -43,32 +45,38 @@ class DataRepository:
             print(ex)
             return -1
 
+    @staticmethod
     def zoekByBaarcode(barcode):
         sql = "SELECT idproduct from  Product where Barcode = %s"
         params = [barcode]
         return Database.get_one_row(sql, params)
 
+    @staticmethod
     def add_product_in_inventory(id, datum, verschil, aantal):
 
         sql = "insert into ProductAanwezig(idProduct,invoerdatum,HoudbaarheidsDatum,AantalDagenResterend,aanwezig,aantal,idGebruiker) values(%s,now(),%s,%s,1,%s,%s)"
         param = [id, datum, verschil, aantal, 1]
         return Database.execute_sql(sql, param)
 
+    @staticmethod
     def write_scan_history(barcode):
         sql = "insert into Historiek(DeviceID,Waarde,Tijdstip) values(%s,%s,now())"
         params = [2, barcode]
         return Database.execute_sql(sql, params)
 
+    @staticmethod
     def aantal_aanwezigeproducten():
         sql = "SELECT sum(Aantal) as `totaalAanwezig` FROM smartfridgeDB.ProductAanwezig where aanwezig =%s;"
         param = [1]
         return Database.get_one_row(sql, param)
 
+    @staticmethod
     def geef_alle_producten():
         sql = "SELECT pa.idAanwezig,p.idproduct,concat(pa.HoudbaarheidsDatum) as `houdbaarheidsdatum`,cast(sum(Aantal) as int) as `aantal`,p.Naam FROM smartfridgeDB.Product p join smartfridgeDB.ProductAanwezig pa on p.idproduct = pa.idProduct where pa.aanwezig = %s group by pa.houdbaarheidsdatum;"
         param = [1]
         return Database.get_rows(sql, param)
 
+    @staticmethod
     def add_product_by_web(naam, datum, verschil, aantal, barcode):
         sql3 = "SELECT idproduct from  smartfridgeDB.Product where naam = %s AND Barcode = %s"
         paraamA = [naam, barcode]
@@ -103,6 +111,7 @@ class DataRepository:
                 params = [uitvoer['idproduct'], datum, verschil, aantal, 1]
                 return Database.execute_sql(sql, params)
 
+    @staticmethod
     def zoek_for_delete_by_barcode(barcode):
         sql1 = "SELECT idproduct FROM smartfridgeDB.Product WHERE barcode = %s;"
         param = [barcode]
@@ -112,21 +121,31 @@ class DataRepository:
         test = Database.get_one_row(sql2, id)
         return test
 
+    @staticmethod
     def delete_Product(id, datum):
         sql = "UPDATE smartfridgeDB.ProductAanwezig set aanwezig = 0,set aantal = 0 WHERe idProduct = %s and houdbaarheidsdatum = %s"
         param = [id, datum]
         return Database.execute_sql(sql, param)
 
+    @staticmethod
     def update_Product(verschil, id, datum):
         sql = "UPDATE smartfridgeDB.ProductAanwezig set aantal = %s WHERe idProduct = %s and houdbaarheidsdatum = %s"
         param = [verschil, id, datum]
         return Database.execute_sql(sql, param)
 
+    @staticmethod
     def zoekbyAanwezigId(id):
-        sql = "SELECT p.Naam, pa.idProduct, concat(pa.HoudbaarheidsDatum) as `HoudbaarheidsDatum`, pa.Aantal FROM smartfridgeDB.ProductAanwezig as pa join Product as p on pa.idProduct = p.idProduct where pa.idAanwezig = %s"
+        sql = "SELECT p.Naam,p.Barcode, pa.idProduct, concat(pa.HoudbaarheidsDatum) as `HoudbaarheidsDatum`, pa.Aantal FROM smartfridgeDB.ProductAanwezig as pa join Product as p on pa.idProduct = p.idProduct where pa.idAanwezig = %s"
         param = [id]
         return Database.get_one_row(sql, param)
 
-    def update_by_website_product(naam, datum, aantal):
-        sql = ""
-        param = []
+    @staticmethod
+    def update_by_website_product(aanwezigID, naam, datum, aantal, barcode, verschil):
+        sql = "SELECT p.Naam,p.Barcode, pa.idProduct FROM smartfridgeDB.ProductAanwezig as pa join Product as p on pa.idProduct = p.idProduct where pa.idAanwezig = %s"
+        param = [aanwezigID]
+        data = Database.get_one_row(sql, param)
+        print(data['idProduct'])
+        sql2 = "UPDATE smartfridgeDB.Product p  join smartfridgeDB.ProductAanwezig pa ON p.idproduct = pa.idProduct SET p.Naam = %s,pa.HoudbaarheidsDatum = %s,pa.aantal = %s,p.barcode = %s,pa.AantalDagenResterend = %s   where p.idProduct = %s and pa.idAanwezig = %s"
+        param2 = [naam, datum, aantal, barcode,
+                  verschil, data['idProduct'], aanwezigID]
+        Database.execute_sql(sql2, param2)

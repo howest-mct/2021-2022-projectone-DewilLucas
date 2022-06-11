@@ -42,9 +42,11 @@ const showEdit = function (json) {
   let htmlName = document.querySelector(".js-name");
   let htmlDate = document.querySelector(".js-datum");
   let htmlaantal = document.querySelector(".js-aantall");
+  let htmlbarcode = document.querySelector(".js-bar");
   htmlName.value= json.Naam;
   htmlDate.value = json.HoudbaarheidsDatum;
   htmlaantal.value = json.Aantal;
+  htmlbarcode.value = json.Barcode;
 }
 const showFood = function (json) {
   console.log(json);
@@ -172,9 +174,11 @@ const listenToSocket = function () {
         const jsonObj = {
           naam : document.querySelector(".js-name").value,
           datum : document.querySelector(".js-datum").value,
-          aantal : document.querySelector(".js-aantall").value
+          aantal : document.querySelector(".js-aantall").value,
+          barcode : document.querySelector(".js-bar").value
         };
         socket.emit("F2B_edit_product",jsonObj);
+        window.location.href = "index.html";
       });
     });
   }
