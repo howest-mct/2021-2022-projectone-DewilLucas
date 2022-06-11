@@ -353,7 +353,6 @@ def initial_connection():
 def edit(data):
     uitv = DataRepository.zoekbyAanwezigId(data)
     if uitv != None or uitv != -1:
-        print(uitv)
         socketio.emit("B2F_edit", uitv)
     else:
         print("Geen data gevonden")
@@ -376,6 +375,14 @@ def add(data):
         else:
             print("nieuwe product ingevoegd")
             socketio.emit("B2F_alAanwezig", voegtoe)
+    except Exception as ex:
+        print(ex)
+
+
+@socketio.on("F2B_edit_product")
+def update_product(data):
+    try:
+        update = DataRepository.update_by_website_product()
     except Exception as ex:
         print(ex)
 

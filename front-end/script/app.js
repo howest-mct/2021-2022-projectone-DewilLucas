@@ -26,7 +26,7 @@ const showHistory = function(json){
                 <th>DeviceID</th>
                 <th>Waarde</th>
                 <th>Tijdstip</th>`
-  htmlUitvoer += htmlHeader
+  htmlUitvoer += htmlHeader;
   for(let obj of json){
     htmlUitvoer +=`
     <tr>
@@ -167,6 +167,15 @@ const listenToSocket = function () {
         console.log(data);
         showEdit(data);
       }
+      const button = document.querySelector(".js-edit-button");
+      button.addEventListener("click",function(){
+        const jsonObj = {
+          naam : document.querySelector(".js-name").value,
+          datum : document.querySelector(".js-datum").value,
+          aantal : document.querySelector(".js-aantall").value
+        };
+        socket.emit("F2B_edit_product",jsonObj);
+      });
     });
   }
   

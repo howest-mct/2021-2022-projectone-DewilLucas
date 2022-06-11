@@ -126,3 +126,7 @@ class DataRepository:
         sql = "SELECT p.Naam, pa.idProduct, concat(pa.HoudbaarheidsDatum) as `HoudbaarheidsDatum`, pa.Aantal FROM smartfridgeDB.ProductAanwezig as pa join Product as p on pa.idProduct = p.idProduct where pa.idAanwezig = %s"
         param = [id]
         return Database.get_one_row(sql, param)
+
+    def update_by_website_product(naam, datum, aantal):
+        sql = ""
+        param = []
