@@ -100,6 +100,11 @@ const listenToUI = function(){
   }
   
 }
+const listenToLoad = function () {
+  window.addEventListener("load",function () {
+    document.querySelector(".js-loader").classList.add("c-loader--hidden");
+  });
+}
 const listenToChoiceDelete = function(){
   const buttonJa = document.querySelector(".js-ja");
   buttonJa.addEventListener("click",function(){
@@ -195,6 +200,8 @@ const listenToSocket = function () {
 // #endregion      
 // #region ***  Init / DOMContentLoaded                  ***********   
 const init = function () {
+  
+  listenToLoad();
   console.info("DOM geladen");
   htmlIndex = document.querySelector(".js-index");
   htmlHistory = document.querySelector(".js-history");

@@ -196,6 +196,49 @@ button {
 }
 
 /*
+    components : loader
+*/
+.c-loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    /*neem alles in*/
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #2B2E33;
+    transition: opacity 0.75s visibility 0.75s;
+    /*fading out*/
+}
+
+.c-loader::after {
+    content: "";
+    width: 75px;
+    height: 75px;
+    border: 15px solid #F7F6F2;
+    border-top-color: #FFC200;
+    border-radius: 50%;
+    animation: loading 0.75s ease infinite;
+}
+
+.c-loader--hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+@keyframes loading {
+    from {
+        transform: rotate(0turn);
+    }
+
+    to {
+        transform: rotate(1turn);
+    }
+}
+
+/*
     components : buttons
 */
 .c-button {
