@@ -63,7 +63,7 @@ const showFood = function (json) {
                 <h3 class="c-card--name">${obj.Naam}</h3>
               </div>
                 <div class="c-card__content">
-                <span class="c-card--date">${obj.houdbaarheidsdatum}</span> <span class="material-icons u-icons">notifications</span><a href="edit_product.html?idaanwezig=${obj.idAanwezig}"><span class="material-icons u-icons js-edit"data-id="${obj.idAanwezig}">edit</span></a><a href="delete.html?${obj.idAanwezig}"><span  class="material-icons u-icons js-delete">delete</span></a>
+                <span class="c-card--date">${obj.houdbaarheidsdatum}</span> <span class="material-icons u-icons">notifications</span><a href="edit_product.html?idaanwezig=${obj.idAanwezig}"><span class="material-icons u-icons js-edit"data-id="${obj.idAanwezig}">edit</span></a><a href="delete.html?idaanwezig=${obj.idAanwezig}"><span  class="material-icons u-icons js-delete">delete</span></a>
                 </div>
             </div>`;
   }
@@ -100,8 +100,14 @@ const listenToUI = function(){
   }
   
 }
-const listenToChoiceDelet = function(){
-  const buttonJa = document.querySelector("")
+const listenToChoiceDelete = function(){
+  const buttonJa = document.querySelector(".js-ja");
+  buttonJa.addEventListener("click",function(){
+    let urlParams = new URLSearchParams(window.location.search);
+    let get= urlParams.get("idaanwezig");
+    socket.emit("F2B_delete_product",get);
+    console.log("verwijderd");
+  })
 }
 const listenToInput = function(){
     let barcode = document.querySelector(".js-barcode-offline");
@@ -147,6 +153,9 @@ const listenToSocket = function () {
   socket.on("B2F_connected",function(json){
     showFood(json);
   });
+  socket.on("B2F_deleted",function(json){
+    console.log(json);
+  })
   }
 
   if(htmlHistory){

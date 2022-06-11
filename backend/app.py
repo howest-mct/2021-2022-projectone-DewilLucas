@@ -349,6 +349,13 @@ def initial_connection():
     # # Send to the client!
 
 
+@socketio.on("F2B_delete_product")
+def delete_product(id):
+    print("Start delete")
+    verwijder = DataRepository.delete_by_website(id)
+    socketio.emit("B2F_deleted", verwijder)
+
+
 @socketio.on('F2B_edit')
 def edit(data):
     global aanwezigID

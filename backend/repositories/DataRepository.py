@@ -148,4 +148,10 @@ class DataRepository:
         sql2 = "UPDATE smartfridgeDB.Product p  join smartfridgeDB.ProductAanwezig pa ON p.idproduct = pa.idProduct SET p.Naam = %s,pa.HoudbaarheidsDatum = %s,pa.aantal = %s,p.barcode = %s,pa.AantalDagenResterend = %s   where p.idProduct = %s and pa.idAanwezig = %s"
         param2 = [naam, datum, aantal, barcode,
                   verschil, data['idProduct'], aanwezigID]
-        Database.execute_sql(sql2, param2)
+        return Database.execute_sql(sql2, param2)
+
+    @staticmethod
+    def delete_by_website(id):
+        sql = "DELETE FROM  smartfridgeDB.ProductAanwezig WHERE idAanwezig = %s"
+        param = [id]
+        return Database.execute_sql(sql, param)
