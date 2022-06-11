@@ -106,7 +106,6 @@ const listenToChoiceDelete = function(){
     let urlParams = new URLSearchParams(window.location.search);
     let get= urlParams.get("idaanwezig");
     socket.emit("F2B_delete_product",get);
-    console.log("verwijderd");
   })
 }
 const listenToInput = function(){
@@ -207,7 +206,7 @@ const init = function () {
   if(htmlIndex){
     let urlParams = new URLSearchParams(window.location.search);
     let get= urlParams.get("del");
-    if (get != null || get != 'undefind') {
+    if (get != null || get != 'undefind' || get != 0) {
       console.log(get);
       console.log("product verwijderd");
     }
