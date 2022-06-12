@@ -23,7 +23,7 @@ class emailPy:
         self.body = f"Hi there! This are the product that expired today: "
         self.teller = 1
         for product in self.expired:
-            self.body += f"/n{self.teller}-{product['Naam']},{product['HoudbaarheidsDatum']}"
+            self.body += f"\n{self.teller}-{product['Naam']},{product['HoudbaarheidsDatum']}"
             self.teller += 1
         em.set_content(self.body)
         context = ssl.create_default_context()
