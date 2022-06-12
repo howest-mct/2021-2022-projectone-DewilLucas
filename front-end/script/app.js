@@ -16,6 +16,7 @@ let htmlLogin;
 let htmlloadlogin;
 let htmlloadAccount;
 let htmlAccount;
+let htmlLoadUpdatedAccount;
 // #endregion 
 // #region ***  Callback-Visualisation - show___         ***********      
 const showTemp = function (temp) {
@@ -266,6 +267,10 @@ const listenToSocket = function () {
     socket.on("B2F_account", function (data) {
       showAccount(data);
     });
+    socket.on("B2F_updated_user", function (data) {
+      console.log(data);
+      showAccount(data);
+    });
   }
 };
 
@@ -286,6 +291,7 @@ const init = function () {
   htmlloadlogin = document.querySelector(".js-tussen");
   htmlloadAccount = document.querySelector(".js-tussen-account");
   htmlAccount = document.querySelector(".js-account");
+  htmlLoadUpdatedAccount = document.querySelector(".js-update-account-load");
   if (htmlLogin) {
     listenToLogin();
   }

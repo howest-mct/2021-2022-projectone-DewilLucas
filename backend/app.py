@@ -392,7 +392,14 @@ def updateAccount(data):
         hash_object = hashlib.sha512(passwoordSalted.encode())
         hex_dig = hash_object.hexdigest()
         print(hex_dig)
-    DataRepository.update_user(id, naam, voornaam, email, hex_dig)
+
+    updateuser = DataRepository.update_user(
+        id, naam, voornaam, email, hex_dig)
+    if updateuser != -1:
+        user = updateuser
+        socketio.emit("B2F_updated_user", user)
+    else:
+        socketio.emit("B2F_updated_user", user)
 
 
 @socketio.on("F2B_delete_product")
