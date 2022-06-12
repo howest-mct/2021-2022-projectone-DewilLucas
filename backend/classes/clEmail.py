@@ -4,13 +4,14 @@ import smtplib
 # tutorial for how you do it : https://www.youtube.com/watch?v=g_j6ILT-X0k
 email = "smart.fridge.bot@gmail.com"  # put your chosen e-mail here
 passwd = "ixpthvqvkktgitgi"  # put your password here
-emailme = "lucas03dewil@gmail.com"
+emailme = "wout.blomme533@gmail.com"
 
 sub = "Expired dates!"
 em = EmailMessage()
 em['From'] = email
 em['To'] = emailme
 em['Subject'] = sub
+# lucas03dewil@gmail.com"
 
 
 class emailPy:
