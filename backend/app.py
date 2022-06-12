@@ -363,6 +363,21 @@ def initial_connection():
     # # Send to the client!
 
 
+@socketio.on("F2B_add_user")
+def add_user(data):
+    naam = data["naam"]
+    voornaam = data['voornaam']
+    email = data['email']
+    passwoordSalted = f"s@lt#{data['passwoord']}#tl@s"
+    hash_object = hashlib.sha512(passwoordSalted.encode())
+    hex_dig = hash_object.hexdigest()
+    voeg = DataRepository.add_user(naam, voornaam, email, hex_dig)
+    if voeg == -1:
+        pass
+    else:
+        print("succes!")
+
+
 @socketio.on("F2B_gebruiker")
 def connection(data):
     email = data['mail']

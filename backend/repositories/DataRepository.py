@@ -209,3 +209,13 @@ class DataRepository:
     @staticmethod
     def get_mails():
         pass
+
+    @staticmethod
+    def add_user(naam, voornaam, email, hex_dig):
+        try:
+            sql = "insert into smartfridgeDB.Gebruiker(Naam,voornaam,`E-mail`,Passwoord) values(%s,%s,%s,%s)"
+            params = [naam, voornaam, email, hex_dig]
+            add = Database.execute_sql(sql, params)
+            return add
+        except Exception as ex:
+            return -1

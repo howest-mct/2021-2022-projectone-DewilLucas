@@ -17,6 +17,7 @@ let htmlloadlogin;
 let htmlloadAccount;
 let htmlAccount;
 let htmlLoadUpdatedAccount;
+let htmlCreateAccount;
 // #endregion 
 // #region ***  Callback-Visualisation - show___         ***********      
 const showTemp = function (temp) {
@@ -78,7 +79,7 @@ const showFood = function (json) {
 const showAccount = function (json) {
   let admin = document.querySelector(".js-admin");
   if (json.idgebruiker == 1) {
-    admin.innerHTML = `<div class="c-form__item"><a href="createAccount.html">create</a></div>`;
+    admin.innerHTML = `<div class="c-form__item"><a href="createAccount.html?id=1">create</a></div>`;
   }
   let naam = document.querySelector(".js-first").value = json.Naam;
   let voornaam = document.querySelector(".js-last").value = json.voornaam;
@@ -117,6 +118,21 @@ const listenToUI = function () {
     }
   }
 
+};
+const listenToAddUser = function () {
+  const button = document.querySelector(".js-add-user-button");
+  button.addEventListener("click", function () {
+    let user = document.querySelector(".js-first").value;
+    let voornaamU = document.querySelector(".js-last").value;
+    let emailU = document.querySelector(".js-e-mail").value;
+    let passwoordU = document.querySelector(".js-pass-user").value;
+    socket.emit("F2B_add_user", {
+      naam: user,
+      voornaam: voornaamU,
+      email: emailU,
+      passwoord: passwoordU
+    });
+  });
 };
 const listenToUpdateUser = function (json) {
   const button = document.querySelector(".js-update-user-button");
@@ -296,6 +312,7 @@ const init = function () {
   htmlloadAccount = document.querySelector(".js-tussen-account");
   htmlAccount = document.querySelector(".js-account");
   htmlLoadUpdatedAccount = document.querySelector(".js-update-account-load");
+  htmlCreateAccount = document.querySelector(".js-create-account");
   if (htmlLogin) {
     listenToLogin();
   }
@@ -327,6 +344,16 @@ const init = function () {
   }
   if (htmlDeletePage) {
     listenToChoiceDelete();
+  }
+  if (htmlCreateAccount) {
+    let urlParams = new URLSearchParams(window.location.search);
+    let get = urlParams.get("id");
+    if (get == null || get != 1) {
+      window.location.href = "index.html?gevonden=0";
+    }
+    else {
+      listenToAddUser();
+    }
   }
   listenToSocket();
 };
