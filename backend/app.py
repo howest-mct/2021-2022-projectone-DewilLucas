@@ -375,6 +375,26 @@ def showAccount(data):
         socketio.emit("B2F_account", user)
 
 
+@socketio.on("F2B_update_user")
+def updateAccount(data):
+    print(data)
+    id = data['id']
+    naam = data["naam"]
+    voornaam = data['voornaam']
+    email = data['email']
+    hex_dig = ""
+    print(user)
+    if user['Passwoord'] == data['passwoord']:
+        hex_dig = user['Passwoord']
+        print(hex_dig)
+    else:
+        passwoordSalted = f"s@lt#{data['passwoord']}#tl@s"
+        hash_object = hashlib.sha512(passwoordSalted.encode())
+        hex_dig = hash_object.hexdigest()
+        print(hex_dig)
+    DataRepository.update_user(id, naam, voornaam, email, hex_dig)
+
+
 @socketio.on("F2B_delete_product")
 def delete_product(id):
     print("Start delete")

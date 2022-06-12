@@ -126,6 +126,7 @@ const listenToUpdateUser = function (json) {
       console.log(passwoordU);
     }
     socket.emit("F2B_update_user", {
+      id: json.idgebruiker,
       naam: naamU,
       voornaam: voornaamU,
       email: emailU,
