@@ -81,6 +81,7 @@ const showAccount = function (json) {
   if (naam == undefined || voornaam == undefined || email == undefined) {
     window.location.href = "index.html?gevonden=0";
   }
+  listenToUpdateUser(json);
 };
 // #endregion 
 
@@ -112,7 +113,26 @@ const listenToUI = function () {
   }
 
 };
-
+const listenToUpdateUser = function (json) {
+  const button = document.querySelector(".js-update-user-button");
+  button.addEventListener("click", function () {
+    let naamU = document.querySelector(".js-first").value;
+    let voornaamU = document.querySelector(".js-last").value;
+    let emailU = document.querySelector(".js-e-mail").value;
+    let passwoordU = document.querySelector(".js-pass-user").value;
+    console.log(passwoordU);
+    if (passwoordU == "") {
+      passwoordU = json.Passwoord;
+      console.log(passwoordU);
+    }
+    socket.emit("F2B_update_user", {
+      naam: naamU,
+      voornaam: voornaamU,
+      email: emailU,
+      passwoord: passwoordU
+    });
+  });
+};
 const listenToLogin = function () {
   const button = document.querySelector(".js-login-button");
   button.addEventListener("click", function () {
