@@ -1,6 +1,9 @@
 from .Database import Database
 from datetime import datetime
 import random
+from datetime import datetime
+from datetime import date
+datumVandaag = datetime.today()
 
 
 class DataRepository:
@@ -180,3 +183,16 @@ class DataRepository:
         except Exception as ex:
             print(ex)
             return -1
+
+    @staticmethod
+    def updateDatums():
+        sqlZoekalles = "SELECT idAanwezig,concat(HoudbaarheidsDatum) as HoudbaarheidsDatum from  smartfridgeDB.ProductAanwezig"
+        alleDatums = Database.get_rows(sqlZoekalles)
+        for datum in alleDatums:
+            id = datum['idAanwezig']
+            gevonden = datetime.strptime(
+                datum['HoudbaarheidsDatum'], '%Y-%m-%d')
+            verschil = gevonden - datumVandaag
+            sql = "UPDATE smartfridgeDB.ProductAanwezig SET AantalDagenResterend=%s where idAanwezig = %s"
+            param = [int(verschil.days), id]
+            Database.execute_sql(sql, param)

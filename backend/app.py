@@ -18,6 +18,7 @@ import random
 from datetime import datetime
 from datetime import date
 import hashlib
+from classes.clEmail import emailPy
 # from selenium import webdriver
 # from selenium.webdriver.chrome.options import Options
 
@@ -34,6 +35,7 @@ lcd = Lcd(E, RS, lcdPins)
 oled = OLED(128, 64, 5)
 lees = TemperatuurClass(temperatuurSensor)
 user = -1
+datumVandaag = date.today()
 # Code voor Hardware
 
 
@@ -347,6 +349,7 @@ def initial_connection():
     print('A new client connect')
     data = DataRepository.geef_alle_producten()
     socketio.emit("B2F_connected", data)
+    DataRepository.updateDatums()
     # # Send to the client!
 
 
