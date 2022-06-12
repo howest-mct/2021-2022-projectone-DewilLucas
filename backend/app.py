@@ -621,7 +621,6 @@ if __name__ == '__main__':
         start_chrome_thread()
         print("**** Starting APP ****")
         socketio.run(app, debug=False, host='0.0.0.0')
-
     except KeyboardInterrupt:
         print('KeyboardInterrupt exception is caught')
     finally:

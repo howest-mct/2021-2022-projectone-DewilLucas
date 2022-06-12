@@ -76,6 +76,10 @@ const showFood = function (json) {
   listenToUI();
 };
 const showAccount = function (json) {
+  let admin = document.querySelector(".js-admin");
+  if (json.idgebruiker == 1) {
+    admin.innerHTML = `<div class="c-form__item"><a href="createAccount.html">create</a></div>`;
+  }
   let naam = document.querySelector(".js-first").value = json.Naam;
   let voornaam = document.querySelector(".js-last").value = json.voornaam;
   let email = document.querySelector(".js-e-mail").value = json['E-mail'];

@@ -205,3 +205,7 @@ class DataRepository:
         for product in over:
             lstOverDatum.append(product)
         return lstOverDatum
+
+    @staticmethod
+    def get_mails():
+        pass
