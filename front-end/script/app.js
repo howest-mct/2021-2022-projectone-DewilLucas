@@ -18,6 +18,7 @@ let htmlloadAccount;
 let htmlAccount;
 let htmlLoadUpdatedAccount;
 let htmlCreateAccount;
+let htmlloadDeleteAccount;
 // #endregion 
 // #region ***  Callback-Visualisation - show___         ***********      
 const showTemp = function (temp) {
@@ -265,6 +266,18 @@ const listenToSocket = function () {
       });
     });
   }
+  if (htmlloadDeleteAccount) {
+    socket.emit("F2B_loadPage", 1);
+    socket.on("B2F_user_delete", function (data) {
+      if (data == -1) {
+        window.location.href = "index.html?gevonden=0";
+      }
+      else {
+        window.location.href = "index.html?gevonden=0";
+      }
+    });
+
+  }
   if (htmlloadlogin) {
     socket.emit("F2B_loadPage", 1);
     socket.on("B2F_user", function (data) {
@@ -319,6 +332,7 @@ const init = function () {
   htmlAccount = document.querySelector(".js-account");
   htmlLoadUpdatedAccount = document.querySelector(".js-update-account-load");
   htmlCreateAccount = document.querySelector(".js-create-account");
+  htmlloadDeleteAccount = document.querySelector(".js-delete-account-load");
   if (htmlLogin) {
     listenToLogin();
   }
