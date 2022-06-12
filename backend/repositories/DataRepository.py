@@ -155,3 +155,17 @@ class DataRepository:
         sql = "DELETE FROM  smartfridgeDB.ProductAanwezig WHERE idAanwezig = %s"
         param = [id]
         return Database.execute_sql(sql, param)
+
+    @staticmethod
+    def user_login(mail, passwoord):
+        sql = "SELECT idgebruiker,Naam,voornaam,`E-mail`,Passwoord, concat(LaatsteLog) FROM smartfridgeDB.Gebruiker WHERE `E-mail` = %s and Passwoord = %s;"
+        param = [mail, passwoord]
+        try:
+            zoek = Database.get_one_row(sql, param)
+            updateSql = "UPDATE smartfridgeDB.Gebruiker  SET LaatsteLog = now() WHERE `E-mail` = %s and Passwoord = %s"
+            param2 = [mail, passwoord]
+            Database.execute_sql(updateSql, param2)
+            return zoek
+        except Exception as ex:
+            print("Gebruiker niet gevonden")
+            return -1

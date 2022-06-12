@@ -12,6 +12,8 @@ let htmlOff;
 let htmlEditPro;
 let htmlDelete;
 let htmlDeletePage;
+let htmlLogin;
+let htmlloadlogin;
 // #endregion 
 // #region ***  Callback-Visualisation - show___         ***********      
 const showTemp = function(temp) {
@@ -99,6 +101,15 @@ const listenToUI = function(){
     }
   }
   
+}
+
+const listenToLogin = function(){
+  const button = document.querySelector(".js-login-button");
+  button.addEventListener("click",function () {
+    socket.emit("F2B_gebruiker",{mail : document.querySelector(".js-email").value,
+  passwoord : document.querySelector(".js-passwoord").value});
+  })
+  listenToSocket();
 }
 const listenToLoad = function () {
   window.addEventListener("load",function () {
@@ -194,6 +205,18 @@ const listenToSocket = function () {
       });
     });
   }
+    if(htmlloadlogin){
+      socket.emit("F2B_loadPage",1)
+      socket.on("B2F_user",function(data){
+        if(data == -1){
+          window.location.href = "index.html?gevonden=0"
+        }
+        else{
+          window.location.href = `home.html?${data.voornaam}`
+        }
+      })
+    }
+  
   
 }
 
@@ -210,6 +233,11 @@ const init = function () {
   htmlOff = document.querySelector(".js-offline");
   htmlEditPro = document.querySelector(".js-edit_pro");
   htmlDeletePage = document.querySelector(".js-delete-page");
+  htmlLogin = document.querySelector(".js-login");
+  htmlloadlogin = document.querySelector(".js-tussen");
+  if(htmlLogin){
+    listenToLogin();
+  }
   if(htmlIndex){
     let urlParams = new URLSearchParams(window.location.search);
     let get= urlParams.get("del");

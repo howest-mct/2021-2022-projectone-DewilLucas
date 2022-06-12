@@ -6,7 +6,7 @@ from subprocess import check_output
 import os
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit, send
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template, redirect
 from repositories.DataRepository import DataRepository
 from classes.mpuClass import MPU6050
 from classes.keypadClass import clKeypad
@@ -33,6 +33,7 @@ RS = 21
 lcd = Lcd(E, RS, lcdPins)
 oled = OLED(128, 64, 5)
 lees = TemperatuurClass(temperatuurSensor)
+user = -1
 # Code voor Hardware
 
 
@@ -338,7 +339,7 @@ def get_histo():
 
 @ app.route('/')
 def hallo():
-    return "Server is running, er zijn momenteel geen API endpoints beschikbaar."
+    return render_template("index.html")
 
 
 @ socketio.on('connect')
@@ -347,6 +348,25 @@ def initial_connection():
     data = DataRepository.geef_alle_producten()
     socketio.emit("B2F_connected", data)
     # # Send to the client!
+
+
+@socketio.on("F2B_gebruiker")
+def connection(data):
+    email = data['mail']
+    passwoordSalted = f"s@lt#{data['passwoord']}#tl@s"
+    hash_object = hashlib.sha512(passwoordSalted.encode())
+    hex_dig = hash_object.hexdigest()
+    login = DataRepository.user_login(email, hex_dig)
+    print(login)
+    global user
+    user = login
+
+
+@socketio.on("F2B_loadPage")
+def loadpage(data):
+    print(data)
+    if data == 1:
+        socketio.emit("B2F_user", user)
 
 
 @socketio.on("F2B_delete_product")
