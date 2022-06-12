@@ -174,5 +174,9 @@ class DataRepository:
     def update_user(id, naam, voornaam, email, pwd):
         sql = "UPDATE smartfridgeDB.Gebruiker SET Naam = %s,voornaam = %s,`E-mail`=%s,Passwoord = %s WHERE idgebruiker = %s"
         param = [naam, voornaam, email, pwd, id]
-        up = Database.execute_sql(sql, param)
-        print(up)
+        try:
+            up = Database.execute_sql(sql, param)
+            return up
+        except Exception as ex:
+            print(ex)
+            return -1
