@@ -196,3 +196,12 @@ class DataRepository:
             sql = "UPDATE smartfridgeDB.ProductAanwezig SET AantalDagenResterend=%s where idAanwezig = %s"
             param = [int(verschil.days), id]
             Database.execute_sql(sql, param)
+
+    @staticmethod
+    def geefOverdatums():
+        lstOverDatum = []
+        sql = "SELECT idAanwezig, concat(HoudbaarheidsDatum) as HoudbaarheidsDatum from smartfridgeDB.ProductAanwezig WHERE AantalDagenResterend <=0"
+        over = Database.get_rows(sql)
+        for product in over:
+            lstOverDatum.append(product)
+            print(product)

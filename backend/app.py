@@ -55,12 +55,12 @@ def pushed(knop):
 
 
 def reboot():
-    while True:
-        if datumVandaag.hour == 00 and datumVandaag.minute == 00 and datumVandaag.second == 00:
-            print("UPDATE")
-            time.sleep(5)
-            os.system("sudo reboot -h now")
-            sys.exit()
+    if datumVandaag.hour == 00 and datumVandaag.minute == 00 and datumVandaag.second == 00:
+        print("UPDATE")
+        time.sleep(5)
+        DataRepository.updateDatums()
+    else:
+        time.sleep(1)
 
 
 def geefAantal():
@@ -358,7 +358,8 @@ def initial_connection():
     print('A new client connect')
     data = DataRepository.geef_alle_producten()
     socketio.emit("B2F_connected", data)
-    DataRepository.updateDatums()
+    # DataRepository.updateDatums()
+    DataRepository.geefOverdatums()
     # # Send to the client!
 
 
@@ -493,7 +494,7 @@ def start_thread():
         hist_thread()
         barcode_thread()
         MPU_thread()
-        reboot()
+        update_thread()
     except Exception as ex:
         print(ex)
 
@@ -529,6 +530,15 @@ def lcd_thread():
     print("**** LCD DISPLAY ****")
     try:
         thread = threading.Thread(target=schrijfLCD, args=(), daemon=True)
+        thread.start()
+    except Exception as ex:
+        print(ex)
+
+
+def update_thread():
+    print("**** UPDATE THREAD ****")
+    try:
+        thread = threading.Thread(target=reboot, args=(), daemon=True)
         thread.start()
     except Exception as ex:
         print(ex)
@@ -603,6 +613,8 @@ def start_chrome_thread():
 if __name__ == '__main__':
     try:
         temp = TemperatuurClass(temperatuurSensor)
+        DataRepository.updateDatums()
+        DataRepository.geefOverdatums()
         setup_gpio()
         start_thread()
         start_chrome_thread()
