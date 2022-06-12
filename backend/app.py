@@ -369,6 +369,12 @@ def loadpage(data):
         socketio.emit("B2F_user", user)
 
 
+@socketio.on("F2B_account")
+def showAccount(data):
+    if data == 1:
+        socketio.emit("B2F_account", user)
+
+
 @socketio.on("F2B_delete_product")
 def delete_product(id):
     print("Start delete")

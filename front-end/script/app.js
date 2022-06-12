@@ -2,7 +2,7 @@
 const lanIP = `${window.location.hostname}:5000`;
 const socket = io(`http://${lanIP}`);
 // #region ***  DOM references   ***********
-let htmlIndex,htmlHistory;
+let htmlIndex, htmlHistory;
 let htmlCards;
 let htmlSingleCard;
 let htmlImgContainer;
@@ -14,14 +14,16 @@ let htmlDelete;
 let htmlDeletePage;
 let htmlLogin;
 let htmlloadlogin;
+let htmlloadAccount;
+let htmlAccount;
 // #endregion 
 // #region ***  Callback-Visualisation - show___         ***********      
-const showTemp = function(temp) {
+const showTemp = function (temp) {
   let htmlTemp = document.querySelector(".js-temperatuur");
   let htmlUitvoer = `Huidige temperatuur: ${temp}`;
   htmlTemp.innerHTML = htmlUitvoer;
-}
-const showHistory = function(json){
+};
+const showHistory = function (json) {
   console.log(json);
   let htmldata = document.querySelector(".js-table");
   let htmlHeader = ``;
@@ -29,10 +31,10 @@ const showHistory = function(json){
   htmlHeader = `<th>idmeting</th>
                 <th>DeviceID</th>
                 <th>Waarde</th>
-                <th>Tijdstip</th>`
+                <th>Tijdstip</th>`;
   htmlUitvoer += htmlHeader;
-  for(let obj of json){
-    htmlUitvoer +=`
+  for (let obj of json) {
+    htmlUitvoer += `
     <tr>
             <td>${obj.idMeting}</td>
             <td>${obj.DeviceID}</td>
@@ -41,23 +43,23 @@ const showHistory = function(json){
     </tr>`;
   }
   htmldata.innerHTML = htmlUitvoer;
-}
+};
 const showEdit = function (json) {
   let htmlName = document.querySelector(".js-name");
   let htmlDate = document.querySelector(".js-datum");
   let htmlaantal = document.querySelector(".js-aantall");
   let htmlbarcode = document.querySelector(".js-bar");
-  htmlName.value= json.Naam;
+  htmlName.value = json.Naam;
   htmlDate.value = json.HoudbaarheidsDatum;
   htmlaantal.value = json.Aantal;
   htmlbarcode.value = json.Barcode;
-}
+};
 const showFood = function (json) {
   console.log(json);
-  
+
   let htmlUitvoer = ``;
 
-  for(let obj of json){
+  for (let obj of json) {
     htmlUitvoer += `<div class="c-card js-card">
               <div class="c-card__image-container js-img-card" data-id="${obj.idAanwezig}">
                 <a href="edit_product.html?idaanwezig=${obj.idAanwezig}"><img src="https://fakeimg.pl/400x300/f1db26/000/" alt="${obj.Naam}" class="c-card__img">
@@ -71,159 +73,185 @@ const showFood = function (json) {
   }
   htmlCards.innerHTML = htmlUitvoer;
   listenToUI();
-}
+};
+const showAccount = function (json) {
+  let naam = document.querySelector(".js-first").value = json.Naam;
+  let voornaam = document.querySelector(".js-last").value = json.voornaam;
+  let email = document.querySelector(".js-e-mail").value = json['E-mail'];
+  if (naam == undefined || voornaam == undefined || email == undefined) {
+    window.location.href = "index.html?gevonden=0";
+  }
+};
 // #endregion 
 
 // #region ***  Callback-No Visualisation - callback___  ***********
 const callbackWindow = function () {
   window.location.href = "history.html";
-}
+};
 // #endregion
 
 // #region ***  Data Access - get___                     ***********
-const getrain = function(){
+const getrain = function () {
   let urlParams = new URLSearchParams(window.location.search);
-  let get= urlParams.get("idaanwezig");
-  socket.emit("F2B_edit",get);
+  let get = urlParams.get("idaanwezig");
+  socket.emit("F2B_edit", get);
   listenToSocket();
-}
+};
 // #endregion 
 
 // #region ***  Event Listeners - listenTo___            ***********     
 
-const listenToUI = function(){
-  if(htmlIndex){
+const listenToUI = function () {
+  if (htmlIndex) {
     htmlDelete = document.querySelectorAll(".js-delete");
-    for(let obj of htmlDelete){
-      obj.addEventListener("click",function(){
+    for (let obj of htmlDelete) {
+      obj.addEventListener("click", function () {
         console.log(obj.getAttribute("data-id"));
       });
     }
   }
-  
-}
 
-const listenToLogin = function(){
+};
+
+const listenToLogin = function () {
   const button = document.querySelector(".js-login-button");
-  button.addEventListener("click",function () {
-    socket.emit("F2B_gebruiker",{mail : document.querySelector(".js-email").value,
-  passwoord : document.querySelector(".js-passwoord").value});
-  })
+  button.addEventListener("click", function () {
+    socket.emit("F2B_gebruiker", {
+      mail: document.querySelector(".js-email").value,
+      passwoord: document.querySelector(".js-passwoord").value
+    });
+  });
   listenToSocket();
-}
+};
 const listenToLoad = function () {
-  window.addEventListener("load",function () {
+  window.addEventListener("load", function () {
     document.querySelector(".js-loader").classList.add("c-loader--hidden");
   });
-}
-const listenToChoiceDelete = function(){
+};
+const listenToChoiceDelete = function () {
   const buttonJa = document.querySelector(".js-ja");
-  buttonJa.addEventListener("click",function(){
+  buttonJa.addEventListener("click", function () {
     let urlParams = new URLSearchParams(window.location.search);
-    let get= urlParams.get("idaanwezig");
-    socket.emit("F2B_delete_product",get);
+    let get = urlParams.get("idaanwezig");
+    socket.emit("F2B_delete_product", get);
   });
-}
-const listenToInput = function(){
-    let barcode = document.querySelector(".js-barcode-offline");
-    barcode.focus();
-    if (barcode.value.length != 13) {
-      barcode.addEventListener("input",function () {
+};
+const listenToInput = function () {
+  let barcode = document.querySelector(".js-barcode-offline");
+  barcode.focus();
+  if (barcode.value.length != 13) {
+    barcode.addEventListener("input", function () {
       console.log("invoer");
-      socket.emit("F2B_barcode",barcode.value);
+      socket.emit("F2B_barcode", barcode.value);
     });
-    }
-}
-const listenToAdd = function(){
-    const htmlButton = document.querySelector(".js-add-button");
-    htmlButton.addEventListener("click",function(){
-      console.log("toevoegen van nieuwe product");
-      const jsonObj = {
-        naam : document.querySelector(".js-naam").value,
-        datum : document.querySelector(".js-date").value,
-        aantal : document.querySelector(".js-aantal").value,
-        barcode : document.querySelector(".js-barcode").value
-      };
-      console.log(jsonObj);
-      socket.emit("F2B_add-product",jsonObj);
-    })
-}
-const listenToSocket = function () {
-  if(htmlAdd){
-    socket.on("B2F_alAanwezig",function (json) {
-      console.log(json);
-    })
   }
-  if(htmlIndex){
+};
+const listenToAdd = function () {
+  const htmlButton = document.querySelector(".js-add-button");
+  htmlButton.addEventListener("click", function () {
+    console.log("toevoegen van nieuwe product");
+    const jsonObj = {
+      naam: document.querySelector(".js-naam").value,
+      datum: document.querySelector(".js-date").value,
+      aantal: document.querySelector(".js-aantal").value,
+      barcode: document.querySelector(".js-barcode").value
+    };
+    console.log(jsonObj);
+    socket.emit("F2B_add-product", jsonObj);
+  });
+};
+const listenToSocket = function () {
+  if (htmlAdd) {
+    socket.on("B2F_alAanwezig", function (json) {
+      console.log(json);
+    });
+  }
+  if (htmlIndex) {
     socket.on("connect", function () {
-    console.log("verbonden met socket");
-  });
-  socket.on("B2F_temperatuur",function (json) {
-    let temp = `${json.temperatuur.waarde}°C`;
-    console.log(
-      `huidige temperatuur : ${temp}`
-    );
-    showTemp(temp);
-  });
-  socket.on("B2F_connected",function(json){
-    showFood(json);
-  });
-  socket.on("B2F_deleted",function(json){
-    console.log(json);
-  })
+      console.log("verbonden met socket");
+    });
+    socket.on("B2F_temperatuur", function (json) {
+      let temp = `${json.temperatuur.waarde}°C`;
+      console.log(
+        `huidige temperatuur : ${temp}`
+      );
+      showTemp(temp);
+    });
+    socket.on("B2F_connected", function (json) {
+      showFood(json);
+    });
+    socket.on("B2F_deleted", function (json) {
+      console.log(json);
+    });
   }
 
-  if(htmlHistory){
+  if (htmlHistory) {
     socket.on("connect", function () {
-    console.log("verbonden met socket");
-  });
+      console.log("verbonden met socket");
+    });
     console.log("listen B2F_history");
     socket.on("B2F_history", (data) => {
       showHistory(data);
-    })
+    });
   }
-  if(htmlEditPro){
-    socket.on("B2F_edit",function(data){
+  if (htmlEditPro) {
+    socket.on("B2F_edit", function (data) {
       console.log(data);
-      if(data == -1){
+      if (data == -1) {
         console.log("niet gevonden");
       }
-      else{
+      else {
         console.log(data);
         showEdit(data);
       }
       const button = document.querySelector(".js-edit-button");
-      button.addEventListener("click",function(){
+      button.addEventListener("click", function () {
         const jsonObj = {
-          naam : document.querySelector(".js-name").value,
-          datum : document.querySelector(".js-datum").value,
-          aantal : document.querySelector(".js-aantall").value,
-          barcode : document.querySelector(".js-bar").value
+          naam: document.querySelector(".js-name").value,
+          datum: document.querySelector(".js-datum").value,
+          aantal: document.querySelector(".js-aantall").value,
+          barcode: document.querySelector(".js-bar").value
         };
-        socket.emit("F2B_edit_product",jsonObj);
+        socket.emit("F2B_edit_product", jsonObj);
         window.location.href = "index.html";
       });
     });
   }
-    if(htmlloadlogin){
-      socket.emit("F2B_loadPage",1)
-      socket.on("B2F_user",function(data){
-        if(data == -1){
-          window.location.href = "index.html?gevonden=0"
-        }
-        else{
-          window.location.href = `home.html?name=${data.voornaam}`
-        }
-      })
-    }
-  
-  
-}
+  if (htmlloadlogin) {
+    socket.emit("F2B_loadPage", 1);
+    socket.on("B2F_user", function (data) {
+      if (data == -1) {
+        window.location.href = "index.html?gevonden=0";
+      }
+      else {
+        window.location.href = `home.html?name=${data.voornaam}`;
+      }
+    });
+  }
+  if (htmlloadAccount) {
+    socket.emit("F2B_account", 1);
+    socket.on("B2F_account", function (data) {
+      console.log(data);
+      if (data == -1) {
+        window.location.href = "index.html?gevonden=0";
+      }
+      else {
+        window.location.href = `account.html?idgebruiker=${data['idgebruiker']}`;
+      }
+    });
+  }
+  if (htmlAccount) {
+    socket.emit("F2B_account", 1);
+    socket.on("B2F_account", function (data) {
+      showAccount(data);
+    });
+  }
+};
 
 // #endregion      
 // #region ***  Init / DOMContentLoaded                  ***********   
 const init = function () {
-  
+
   listenToLoad();
   console.info("DOM geladen");
   htmlIndex = document.querySelector(".js-index");
@@ -235,14 +263,16 @@ const init = function () {
   htmlDeletePage = document.querySelector(".js-delete-page");
   htmlLogin = document.querySelector(".js-login");
   htmlloadlogin = document.querySelector(".js-tussen");
-  if(htmlLogin){
+  htmlloadAccount = document.querySelector(".js-tussen-account");
+  htmlAccount = document.querySelector(".js-account");
+  if (htmlLogin) {
     listenToLogin();
   }
-  if(htmlIndex){
+  if (htmlIndex) {
     let loginParam = new URLSearchParams(window.location.search);
     let getUser = loginParam.get("name");
     let urlParams = new URLSearchParams(window.location.search);
-    let get= urlParams.get("del");
+    let get = urlParams.get("del");
     let urlParam2 = new URLSearchParams(window.location.search);
     let getEdit = urlParam2.get("edit");
     let getAdd = new URLSearchParams(window.location.search);
@@ -251,24 +281,23 @@ const init = function () {
       console.log(get);
       console.log("product verwijderd");
     }
-    if(getUser == null && get == null && getEdit == null && add == null){
-      window.location.href = "index.html"
+    if (getUser == null && get == null && getEdit == null && add == null) {
+      window.location.href = "index.html";
     }
-    
   }
   if (htmlOff) {
     listenToInput();
   }
-  if(htmlAdd){
+  if (htmlAdd) {
     listenToAdd();
   }
-  if(htmlEditPro){
+  if (htmlEditPro) {
     getrain();
   }
-  if(htmlDeletePage){
+  if (htmlDeletePage) {
     listenToChoiceDelete();
   }
   listenToSocket();
-}
+};
 document.addEventListener("DOMContentLoaded", init);
 // #endregion

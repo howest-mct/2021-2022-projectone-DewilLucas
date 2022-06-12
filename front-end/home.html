@@ -1,101 +1,113 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smartfridge</title>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet">
-    <link rel="stylesheet" href="https://use.typekit.net/buv0ixq.css">
-    <link rel="stylesheet" href="style/screen.css" />
-    <script src="https://cdn.socket.io/4.0.1/socket.io.min.js" integrity="sha384-LzhRnpGmQP+lOvWruF/lgkcqD+WDVt9fU3H4BWmwP5u5LTmkUGafMcpZKNObVMLU" crossorigin="anonymous"></script>
-    <script src="script/datahandler.js"></script>
-    <script src="script/app.js"></script>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smartfridge</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.typekit.net/buv0ixq.css">
+  <link rel="stylesheet" href="style/screen.css" />
+  <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"
+    integrity="sha384-LzhRnpGmQP+lOvWruF/lgkcqD+WDVt9fU3H4BWmwP5u5LTmkUGafMcpZKNObVMLU"
+    crossorigin="anonymous"></script>
+  <script src="script/datahandler.js"></script>
+  <script src="script/app.js"></script>
 </head>
+
 <body class="js-index">
   <div class="c-loader js-loader"></div>
-    <header class="o-row">
-        <div class="o-container">
-            <div class="floatingbtn">
-            <a href="add_product.html">+</a>
-        </div>
-        
-        <div class="c-header">
-             <div class="c-header__nav">
-            <nav class="c-nav">
-              <ul class="o-list c-nav__list">
-                <li class="c-nav__item">
-                  <a class="c-nav__link is-selected" href="#!">Home</a>
-                </li>
-                <li class="c-nav__item">
-                  <a class="c-nav__link" href="#!">account</a>
-                </li>
-                <li class="c-nav__item">
-                  <a class="c-nav__link" href="#!">shopping lists</a>
-                </li>
-                <p>
-                  <a class="c-link-cta" href="history.html">history</a>
-                </p>
-              </ul>
-            </nav>
-          </div>
-        </div>
-        </div>
-        
-    </header>
+  <header class="o-row">
     <div class="o-container">
-      <p class="js-temperatuur"></p>
-      <div class="c-edit-product js-edit">
-            <div class="c-popup">
-              <h1>hey</h1>
-              <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. At veritatis, voluptas perferendis reprehenderit fugiat libero quos ducimus illum laudantium. Enim deleniti minus tempora reiciendis ipsam natus iusto impedit eaque et.</p>
-              <button id="save">Save</button>
-            </div>
-        </div>
-        <div class="c-cards js-cards">
-            <div class="c-card js-card"  >
-              <div class="c-card__image-container js-img-card"data-id="1">
-                <img src="https://fakeimg.pl/400x300/f1db26/000/" alt="" class="c-card__img">
-                <h3 class="c-card--name">aard</h3>
-              </div>
-                <div class="c-card__content">
-                <p><span class="c-card--date">02-03-2001</span> <span class="material-icons u-icons">notifications</span><span class="material-icons u-icons js-edit"data-id="1">edit</span><span class="material-icons u-icons">delete</span></p>
-                </div>
-            </div>
-            <div class="c-card js-card"  >
-              <div class="c-card__image-container js-img-card" data-id="1">
-                <img src="https://fakeimg.pl/400x300/f1db26/000/" alt="" class="c-card__img">
-                <h3 class="c-card--name">aard</h3>
-              </div>
-                <div class="c-card__content">
-                <p><span class="c-card--date">02-03-2001</span> <span class="material-icons u-icons">notifications</span><a href="#"><span class="material-icons u-icons js-edit">edit</span></a><span class="material-icons u-icons">delete</span></p>
-                </div>
-            </div>
-            <div class="c-card" >
-              <div class="c-card__image-container js-img-card" data-id="1">
-                <img src="https://fakeimg.pl/400x300/f1db26/000/" alt="" class="c-card__img">
-                <h3 class="c-card--name">aard</h3>
-              </div>
-                <div class="c-card__content">
-                <p><span class="c-card--date">02-03-2001</span> <span class="material-icons u-icons">notifications</span><span class="material-icons u-icons">edit</span><span class="material-icons u-icons">delete</span></p>
-                </div>
-            </div>
-            <div class="c-card"  >
-              <div class="c-card__image-container js-img-card" data-id="1">
-                <img src="https://fakeimg.pl/400x300/f1db26/000/" alt="" class="c-card__img">
-                <h3 class="c-card--name">aard</h3>
-              </div>
-                <div class="c-card__content">
-                <p><span class="c-card--date">02-03-2001</span> <span class="material-icons u-icons">notifications</span><span class="material-icons u-icons">edit</span><span class="material-icons u-icons">delete</span></p>
-                </div>
-            </div>
-          </div>
-            
-        </div>
-        
-    
+      <div class="floatingbtn">
+        <a href="add_product.html">+</a>
+      </div>
 
+      <div class="c-header">
+        <div class="c-header__nav">
+          <nav class="c-nav">
+            <ul class="o-list c-nav__list">
+              <li class="c-nav__item">
+                <a class="c-nav__link is-selected" href="#!">Home</a>
+              </li>
+              <li class="c-nav__item">
+                <a class="c-nav__link" href="loadAccount.html">account</a>
+              </li>
+              <li class="c-nav__item">
+                <a class="c-nav__link" href="#!">shopping lists</a>
+              </li>
+              <p>
+                <a class="c-link-cta" href="history.html">history</a>
+              </p>
+            </ul>
+          </nav>
+        </div>
+      </div>
     </div>
+
+  </header>
+  <div class="o-container">
+    <p class="js-temperatuur"></p>
+    <div class="c-edit-product js-edit">
+      <div class="c-popup">
+        <h1>hey</h1>
+        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. At veritatis, voluptas perferendis reprehenderit
+          fugiat libero quos ducimus illum laudantium. Enim deleniti minus tempora reiciendis ipsam natus iusto impedit
+          eaque et.</p>
+        <button id="save">Save</button>
+      </div>
+    </div>
+    <div class="c-cards js-cards">
+      <div class="c-card js-card">
+        <div class="c-card__image-container js-img-card" data-id="1">
+          <img src="https://fakeimg.pl/400x300/f1db26/000/" alt="" class="c-card__img">
+          <h3 class="c-card--name">aard</h3>
+        </div>
+        <div class="c-card__content">
+          <p><span class="c-card--date">02-03-2001</span> <span class="material-icons u-icons">notifications</span><span
+              class="material-icons u-icons js-edit" data-id="1">edit</span><span
+              class="material-icons u-icons">delete</span></p>
+        </div>
+      </div>
+      <div class="c-card js-card">
+        <div class="c-card__image-container js-img-card" data-id="1">
+          <img src="https://fakeimg.pl/400x300/f1db26/000/" alt="" class="c-card__img">
+          <h3 class="c-card--name">aard</h3>
+        </div>
+        <div class="c-card__content">
+          <p><span class="c-card--date">02-03-2001</span> <span class="material-icons u-icons">notifications</span><a
+              href="#"><span class="material-icons u-icons js-edit">edit</span></a><span
+              class="material-icons u-icons">delete</span></p>
+        </div>
+      </div>
+      <div class="c-card">
+        <div class="c-card__image-container js-img-card" data-id="1">
+          <img src="https://fakeimg.pl/400x300/f1db26/000/" alt="" class="c-card__img">
+          <h3 class="c-card--name">aard</h3>
+        </div>
+        <div class="c-card__content">
+          <p><span class="c-card--date">02-03-2001</span> <span class="material-icons u-icons">notifications</span><span
+              class="material-icons u-icons">edit</span><span class="material-icons u-icons">delete</span></p>
+        </div>
+      </div>
+      <div class="c-card">
+        <div class="c-card__image-container js-img-card" data-id="1">
+          <img src="https://fakeimg.pl/400x300/f1db26/000/" alt="" class="c-card__img">
+          <h3 class="c-card--name">aard</h3>
+        </div>
+        <div class="c-card__content">
+          <p><span class="c-card--date">02-03-2001</span> <span class="material-icons u-icons">notifications</span><span
+              class="material-icons u-icons">edit</span><span class="material-icons u-icons">delete</span></p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+
+  </div>
 </body>
+
 </html>
