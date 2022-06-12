@@ -56,7 +56,7 @@ def pushed(knop):
 
 def reboot():
     while True:
-        if datumVandaag.hour == 00:
+        if datumVandaag.hour == 00 and datumVandaag.minute == 00 and datumVandaag.second == 00:
             print("UPDATE")
             time.sleep(5)
             os.system("sudo reboot -h now")
