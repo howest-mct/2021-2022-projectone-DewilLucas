@@ -254,6 +254,11 @@ button {
     font-size: 16px;
 }
 
+.u-hide--button {
+    visibility: hidden;
+    opacity: 0;
+}
+
 /*
     components: Popup screen
 */

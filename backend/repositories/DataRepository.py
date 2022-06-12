@@ -219,3 +219,15 @@ class DataRepository:
             return add
         except Exception as ex:
             return -1
+
+    @staticmethod
+    def delete_user(id):
+        try:
+            sql = "Delete from smartfridgeDB.Gebruiker where idgebruiker = %s"
+            param = [id]
+            delete = Database.execute_sql(sql, param)
+            return delete
+        except Exception as ex:
+            print(ex)
+            return -1
+

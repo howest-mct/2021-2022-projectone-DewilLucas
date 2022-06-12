@@ -392,7 +392,10 @@ def connection(data):
 
 @socketio.on("F2B_delete_account")
 def deleteUser(data):
-    print(data)
+    try:
+        DataRepository.delete_user(data['idgebruiker'])
+    except Exception as ex:
+        print(ex)
 
 
 @socketio.on("F2B_loadPage")

@@ -80,8 +80,8 @@ const showAccount = function (json) {
   let admin = document.querySelector(".js-admin");
   const deleteButton = document.querySelector(".js-delete-user-button");
   if (json.idgebruiker == 1) {
+    deleteButton.classList.add("u-hide--button");
     admin.innerHTML = `<div class="c-form__item"><a href="createAccount.html?id=1">create</a></div>`;
-    deleteButton.remove();
   }
   let naam = document.querySelector(".js-first").value = json.Naam;
   let voornaam = document.querySelector(".js-last").value = json.voornaam;
