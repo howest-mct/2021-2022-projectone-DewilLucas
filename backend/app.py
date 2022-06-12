@@ -390,6 +390,11 @@ def connection(data):
     user = login
 
 
+@socketio.on("F2B_delete_account")
+def deleteUser(data):
+    print(data)
+
+
 @socketio.on("F2B_loadPage")
 def loadpage(data):
     print(data)

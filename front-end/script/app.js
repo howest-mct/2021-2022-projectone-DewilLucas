@@ -78,8 +78,10 @@ const showFood = function (json) {
 };
 const showAccount = function (json) {
   let admin = document.querySelector(".js-admin");
+  const deleteButton = document.querySelector(".js-delete-user-button");
   if (json.idgebruiker == 1) {
     admin.innerHTML = `<div class="c-form__item"><a href="createAccount.html?id=1">create</a></div>`;
+    deleteButton.remove();
   }
   let naam = document.querySelector(".js-first").value = json.Naam;
   let voornaam = document.querySelector(".js-last").value = json.voornaam;
@@ -136,6 +138,10 @@ const listenToAddUser = function () {
 };
 const listenToUpdateUser = function (json) {
   const button = document.querySelector(".js-update-user-button");
+  const deleteButton = document.querySelector(".js-delete-user-button");
+  deleteButton.addEventListener("click", function () {
+    socket.emit('F2B_delete_account', json);
+  });
   button.addEventListener("click", function () {
     let naamU = document.querySelector(".js-first").value;
     let voornaamU = document.querySelector(".js-last").value;
