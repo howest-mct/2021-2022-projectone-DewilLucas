@@ -383,6 +383,7 @@ def updateAccount(data):
     voornaam = data['voornaam']
     email = data['email']
     hex_dig = ""
+    global user
     print(user)
     if user['Passwoord'] == data['passwoord']:
         hex_dig = user['Passwoord']
@@ -397,7 +398,7 @@ def updateAccount(data):
         id, naam, voornaam, email, hex_dig)
     if updateuser != -1:
         user = updateuser
-        socketio.emit("B2F_updated_user", user)
+        socketio.emit("B2F_updated_user", updateuser)
     else:
         socketio.emit("B2F_updated_user", user)
 
