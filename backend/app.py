@@ -56,11 +56,11 @@ def pushed(knop):
 
 def reboot():
     while True:
-        if datumVandaag.strftime("%I") == 17:
+        if datumVandaag.hour == 00:
             print("UPDATE")
             time.sleep(5)
-            #os.system("sudo reboot -h now")
-            # sys.exit()
+            os.system("sudo reboot -h now")
+            sys.exit()
 
 
 def geefAantal():
