@@ -35,7 +35,7 @@ lcd = Lcd(E, RS, lcdPins)
 oled = OLED(128, 64, 5)
 lees = TemperatuurClass(temperatuurSensor)
 user = -1
-datumVandaag = date.today()
+datumVandaag = datetime.now()
 # Code voor Hardware
 
 
@@ -52,6 +52,15 @@ def pushed(knop):
     os.system("sudo shutdown -h now")
     sys.exit()
     # quits the code
+
+
+def reboot():
+    while True:
+        if datumVandaag.strftime("%I") == 17:
+            print("UPDATE")
+            time.sleep(5)
+            #os.system("sudo reboot -h now")
+            # sys.exit()
 
 
 def geefAantal():
@@ -484,7 +493,7 @@ def start_thread():
         hist_thread()
         barcode_thread()
         MPU_thread()
-
+        reboot()
     except Exception as ex:
         print(ex)
 
@@ -599,6 +608,7 @@ if __name__ == '__main__':
         start_chrome_thread()
         print("**** Starting APP ****")
         socketio.run(app, debug=False, host='0.0.0.0')
+
     except KeyboardInterrupt:
         print('KeyboardInterrupt exception is caught')
     finally:
