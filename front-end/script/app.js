@@ -122,7 +122,7 @@ const listenToChoiceDelete = function(){
     let urlParams = new URLSearchParams(window.location.search);
     let get= urlParams.get("idaanwezig");
     socket.emit("F2B_delete_product",get);
-  })
+  });
 }
 const listenToInput = function(){
     let barcode = document.querySelector(".js-barcode-offline");
@@ -212,7 +212,7 @@ const listenToSocket = function () {
           window.location.href = "index.html?gevonden=0"
         }
         else{
-          window.location.href = `home.html?${data.voornaam}`
+          window.location.href = `home.html?name=${data.voornaam}`
         }
       })
     }
@@ -239,12 +239,22 @@ const init = function () {
     listenToLogin();
   }
   if(htmlIndex){
+    let loginParam = new URLSearchParams(window.location.search);
+    let getUser = loginParam.get("name");
     let urlParams = new URLSearchParams(window.location.search);
     let get= urlParams.get("del");
+    let urlParam2 = new URLSearchParams(window.location.search);
+    let getEdit = urlParam2.get("edit");
+    let getAdd = new URLSearchParams(window.location.search);
+    let add = getAdd.get("add");
     if (get != null || get != 'undefind' || get != 0) {
       console.log(get);
       console.log("product verwijderd");
     }
+    if(getUser == null && get == null && getEdit == null && add == null){
+      window.location.href = "index.html"
+    }
+    
   }
   if (htmlOff) {
     listenToInput();
