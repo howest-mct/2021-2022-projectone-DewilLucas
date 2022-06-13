@@ -121,4 +121,4 @@ class OLED:
             image = Image.open('nar/frame_13_delay-0.14s.jpg').convert('1')
             self.oled.image(image)
             self.oled.show()
-            break
+            return 1

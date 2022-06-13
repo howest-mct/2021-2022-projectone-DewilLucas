@@ -1,18 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smartfridge</title>
-    <link rel="stylesheet" href="style/screen.css" />
-    <script src="https://cdn.socket.io/4.0.1/socket.io.min.js" integrity="sha384-LzhRnpGmQP+lOvWruF/lgkcqD+WDVt9fU3H4BWmwP5u5LTmkUGafMcpZKNObVMLU" crossorigin="anonymous"></script>
-    <script src="script/datahandler.js"></script>
-    <script src="script/app.js"></script>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smartfridge</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.typekit.net/buv0ixq.css">
+  <link rel="stylesheet" href="style/screen.css" />
+  <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"
+    integrity="sha384-LzhRnpGmQP+lOvWruF/lgkcqD+WDVt9fU3H4BWmwP5u5LTmkUGafMcpZKNObVMLU"
+    crossorigin="anonymous"></script>
+  <script src="script/datahandler.js"></script>
+  <script src="script/app.js"></script>
 </head>
-<body class="js-index">
-    <p class="js-temperatuur"></p>
-    <p><a href="history.html">history</a></p>
-    <input></input>
+
+<body class="js-login">
+  <div class="c-loader js-loader"></div>
+  <div class="o-container">
+    <form class="c-form" action="tussenpage.html" method="post">
+      <div class="c-form__item">
+        <label for="email">e-mail</label><br>
+        <input type="email" name="email" id="email" class="c-input js-email" required>
+      </div>
+      <div class="c-form__item">
+        <label for="passwoord">Password</label><br>
+        <input type="password" name="passwoord" id="passwoord" class="c-input js-passwoord" required>
+      </div>
+      <div class="c-form__item">
+        <input type="submit" class="js-login-button">
+      </div>
+    </form>
+  </div>
 </body>
+
 </html>

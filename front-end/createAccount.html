@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>create account</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.typekit.net/buv0ixq.css">
+    <link rel="stylesheet" href="style/screen.css" />
+    <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"
+        integrity="sha384-LzhRnpGmQP+lOvWruF/lgkcqD+WDVt9fU3H4BWmwP5u5LTmkUGafMcpZKNObVMLU"
+        crossorigin="anonymous"></script>
+    <script src="script/datahandler.js"></script>
+    <script src="script/app.js"></script>
+</head>
+
+<body class="js-create-account">
+    <div class="c-loader js-loader"></div>
+    <header class="o-row">
+        <div class="c-header">
+            <div class="c-header__nav">
+                <nav class="c-nav">
+                    <ul class="o-list c-nav__list">
+                        <li class="c-nav__item">
+                            <a class="c-nav__link is-selected" href="home.html?name=1">Home</a>
+                        </li>
+                        <li class="c-nav__item">
+                            <a class="c-nav__link" href="#!">account</a>
+                        </li>
+                        <li class="c-nav__item">
+                            <a class="c-nav__link" href="#!">shopping lists</a>
+                        </li>
+                        <p>
+                            <a class="c-link-cta" href="history.html">history</a>
+                        </p>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        </div>
+
+    </header>
+    <form class="c-form">
+        <div class="c-form__item">
+            <label for="productname">first name</label><br>
+            <input type="text" class="c-input js-first" placeholder="First name" name="firstName" id="firstName"
+                required>
+        </div>
+        <div class="c-form__item">
+            <label for="productname">last name</label><br>
+            <input type="text" class="c-input js-last" placeholder="Last name" name="lastName" id="lastName" required>
+        </div>
+        <div class="c-form__item">
+            <label for="productname">E-mail</label><br>
+            <input type="email" class="c-input js-e-mail" placeholder="E-mail" name="email" id="email" required>
+        </div>
+        <div class="c-form__item">
+            <label for="productname">password</label><br>
+            <input type="password" class="c-input js-pass-user" placeholder="password" name="password" id="password">
+        </div>
+        <div class="c-form__item">
+            <button class="c-button js-add-user-button">add</button>
+        </div>
+    </form>
+</body>
+
+</html>
