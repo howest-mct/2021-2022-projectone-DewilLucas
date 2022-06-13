@@ -92,6 +92,20 @@ html {
 /*------------------------------------*\
   #OBJECTS
 \*------------------------------------*/
+/*
+    Objects: List
+    ---
+    Small reusable object to remove default list styling from lists
+*/
+
+.o-list {
+    list-style: none;
+    padding: 0;
+}
+
+/*
+components home
+*/
 .c-home {
     overflow: visible;
 }
@@ -314,6 +328,87 @@ html {
     color: white;
 }
 
+/*
+    Component: Nav
+    ---
+    Main navigation of the site
+*/
+
+.c-nav {
+    font-size: 16px;
+    line-height: 21px;
+}
+
+.c-nav__link {
+    text-decoration: none;
+    font-weight: 600;
+    display: block;
+    padding: 8px 0;
+}
+
+.c-nav__link,
+.c-nav__link:visited,
+.c-nav__link:active {
+    color: #1A1917;
+}
+
+.c-nav__link:hover,
+.c-nav__link:focus {
+    color: #FFCE33;
+}
+
+@media (min-width: 992px) {
+    .c-nav__list {
+        display: flex;
+    }
+
+    .c-nav__item--cta {
+        margin-left: 20px;
+    }
+
+    .c-nav__link {
+        padding: 8px 20px;
+    }
+}
+
+/*
+    Component: header
+    ---
+    Main header of the website
+*/
+
+.c-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #FFCE33;
+    position: fixed;
+}
+
+.c-header__nav,
+.c-header__cta {
+    display: none;
+}
+
+@media (min-width: 992px) {
+
+    .c-header__nav,
+    .c-header__cta {
+        display: block;
+    }
+
+    .c-header__nav {
+        margin-right: 20px;
+
+        /* solution 1 */
+        /* margin-left: auto; */
+
+        /* solution 2 */
+        display: flex;
+        flex-grow: 1;
+        justify-content: center;
+    }
+}
 
 /*
     components : loader
