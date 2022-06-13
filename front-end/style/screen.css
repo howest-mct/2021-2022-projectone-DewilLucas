@@ -93,6 +93,17 @@ html {
   #OBJECTS
 \*------------------------------------*/
 /*
+objects : container navbar
+*/
+.o-container--nav {
+    max-width: 1300px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/*
     Objects: List
     ---
     Small reusable object to remove default list styling from lists
@@ -108,6 +119,96 @@ components home
 */
 .c-home {
     overflow: visible;
+}
+
+/*
+components navbar
+*/
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 99;
+    background-color: #FFC200;
+    padding: 16px 32px;
+
+}
+
+.c-nav--Titel {
+    color: #1A1917;
+    font-size: 24px;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+.c-hamburger {
+    display: block;
+    position: relative;
+    z-index: 1;
+    user-select: none;
+    appearance: none;
+    border: none;
+    outline: none;
+    background: none;
+    cursor: pointer;
+}
+
+.c-hamburger span {
+    display: block;
+    width: 33px;
+    height: 4px;
+    margin-bottom: 5px;
+    position: relative;
+    background-color: #1A1917;
+    border-radius: 6px;
+    z-index: 1;
+    transform-origin: 0 0;
+    transition: 0.4s;
+}
+
+
+.c-hamburger:hover span:nth-child(1) {
+    transform: translateX(10px);
+    background-color: #F7F6F2;
+}
+
+.c-hamburger:hover span:nth-child(2) {
+    transform: translateX(-10px);
+    background-color: #F7F6F2;
+}
+
+.c-hamburger:hover span:nth-child(3) {
+    transform: translateX(10px);
+    background-color: #F7F6F2;
+}
+
+.c-hamburger:hover span:nth-child(4) {
+    transform: translateX(-10px);
+    background-color: #F7F6F2;
+}
+
+.c-hamburger.c-active span:nth-child(1) {
+    transform: translate(2px, 0px) rotate(45deg) translateY(-5px);
+}
+
+.c-hamburger.c-active span:nth-child(2) {
+    opacity: 0;
+    transform: translateX(15px);
+}
+
+.c-hamburger.c-active span:nth-child(3) {
+    transform: translate(-2px, -3px) rotate(-45deg) translateY(6px);
+
+}
+
+.c-hamburger.c-active span:nth-child(4) {
+    opacity: 0;
+    transform: translateX(15px);
+}
+
+.c-nav--menu {
+    display: none;
 }
 
 /*
