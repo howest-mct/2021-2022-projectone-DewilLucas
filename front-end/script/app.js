@@ -188,12 +188,24 @@ const listenToChoiceDelete = function () {
 const listenToInput = function () {
   let barcode = document.querySelector(".js-barcode-offline");
   barcode.focus();
+  let teller = 0;
   if (barcode.value.length != 13) {
     barcode.addEventListener("input", function () {
       console.log("invoer");
       socket.emit("F2B_barcode", barcode.value);
+      teller++;
+      console.log(teller);
+      if (teller == 13) {
+        barcode.value = "";
+        window.location.reload(true);
+      }
     });
+
   }
+  /*else {
+    window.location.reload(true);
+  }*/
+
 };
 const listenToAdd = function () {
   const htmlButton = document.querySelector(".js-add-button");
