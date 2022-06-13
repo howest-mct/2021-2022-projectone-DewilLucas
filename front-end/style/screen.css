@@ -2,10 +2,16 @@
   #FONTS
 \*------------------------------------*/
 @import url("https://use.typekit.net/buv0ixq.css");
+
 /*------------------------------------*\
   #GENERIC
 \*------------------------------------*/
-
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    overflow: hidden;
+}
 
 /*
     Generic: Page
@@ -14,9 +20,9 @@
 */
 html {
     background-color: #2B2E33;
-    font-size: 12px;
+    font-size: 18px;
     /*stap 1 : FONT SIZE AANPASSEN */
-    line-height: 32px;
+    /*line-height: 32px;*/
     /*stap 2 : Line Height AANPASSEN*/
     font-family: "azo-sans-web", sans-serif;
     /*stap 6 : Font Family aanpassen naaar custom*/
@@ -25,7 +31,9 @@ html {
     box-sizing: border-box;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    box-sizing: border-box;
 }
+
 
 /*
  * Remove text-shadow in selection highlight:
@@ -86,13 +94,136 @@ html {
   #OBJECTS
 \*------------------------------------*/
 /*
+    Objects: login
+    
+*/
+.o-body-login {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.o-container--login {
+    position: relative;
+    max-width: 430px;
+    width: 100%;
+    background: #FFF;
+    border-radius: 10px;
+}
+
+.o-container--login .c-forms {
+    display: flex;
+    align-items: center;
+    height: 440px;
+    width: 200%;
+}
+
+.o-container--login .c-login-form {
+    width: 50%;
+    padding: 30px;
+}
+
+.o-container--login .c-login-form .c-title {
+    position: relative;
+    font-size: 24px;
+    font-weight: 700;
+    color: #1A1917;
+}
+
+.c-login-form .c-title::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 3px;
+    width: 30px;
+    background-color: #FFC200;
+    border-radius: 25px;
+}
+
+.c-login-form .c-input--field {
+    position: relative;
+    margin-top: 30px;
+    height: 50px;
+    width: 100%;
+}
+
+.c-input--field input {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    padding: 0 35px;
+    border: none;
+    outline: none;
+    border-bottom: 2px solid #FFE699;
+    border-top: 2px solid transparent;
+    font-size: 18px;
+    transition: all 0.2s ease;
+}
+
+.c-input--field input:is(:focus, :valid) {
+    border-bottom-color: #FFC200;
+}
+
+.c-input--field i {
+    color: #1A1917;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    font-size: 24px;
+}
+
+.c-input--field input:is(:focus, :valid)~i {
+    color: #FFC200;
+}
+
+.c-login-form .c-button--login {
+    margin-top: 35px;
+}
+
+.c-login-form .c-button--login input {
+    border: none;
+    color: #1A1917;
+    letter-spacing: 1px;
+    font-size: 18px;
+    font-weight: 500;
+    border-radius: 6px;
+    background-color: #FFC200;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.c-button--login input:hover {
+    background-color: #FFE699;
+}
+
+/*
     Objects: container
     
 */
 .o-container {
-    width: 1300px;
-    margin: 0 auto;
-    padding: 3rem 2rem;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    max-width: 70.66666666666667em;
+}
+
+@media (min-width:768px) {
+    .o-container {
+        width: 900px;
+        margin: 0 auto;
+        padding: 1.5rem 1rem;
+    }
+}
+
+@media (min-width:992px) {
+    .o-container {
+        width: 1300px;
+        margin: 0 auto;
+        padding: 3rem 2rem;
+    }
 }
 
 /*
@@ -173,27 +304,6 @@ html {
     color: white;
 }
 
-/*
-    components : add form
-*/
-.c-form {
-    align-items: center;
-    justify-content: center;
-    display: block;
-    text-align: center;
-}
-
-.c-form__item label {
-    display: inline-block;
-    width: 140px;
-}
-
-.c-form__item input,
-button {
-    display: inline-block;
-    width: 200px;
-    border-radius: 10px;
-}
 
 /*
     components : loader
@@ -259,37 +369,6 @@ button {
     opacity: 0;
 }
 
-/*
-    components: Popup screen
-*/
-
-.c-edit-product {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 100;
-    background: rgba(77, 77, 77, 0.7);
-    transition: all 0.2s;
-}
-
-.c-edit-product_click {
-    display: flex;
-    opacity: 1;
-}
-
-.c-popup {
-    position: relative;
-    background: #FFC200;
-    width: 500px;
-    max-width: 90%;
-    padding: 1em, 2em;
-    border-radius: 5px;
-}
 
 /*
     Objects: Row

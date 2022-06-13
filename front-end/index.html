@@ -16,22 +16,28 @@
   <script src="script/app.js"></script>
 </head>
 
-<body class="js-login">
+<body class="o-body-login js-login">
   <div class="c-loader js-loader"></div>
-  <div class="o-container">
-    <form class="c-form" action="tussenpage.html" method="post">
-      <div class="c-form__item">
-        <label for="email">e-mail</label><br>
-        <input type="email" name="email" id="email" class="c-input js-email" required>
+  <div class="o-container--login">
+    <div class="c-forms">
+      <div class="c-login-form c-login">
+        <span class="c-title">Login</span>
+        <form action="tussenpage.html" method="post">
+          <div class="c-input--field">
+            <input type="email" name="email" id="email" class="js-email" placeholder="E-mail" required>
+            <i class="material-icons">mail</i>
+          </div>
+          <div class="c-input--field">
+            <input type="password" name="passwoord" id="passwoord" class="js-passwoord" placeholder="Password" required>
+            <i class="material-icons">lock</i>
+          </div>
+          <div class="c-input--field c-button--login">
+            <input type="submit" class="js-login-button" value="Login">
+          </div>
+        </form>
       </div>
-      <div class="c-form__item">
-        <label for="passwoord">Password</label><br>
-        <input type="password" name="passwoord" id="passwoord" class="c-input js-passwoord" required>
-      </div>
-      <div class="c-form__item">
-        <input type="submit" class="js-login-button">
-      </div>
-    </form>
+    </div>
+
   </div>
 </body>
 
