@@ -10,7 +10,6 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    overflow: hidden;
 }
 
 /*
@@ -93,15 +92,21 @@ html {
 /*------------------------------------*\
   #OBJECTS
 \*------------------------------------*/
+.c-home {
+    overflow: visible;
+}
+
 /*
     Objects: login
     
 */
+
 .o-body-login {
     height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
+
 }
 
 .o-container--login {
@@ -110,6 +115,7 @@ html {
     width: 100%;
     background: #FFF;
     border-radius: 10px;
+    overflow: hidden;
 }
 
 .o-container--login .c-forms {
