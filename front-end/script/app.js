@@ -20,6 +20,7 @@ let htmlAccount;
 let htmlLoadUpdatedAccount;
 let htmlCreateAccount;
 let htmlloadDeleteAccount;
+let htmlTest;
 // #endregion 
 // #region ***  Callback-Visualisation - show___         ***********      
 const showTemp = function (temp) {
@@ -126,7 +127,7 @@ const listenToUI = function () {
 const listenToClickBurger = function () {
   const burger = document.querySelector(".js-hamburger");
   burger.addEventListener('click', function () {
-    this.classList.toggle("c-active");
+    burger.classList.add("c-active");
   });
 };
 const listenToAddUser = function () {
@@ -254,6 +255,7 @@ const listenToSocket = function () {
   }
 
   if (htmlHistory) {
+    listenToClickBurger();
     socket.on("connect", function () {
       console.log("verbonden met socket");
     });
@@ -319,6 +321,7 @@ const listenToSocket = function () {
     });
   }
   if (htmlAccount) {
+    listenToClickBurger();
     socket.emit("F2B_account", 1);
     socket.on("B2F_account", function (data) {
       showAccount(data);
@@ -335,9 +338,8 @@ const listenToSocket = function () {
 const init = function () {
 
   listenToLoad();
-  listenToClickBurger();
+
   console.info("DOM geladen");
-  hamburger = document.querySelector(".js-hamburger");
 
   htmlIndex = document.querySelector(".js-index");
   htmlHistory = document.querySelector(".js-history");
@@ -353,10 +355,15 @@ const init = function () {
   htmlLoadUpdatedAccount = document.querySelector(".js-update-account-load");
   htmlCreateAccount = document.querySelector(".js-create-account");
   htmlloadDeleteAccount = document.querySelector(".js-delete-account-load");
+  htmlTest = document.querySelector(".js-test");
+  if (htmlTest) {
+    listenToClickBurger();
+  }
   if (htmlLogin) {
     listenToLogin();
   }
   if (htmlIndex) {
+    listenToClickBurger();
     let loginParam = new URLSearchParams(window.location.search);
     let getUser = loginParam.get("name");
     let urlParams = new URLSearchParams(window.location.search);
@@ -386,6 +393,7 @@ const init = function () {
     listenToChoiceDelete();
   }
   if (htmlCreateAccount) {
+
     let urlParams = new URLSearchParams(window.location.search);
     let get = urlParams.get("id");
     if (get == null || get != 1) {

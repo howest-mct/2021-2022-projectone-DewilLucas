@@ -209,7 +209,21 @@ nav {
 
 .c-nav--menu {
     display: none;
+    flex: 1 1 0%;
+    justify-content: flex-end;
+    margin: 0 -16px;
 }
+
+@media (min-width: 768px) {
+    .c-hamburger {
+        display: none;
+    }
+
+    .c-nav--menu {
+        display: flex;
+    }
+}
+
 
 /*
     Objects: login
@@ -449,7 +463,9 @@ nav {
     text-decoration: none;
     font-weight: 600;
     display: block;
-    padding: 8px 0;
+    padding: 8px 16px;
+    margin: 0 8px;
+    border-radius: 100px;
 }
 
 .c-nav__link,
@@ -458,12 +474,18 @@ nav {
     color: #1A1917;
 }
 
+.c-nav--menu a.c-active,
+.c-nav--menu a:hover {
+    background-color: #1A1917;
+    color: #F7F6F2;
+}
+
 .c-nav__link:hover,
 .c-nav__link:focus {
     color: #F7F6F2;
 }
 
-@media (min-width: 992px) {
+@media (min-width: 768px) {
     .c-nav__list {
         display: flex;
     }
