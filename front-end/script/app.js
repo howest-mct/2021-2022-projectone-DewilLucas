@@ -2,6 +2,7 @@
 const lanIP = `${window.location.hostname}:5000`;
 const socket = io(`http://${lanIP}`);
 // #region ***  DOM references   ***********
+let hamburger;
 let htmlIndex, htmlHistory;
 let htmlCards;
 let htmlSingleCard;
@@ -121,6 +122,12 @@ const listenToUI = function () {
     }
   }
 
+};
+const listenToClickBurger = function () {
+  const burger = document.querySelector(".js-hamburger");
+  burger.addEventListener('click', function () {
+    this.classList.toggle("c-active");
+  });
 };
 const listenToAddUser = function () {
   const button = document.querySelector(".js-add-user-button");
@@ -328,7 +335,10 @@ const listenToSocket = function () {
 const init = function () {
 
   listenToLoad();
+  listenToClickBurger();
   console.info("DOM geladen");
+  hamburger = document.querySelector(".js-hamburger");
+
   htmlIndex = document.querySelector(".js-index");
   htmlHistory = document.querySelector(".js-history");
   htmlCards = document.querySelector(".js-cards");
