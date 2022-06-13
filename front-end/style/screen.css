@@ -254,7 +254,8 @@ components home
 
 .c-cards {
     margin: 70px auto 20px auto;
-
+    align-items: center;
+    justify-content: center;
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
@@ -263,7 +264,6 @@ components home
 .c-cards .c-card {
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
-
 }
 
 .c-card {
