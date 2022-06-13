@@ -281,13 +281,11 @@ const listenToSocket = function () {
   if (htmlloadDeleteAccount) {
     socket.emit("F2B_loadPage", 1);
     socket.on("B2F_user_delete", function (data) {
-      if (data == -1) {
-        window.location.href = "index.html?gevonden=0";
-      }
-      else {
-        window.location.href = "index.html?gevonden=0";
-      }
+      console.log(data);
+
     });
+
+    window.location.href = "index.html?del=1";
 
   }
   if (htmlloadlogin) {
