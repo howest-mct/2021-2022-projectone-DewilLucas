@@ -126,7 +126,7 @@ class DataRepository:
 
     @staticmethod
     def delete_Product(id, datum):
-        sql = "UPDATE smartfridgeDB.ProductAanwezig set aanwezig = 0,set aantal = 0 WHERe idProduct = %s and houdbaarheidsdatum = %s"
+        sql = "UPDATE smartfridgeDB.ProductAanwezig set aanwezig = 0, aantal = 0 WHERe idProduct = %s and houdbaarheidsdatum = %s"
         param = [id, datum]
         return Database.execute_sql(sql, param)
 
