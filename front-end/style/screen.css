@@ -256,12 +256,15 @@ html {
 .c-card--name,
 .c-card--date {
     color: #1A1917;
+
 }
 
 .c-card--date {
     float: left;
     font-size: 20px;
     margin-top: -20px;
+    font-size: 20px;
+    font-weight: 600;
 }
 
 .c-card--name {
@@ -271,8 +274,8 @@ html {
     color: #1A1917;
     font-weight: 700;
     font-style: normal;
-    font-size: 24px;
     text-transform: uppercase;
+    font-size: 20px;
 }
 
 .c-card__content {
