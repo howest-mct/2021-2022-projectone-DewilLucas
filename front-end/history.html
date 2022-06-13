@@ -17,26 +17,32 @@
 <body class="js-history">
     <div class="c-loader js-loader"></div>
     <header class="o-row">
-        <div class="c-header">
-            <div class="c-header__nav">
-                <nav class="c-nav">
-                    <ul class="o-list c-nav__list">
-                        <li class="c-nav__item">
-                            <a class="c-nav__link is-selected" href="home.html?add=1">Home</a>
-                        </li>
-                        <li class="c-nav__item">
-                            <a class="c-nav__link" href="account.html">account</a>
-                        </li>
-                        <li class="c-nav__item">
-                            <a class="c-nav__link" href="#!">shopping lists</a>
-                        </li>
-                        <p>
-                            <a class="c-link-cta" href="#!">history</a>
-                        </p>
-                    </ul>
-                </nav>
+        <div class="o-container">
+            <div class="floatingbtn">
+                <a href="add_product.html">+</a>
             </div>
-        </div>
+            <div class="c-loader js-loader"></div>
+            <nav>
+                <div class="o-container--nav">
+                    <h1 class="c-nav--Titel">SMARTFRIDGE</h1>
+                    <div class="c-nav--menu">
+                        <ul class="o-list c-nav__list">
+                            <li class="c-nav__item"><a href="#!" class="c-nav__link ">Home</a></li>
+                            <li class="c-nav__item"><a href="loadAccount.html" class="c-nav__link">Account</a></li>
+                            <li class="c-nav__item"><a href="#!" class="c-nav__link">Shopping lists</a></li>
+                            <li class="c-nav__item"><a href="history.html" class="c-nav__link c-active">History</a></li>
+                        </ul>
+
+                    </div>
+                    <button class="c-hamburger  js-hamburger">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+
+            </nav>
         </div>
 
     </header>
