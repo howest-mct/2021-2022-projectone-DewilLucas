@@ -21,7 +21,7 @@ html {
     background-color: #2B2E33;
     font-size: 18px;
     /*stap 1 : FONT SIZE AANPASSEN */
-    /*line-height: 32px;*/
+    line-height: 32px;
     /*stap 2 : Line Height AANPASSEN*/
     font-family: "azo-sans-web", sans-serif;
     /*stap 6 : Font Family aanpassen naaar custom*/
@@ -846,7 +846,6 @@ components : mobile nav
 .c-card--name,
 .c-card--date {
     color: #1A1917;
-
 }
 
 .c-card--date {
