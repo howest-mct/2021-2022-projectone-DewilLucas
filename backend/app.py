@@ -35,7 +35,6 @@ lcd = Lcd(E, RS, lcdPins)
 oled = OLED(128, 64, 5)
 lees = TemperatuurClass(temperatuurSensor)
 user = -1
-datumVandaag = datetime.now()
 # Code voor Hardware
 
 
@@ -56,7 +55,6 @@ def pushed(knop):
 
 def reboot():
     while True:
-        global datumVandaag
         datumVandaag = datetime.now()
         if datumVandaag.hour == 0 and datumVandaag.minute == 0 and datumVandaag.second == 0:
             print("UPDATE")
