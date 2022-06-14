@@ -57,7 +57,7 @@ html {
     height: 60px;
     background: #FFC200;
     border-radius: 50%;
-    z-index: 80;
+    z-index: 2;
 }
 
 .floatingbtn a {
@@ -70,7 +70,7 @@ html {
     color: #1A1917;
     font-size: 24px;
     text-decoration: none;
-    z-index: 80;
+    z-index: 2;
 }
 
 .floatingbtn:hover {
@@ -678,6 +678,7 @@ components : mobile nav
     left: 0;
     height: 100vh;
     pointer-events: none;
+    z-index: 60;
 }
 
 .has-mobile-nav .c-mobile-nav {
@@ -988,7 +989,7 @@ nav {
 .c-hamburger {
     display: block;
     position: relative;
-    z-index: 1;
+    z-index: 100;
     user-select: none;
     appearance: none;
     border: none;
@@ -1005,7 +1006,7 @@ nav {
     position: relative;
     background-color: #1A1917;
     border-radius: 6px;
-    z-index: 1;
+    z-index: 100;
     transform-origin: 0 0;
     transition: 0.4s;
 }
