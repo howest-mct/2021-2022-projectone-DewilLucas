@@ -224,7 +224,7 @@ components home
 
 @media (max-width: 992px) {
     .c-input--field a {
-        padding: 5px 50px 5px 50px;
+        padding: 5px 40px 5px 40px;
         color: #1A1917;
     }
 }
@@ -334,7 +334,7 @@ components home
 
 @media (max-width: 768px) {
     .o-body-account {
-        margin-top: 40px;
+        margin-top: -40px;
     }
 }
 
@@ -566,11 +566,6 @@ components home
     }
 }
 
-@media (max-width: 768px) {
-    .o-container--add {
-        margin-top: 60px;
-    }
-}
 
 .o-container--add .c-edit-form {
     width: 50%;
