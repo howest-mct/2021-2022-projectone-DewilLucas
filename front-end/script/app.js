@@ -127,9 +127,18 @@ const listenToUI = function () {
 const listenToClickBurger = function () {
   const burger = document.querySelector(".js-hamburger");
   const nav = document.querySelector(".js-nav");
+  let teller = 0;
   burger.addEventListener('click', function () {
-    burger.classList.add("c-active");
-    nav.classList.add("c-active");
+    teller++;
+    if (teller === 1) {
+
+      burger.classList.add("c-active");
+    }
+    else {
+      burger.classList.remove("c-active");
+      teller = 0;
+    }
+    document.querySelector("body").classList.toggle("has-mobile-nav");
   });
 };
 const listenToAddUser = function () {

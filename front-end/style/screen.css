@@ -231,6 +231,74 @@ components home
 }
 
 /*
+components : mobile nav
+*/
+.c-mobile-nav {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: 100vh;
+    pointer-events: none;
+}
+
+.has-mobile-nav .c-mobile-nav {
+    pointer-events: auto;
+}
+
+.c-mobile-nav__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.c-mobile-nav__bg {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: #202024;
+    opacity: 0;
+    will-change: opacity;
+    transition: opacity .25s ease;
+}
+
+.has-mobile-nav .c-mobile-nav__bg {
+    opacity: 0.5;
+}
+
+.c-mobile-nav__body {
+    position: relative;
+    padding: 24px;
+    height: 100vh;
+    width: 100vw;
+    background-color: #fff;
+    will-change: transform;
+    transform: translateX(-100%);
+    transition: transform .25s ease;
+}
+
+.has-mobile-nav .c-mobile-nav__body {
+    transform: translateX(0);
+}
+
+@media (min-width: 768px) {
+    .c-mobile-nav__body {
+        padding: 48px;
+    }
+}
+
+@media (min-width: 992px) {
+
+    /* Hide the mobile nav on larger viewports even whent it's open on smaller screens */
+    .c-mobile-nav {
+        display: none !important;
+    }
+}
+
+/*
     Objects: container
     
 */
@@ -370,6 +438,18 @@ components home
     color: #1A1917;
 }
 
+@media (min-width: 992px) {
+    .c-nav__list {
+        display: flex;
+        margin-left: -16px;
+        margin-right: -16px;
+    }
+
+    .c-nav__link {
+        padding: 8px 16px;
+    }
+}
+
 .c-nav--menu a.c-active,
 .c-nav--menu a:hover {
     background-color: #1A1917;
@@ -382,9 +462,7 @@ components home
 }
 
 @media (min-width: 768px) {
-    .c-nav__list {
-        display: flex;
-    }
+
 
     .c-nav__item--cta {
         margin-left: 20px;
@@ -574,6 +652,7 @@ nav {
     .c-mobile-nav {
         display: none !important;
     }
+
 }
 
 /*
