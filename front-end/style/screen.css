@@ -541,6 +541,7 @@ components home
     background: #FFF;
     border-radius: 10px;
     overflow: hidden;
+    margin-top: -160px;
 }
 
 @media (max-width: 992px) {
@@ -1378,6 +1379,7 @@ nav {
     float: right;
     position: relative;
     margin-top: -15px;
+    margin-left: 10px;
 }
 
 /*
