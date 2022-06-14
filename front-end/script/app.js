@@ -110,6 +110,7 @@ const getrain = function () {
   let get = urlParams.get("idaanwezig");
   socket.emit("F2B_edit", get);
   listenToSocket();
+
 };
 // #endregion 
 
@@ -249,6 +250,7 @@ const listenToSocket = function () {
     socket.on("B2F_alAanwezig", function (json) {
       console.log(json);
     });
+    listenToClickBurger();
   }
   if (htmlIndex) {
     socket.on("connect", function () {
@@ -404,6 +406,7 @@ const init = function () {
   }
   if (htmlAdd) {
     listenToAdd();
+
   }
   if (htmlEditPro) {
     getrain();
