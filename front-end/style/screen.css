@@ -116,6 +116,13 @@ objects : container navbar
     padding: 0;
 }
 
+/*OBJECTS body-delete*/
+.o-body-delete-product {
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+}
+
 /*
 components home
 */
@@ -212,12 +219,13 @@ components home
 .c-input--field a {
     text-decoration: none;
     padding: 15px 80px 15px 80px;
-    color: #F7F6F2;
+    color: #1A1917;
 }
 
 @media (max-width: 992px) {
     .c-input--field a {
         padding: 5px 50px 5px 50px;
+        color: #1A1917;
     }
 }
 
@@ -264,6 +272,14 @@ components home
     background-color: #FFC200;
     cursor: pointer;
     transition: all 0.3s ease;
+}
+
+.c-button--delete button:hover {
+    background-color: #FFE699;
+}
+
+.c-button--delete--no button:hover {
+    background-color: #FFE699;
 }
 
 .c-button--login button:hover {
@@ -456,7 +472,7 @@ components home
     font-size: 18px;
     font-weight: 500;
     border-radius: 6px;
-    background-color: #CC0000;
+    background-color: #FFA4A4;
 }
 
 .c-account-form .c-button--add button:hover {
@@ -597,6 +613,50 @@ components home
     margin-top: 35px;
 }
 
+.c-edit-form .c-button--delete {
+    margin-top: 35px;
+}
+
+.c-edit-form .c-button--delete button {
+    border: none;
+    color: #1A1917;
+    letter-spacing: 1px;
+    font-size: 18px;
+    font-weight: 500;
+    border-radius: 6px;
+    background-color: #FFC200;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.c-edit-form .c-button--delete button:hover {
+    background-color: #FFCE33;
+}
+
+.c-edit-form .c-button--delete--no {
+    margin-top: 35px;
+}
+
+.c-edit-form .c-button--delete--no button {
+    border: none;
+    color: #1A1917;
+    letter-spacing: 1px;
+    font-size: 18px;
+    font-weight: 500;
+    border-radius: 6px;
+    background-color: #FFA4A4;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.c-edit-form .c-button--delete--no button:hover {
+    background-color: #850000;
+}
+
+.c-edit-form .c-button--add button:hover {
+    background-color: #FFE699;
+}
+
 .c-edit-form .c-button--add button {
     border: none;
     color: #1A1917;
@@ -684,12 +744,55 @@ components : mobile nav
 /*
     components : delete
 */
-.c-delete {
+.o-container--delete {
+    position: relative;
+    max-width: 430px;
+    width: 100%;
+    background: #FFF;
+    border-radius: 10px;
     overflow: hidden;
-    justify-content: center;
-    align-items: center;
+    /*margin-top: -160px;*/
 }
 
+.o-container--delete .c-edit-form {
+    width: 50%;
+    padding: 30px;
+}
+
+.o-container--delete .c-edit-forms {
+    display: flex;
+    align-items: center;
+    height: 320px;
+    width: 200%;
+}
+
+.o-container--delete .c-edit-title {
+    position: relative;
+    font-size: 24px;
+    font-weight: 700;
+    color: #1A1917;
+}
+
+.o-container--delete .c-edit-form .c-edit-title {
+    position: relative;
+    font-size: 24px;
+    font-weight: 700;
+    color: #1A1917;
+}
+
+/*
+@media (max-width: 992px) {
+    .o-container--add {
+        margin-top: -80px;
+    }
+}
+
+@media (max-width: 768px) {
+    .o-container--add {
+        margin-top: 60px;
+    }
+}
+*/
 /*
     Objects: container
     
@@ -699,6 +802,7 @@ components : mobile nav
     margin-right: auto;
     width: 100%;
     max-width: 70.66666666666667em;
+    margin-top: 60px;
 }
 
 @media (min-width:768px) {
@@ -711,6 +815,7 @@ components : mobile nav
 
 @media (min-width:992px) {
     .o-container {
+        margin-top: 40px;
         width: 1300px;
         margin: 0 auto;
         padding: 3rem 2rem;
