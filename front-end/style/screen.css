@@ -57,6 +57,7 @@ html {
     height: 60px;
     background: #FFC200;
     border-radius: 50%;
+    z-index: 80;
 }
 
 .floatingbtn a {
@@ -69,6 +70,7 @@ html {
     color: #1A1917;
     font-size: 24px;
     text-decoration: none;
+    z-index: 80;
 }
 
 .floatingbtn:hover {
@@ -194,6 +196,25 @@ components home
     transition: all 0.2s ease;
 }
 
+.c-input--field button {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    padding: 0 35px;
+    border: none;
+    outline: none;
+    border-bottom: 2px solid #FFE699;
+    border-top: 2px solid transparent;
+    font-size: 18px;
+    transition: all 0.2s ease;
+}
+
+.c-input--field a {
+    text-decoration: none;
+    padding: 15px 80px 15px 80px;
+    color: #F7F6F2;
+}
+
 .c-input--field input:is(:focus, :valid) {
     border-bottom-color: #FFC200;
 }
@@ -225,6 +246,22 @@ components home
     background-color: #FFC200;
     cursor: pointer;
     transition: all 0.3s ease;
+}
+
+.c-login-form .c-button--login button {
+    border: none;
+    color: #1A1917;
+    letter-spacing: 1px;
+    font-size: 18px;
+    font-weight: 500;
+    border-radius: 6px;
+    background-color: #FFC200;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.c-button--login button:hover {
+    background-color: #FFE699;
 }
 
 .c-button--login input:hover {
@@ -350,6 +387,20 @@ components home
     background-color: #FFC200;
     cursor: pointer;
     transition: all 0.3s ease;
+}
+
+.c-account-form .c-button--login button {
+    border: none;
+    color: #1A1917;
+    letter-spacing: 1px;
+    font-size: 18px;
+    font-weight: 500;
+    border-radius: 6px;
+    background-color: #CC0000;
+}
+
+.c-button--login button:hover {
+    background-color: #850000;
 }
 
 .c-button--login input:hover {

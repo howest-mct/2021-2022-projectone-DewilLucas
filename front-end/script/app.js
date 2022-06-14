@@ -84,7 +84,7 @@ const showAccount = function (json) {
   const deleteButton = document.querySelector(".js-delete-user-button");
   if (json.idgebruiker == 1) {
     deleteButton.classList.add("u-hide--button");
-    admin.innerHTML = `<div class="c-form__item"><a href="createAccount.html?id=1">create</a></div>`;
+    admin.innerHTML = `<a href="createAccount.html?id=1" class="c-nav__link">create</a>`;
   }
   let naam = document.querySelector(".js-first").value = json.Naam;
   let voornaam = document.querySelector(".js-last").value = json.voornaam;
@@ -161,6 +161,7 @@ const listenToUpdateUser = function (json) {
   const deleteButton = document.querySelector(".js-delete-user-button");
   deleteButton.addEventListener("click", function () {
     socket.emit('F2B_delete_account', json);
+    window.location.href = "loadDeleteUser.html";
   });
   button.addEventListener("click", function () {
     let naamU = document.querySelector(".js-first").value;
