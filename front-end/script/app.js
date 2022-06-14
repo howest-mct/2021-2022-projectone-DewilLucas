@@ -81,10 +81,12 @@ const showFood = function (json) {
 };
 const showAccount = function (json) {
   let admin = document.querySelector(".js-admin");
+  let admin2 = document.querySelector(".js-admin-2");
   const deleteButton = document.querySelector(".js-delete-user-button");
   if (json.idgebruiker == 1) {
     deleteButton.classList.add("u-hide--button");
-    admin.innerHTML = `<a href="createAccount.html?id=1" class="c-nav__link">create</a>`;
+    admin.innerHTML = `<a href="createAccount.html?id=1" class="c-nav__link">create account</a>`;
+    admin2.innerHTML = `<a href="createAccount.html?id=1" class="c-nav__link">create account</a>`;
   }
   let naam = document.querySelector(".js-first").value = json.Naam;
   let voornaam = document.querySelector(".js-last").value = json.voornaam;
@@ -405,7 +407,7 @@ const init = function () {
     listenToChoiceDelete();
   }
   if (htmlCreateAccount) {
-
+    listenToClickBurger();
     let urlParams = new URLSearchParams(window.location.search);
     let get = urlParams.get("id");
     if (get == null || get != 1) {

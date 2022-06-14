@@ -215,6 +215,12 @@ components home
     color: #F7F6F2;
 }
 
+@media (max-width: 992px) {
+    .c-input--field a {
+        padding: 5px 50px 5px 50px;
+    }
+}
+
 .c-input--field input:is(:focus, :valid) {
     border-bottom-color: #FFC200;
 }
@@ -271,6 +277,10 @@ components home
 /*
     Objects: edit account
 */
+.o-body--create-user {
+    overflow: hidden;
+}
+
 .o-body-acc {
     overflow: hidden;
 }
@@ -377,6 +387,10 @@ components home
     margin-top: 35px;
 }
 
+.c-account-form .c-button--add {
+    margin-top: 35px;
+}
+
 .c-account-form .c-button--login input {
     border: none;
     color: #1A1917;
@@ -389,6 +403,16 @@ components home
     transition: all 0.3s ease;
 }
 
+.c-account-form .c-button--add button {
+    border: none;
+    color: #1A1917;
+    letter-spacing: 1px;
+    font-size: 18px;
+    font-weight: 500;
+    border-radius: 6px;
+    background-color: #FFC200;
+}
+
 .c-account-form .c-button--login button {
     border: none;
     color: #1A1917;
@@ -397,6 +421,10 @@ components home
     font-weight: 500;
     border-radius: 6px;
     background-color: #CC0000;
+}
+
+.c-account-form .c-button--add button:hover {
+    background-color: #FFE699;
 }
 
 .c-button--login button:hover {
