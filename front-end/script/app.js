@@ -346,6 +346,9 @@ const listenToSocket = function () {
       showAccount(data);
     });
   }
+  if (htmlCreateAccount) {
+    listenToClickBurger();
+  }
 };
 
 // #endregion      

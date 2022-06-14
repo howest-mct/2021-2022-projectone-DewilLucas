@@ -594,6 +594,15 @@ components : mobile nav
 }
 
 /*
+    components : delete
+*/
+.c-delete {
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+}
+
+/*
     Objects: container
     
 */
