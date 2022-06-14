@@ -55,13 +55,15 @@ def pushed(knop):
 
 
 def reboot():
-    if datumVandaag.hour == 00 and datumVandaag.minute == 00 and datumVandaag.second == 00:
-        print("UPDATE")
-        time.sleep(5)
-        DataRepository.updateDatums()
-        #mail = emailPy(overdatum)
-    else:
-        time.sleep(1)
+    while True:
+        global datumVandaag
+        datumVandaag = datetime.now()
+        if datumVandaag.hour == 0 and datumVandaag.minute == 0 and datumVandaag.second == 0:
+            print("UPDATE")
+            DataRepository.updateDatums()
+            mail = emailPy(overdatum)
+        else:
+            pass
 
 
 def geefAantal():
