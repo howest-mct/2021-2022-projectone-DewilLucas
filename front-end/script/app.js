@@ -140,6 +140,7 @@ const listenToClickBurger = function () {
       burger.classList.remove("c-active");
       teller = 0;
     }
+    console.log("CLICKE");
     document.querySelector("body").classList.toggle("has-mobile-nav");
   });
 };
@@ -411,7 +412,6 @@ const init = function () {
     listenToChoiceDelete();
   }
   if (htmlCreateAccount) {
-    listenToClickBurger();
     let urlParams = new URLSearchParams(window.location.search);
     let get = urlParams.get("id");
     if (get == null || get != 1) {
