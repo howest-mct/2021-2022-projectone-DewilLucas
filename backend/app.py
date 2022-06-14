@@ -49,8 +49,8 @@ def setup_gpio():
 def pushed(knop):
     time.sleep(5)
     print("TURNED OFF")
-    os.system("sudo shutdown -h now")
-    sys.exit()
+    #os.system("sudo shutdown -h now")
+    # sys.exit()
     # quits the code
 
 
@@ -59,6 +59,7 @@ def reboot():
         print("UPDATE")
         time.sleep(5)
         DataRepository.updateDatums()
+        #mail = emailPy(overdatum)
     else:
         time.sleep(1)
 
