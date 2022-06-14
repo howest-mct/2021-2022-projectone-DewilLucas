@@ -126,8 +126,10 @@ const listenToUI = function () {
 };
 const listenToClickBurger = function () {
   const burger = document.querySelector(".js-hamburger");
+  const nav = document.querySelector(".js-nav");
   burger.addEventListener('click', function () {
     burger.classList.add("c-active");
+    nav.classList.add("c-active");
   });
 };
 const listenToAddUser = function () {
