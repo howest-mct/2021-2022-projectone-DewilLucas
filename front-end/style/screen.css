@@ -121,6 +121,7 @@ components home
     overflow: visible;
 }
 
+
 /*
     Objects: login
     
@@ -231,6 +232,131 @@ components home
 }
 
 /*
+    Objects: edit account
+*/
+.o-body-acc {
+    overflow: hidden;
+}
+
+.o-body-account {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+@media (min-width: 992px) {
+    .o-body-account {
+        margin-top: -40px;
+    }
+}
+
+@media (max-width: 768px) {
+    .o-body-account {
+        margin-top: 40px;
+    }
+}
+
+.o-container--edit {
+    margin-top: -100px;
+    position: relative;
+    max-width: 430px;
+    width: 100%;
+    background: #FFF;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.o-container--edit .c-account-forms {
+    display: flex;
+    align-items: center;
+    height: 550px;
+    width: 200%;
+}
+
+.o-container--edit .c-account-form {
+    width: 50%;
+    padding: 30px;
+}
+
+.o-container--edit .c-account-form .c-account-title {
+    position: relative;
+    font-size: 24px;
+    font-weight: 700;
+    color: #1A1917;
+}
+
+.c-account-form .c-account-title::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 3px;
+    width: 30px;
+    background-color: #FFC200;
+    border-radius: 25px;
+}
+
+.c-account-form .c-input--field {
+    position: relative;
+    margin-top: 10px;
+    height: 50px;
+    width: 100%;
+}
+
+.c-input--field input {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    padding: 0 35px;
+    border: none;
+    outline: none;
+    border-bottom: 2px solid #FFE699;
+    border-top: 2px solid transparent;
+    font-size: 18px;
+    transition: all 0.2s ease;
+}
+
+
+.c-input--field input:is(:focus, :valid) {
+    border-bottom-color: #FFC200;
+}
+
+.c-input--field i {
+    color: #1A1917;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    font-size: 24px;
+}
+
+.c-input--field input:is(:focus, :valid)~i {
+    color: #FFC200;
+}
+
+.c-account-form .c-button--login {
+    margin-top: 35px;
+}
+
+.c-account-form .c-button--login input {
+    border: none;
+    color: #1A1917;
+    letter-spacing: 1px;
+    font-size: 18px;
+    font-weight: 500;
+    border-radius: 6px;
+    background-color: #FFC200;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.c-button--login input:hover {
+    background-color: #FFE699;
+}
+
+/*
 components : mobile nav
 */
 .c-mobile-nav {
@@ -276,7 +402,7 @@ components : mobile nav
     width: 100vw;
     background-color: #fff;
     will-change: transform;
-    transform: translateX(-100%);
+    transform: translateX(100%);
     transition: transform .25s ease;
 }
 

@@ -16,7 +16,7 @@
     <script src="script/app.js"></script>
 </head>
 
-<body class="js-account">
+<body class="js-account o-body-acc">
     <div class="c-loader js-loader"></div>
     <header class="o-row">
         <div class="o-container">
@@ -46,34 +46,46 @@
         </div>
 
     </header>
+    <div class="o-body-account">
+        <div class="o-container--edit">
+            <div class="c-account-forms">
+                <div class="c-account-form c-login">
+                    <span class="c-account-title">account</span>
+                    <form class="c-form">
+                        <div class="js-admin"></div>
+                        <div class="c-input--field">
+                            <input type="text" class=" js-first" placeholder="First name" name="firstName"
+                                id="firstName" required>
+                        </div>
+                        <div class="c-input--field">
+                            <input type="text" class=" js-last" placeholder="Last name" name="lastName" id="lastName"
+                                required>
+                        </div>
+                        <div class="c-input--field">
+                            <input type="email" class=" js-e-mail" placeholder="E-mail" name="email" id="email"
+                                required>
+                        </div>
+                        <div class="c-input--field">
+                            <input type="password" class=" js-pass-user" placeholder="password" name="password"
+                                id="password">
+                        </div>
+                        <div class="c-input--field c-button--login">
+                            <input type="submit" class="js-update-user-button c-button--login" value="update">
+                        </div>
+                        <div class="c-input--field c-button--login">
+                            <input type="button" class="js-delete-user-button  c-button--login"
+                                href="loadDeleteUser.html" value="delete account">
+                        </div>
+                    </form>
+                </div>
 
-    <form class="c-form">
-        <div class="js-admin"></div>
-        <div class="c-form__item">
-            <label for="productname">first name</label><br>
-            <input type="text" class="c-input js-first" placeholder="First name" name="firstName" id="firstName"
-                required>
-        </div>
-        <div class="c-form__item">
-            <label for="productname">last name</label><br>
-            <input type="text" class="c-input js-last" placeholder="Last name" name="lastName" id="lastName" required>
-        </div>
-        <div class="c-form__item">
-            <label for="productname">E-mail</label><br>
-            <input type="email" class="c-input js-e-mail" placeholder="E-mail" name="email" id="email" required>
-        </div>
-        <div class="c-form__item">
-            <label for="productname">password</label><br>
-            <input type="password" class="c-input js-pass-user" placeholder="password" name="password" id="password">
-        </div>
-        <div class="c-form__item">
-            <button class="c-button js-update-user-button">update</button>
-        </div>
 
-    </form>
-    <div class="c-form__item">
-        <a class="c-button js-delete-user-button" href="loadDeleteUser.html">delete account</a>
+            </div>
+        </div>
     </div>
+
+
+
     <aside class="c-mobile-nav">
         <div class="c-mobile-nav__bg"></div>
         <div class="c-mobile-nav__body">
