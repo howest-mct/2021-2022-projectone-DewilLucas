@@ -14,7 +14,7 @@
   <script src="script/app.js"></script>
 </head>
 
-<body class="js-form">
+<body class="js-form o-body-add-product">
   <div class="c-loader js-loader"></div>
   <header class="o-row">
     <div class="o-container">
@@ -43,29 +43,36 @@
     </div>
 
   </header>
-  <div class="c-add-product">
-    <form class="c-form js-add">
-      <div class="c-form__item">
-        <label for="productname">Product name</label><br>
-        <input type="text" class="c-input js-naam" placeholder="Naam product" name="productname" id="productname"
-          required>
+  <div class="o-body-edit-product">
+    <div class="o-container--add">
+      <div class="c-edit-product-forms">
+        <div class="c-edit-form c-login">
+          <span class="c-edit-title">Add Product</span>
+          <form class="c-form js-add">
+            <div class="c-input--field">
+              <input type="text" class="c-input js-naam" placeholder="Naam product" name="productname" id="productname"
+                required>
+            </div>
+            <div class="c-input--field">
+              <input type="date" name="datum" id="datum" class="c-input js-date" placeholder="datum" required>
+            </div>
+            <div class="c-input--field">
+              <input type="number" name="aantal" id="aantal" class="js-aantal" min="0" max="100" placeholder="Aantal"
+                required>
+            </div>
+            <div class="c-input--field">
+              <input type="text" name="barcode" id="barcode" class="c-input js-barcode" placeholder="barcode" required>
+            </div>
+            <div class="c-input--field c-button--edit">
+              <button><a href="home.html?add=1" class="js-add-button c-button--edit">send</a></button>
+            </div>
+          </form>
+        </div>
+
       </div>
-      <div class="c-form__item">
-        <label for="datum">Expiration date</label><br>
-        <input type="date" name="datum" id="datum" class="c-input js-date" required>
-      </div>
-      <div class="c-form__item">
-        <label for="aantal">number of products</label><br>
-        <input type="number" name="aantal" id="aantal" class="js-aantal" min="0" max="100" required>
-      </div>
-      <div class="c-form__item">
-        <label for="barcode">barcode</label><br>
-        <input type="text" name="barcode" id="barcode" class="c-input js-barcode" required>
-      </div>
-      <div class="c-form__item">
-        <a href="home.html?add=1" class="js-add-button c-button">send</a>
-      </div>
-    </form>
+
+    </div>
+
   </div>
 
 </body>

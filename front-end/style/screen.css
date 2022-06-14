@@ -90,10 +90,6 @@ html {
     ---
     Default markup for typographic elements
 */
-.c-add-product {
-    margin-top: 100px;
-
-}
 
 /*------------------------------------*\
   #OBJECTS
@@ -281,6 +277,10 @@ components home
 /*
     Objects : edit product
 */
+.o-body-add-product {
+    overflow: hidden;
+}
+
 .o-body-edit-product {
     height: 100vh;
     display: flex;
@@ -288,6 +288,8 @@ components home
     justify-content: center;
     overflow: hidden;
 }
+
+
 
 /*
     Objects: edit account
@@ -338,7 +340,7 @@ components home
 
 @media (max-width: 768px) {
     .o-container--edit {
-        margin-top: 60px;
+        margin-top: -40px;
     }
 }
 
@@ -530,6 +532,87 @@ components home
 }
 
 /*
+    components : add-product
+*/
+.o-container--add {
+    position: relative;
+    max-width: 430px;
+    width: 100%;
+    background: #FFF;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+@media (max-width: 992px) {
+    .o-container--add {
+        margin-top: -80px;
+    }
+}
+
+@media (max-width: 768px) {
+    .o-container--add {
+        margin-top: 60px;
+    }
+}
+
+.o-container--add .c-edit-form {
+    width: 50%;
+    padding: 30px;
+}
+
+.c-edit-product-forms {
+    display: flex;
+    align-items: center;
+    height: 440px;
+    width: 200%;
+}
+
+.o-container--add .c-edit-forms {
+    display: flex;
+    align-items: center;
+    height: 550px;
+    width: 200%;
+}
+
+.o-container--add .c-edit-form .c-edit-title {
+    position: relative;
+    font-size: 24px;
+    font-weight: 700;
+    color: #1A1917;
+}
+
+.c-edit-form .c-edit-title::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 3px;
+    width: 30px;
+    background-color: #FFC200;
+    border-radius: 25px;
+}
+
+.c-edit-form .c-button--add {
+    margin-top: 35px;
+}
+
+.c-edit-form .c-button--add button {
+    border: none;
+    color: #1A1917;
+    letter-spacing: 1px;
+    font-size: 18px;
+    font-weight: 500;
+    border-radius: 6px;
+    background-color: #FFC200;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.c-edit-form .c-button--add button:hover {
+    background-color: #FFE699;
+}
+
+/*
 components : mobile nav
 */
 .c-mobile-nav {
@@ -640,7 +723,7 @@ components : mobile nav
 */
 
 .c-cards {
-    margin: 70px auto 20px auto;
+    margin: 20px auto 20px auto;
     align-items: center;
     justify-content: center;
     display: flex;
