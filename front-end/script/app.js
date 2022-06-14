@@ -282,7 +282,7 @@ const listenToSocket = function () {
     });
   }
   if (htmlEditPro) {
-    listenToClickBurger();
+
     socket.on("B2F_edit", function (data) {
       console.log(data);
       if (data == -1) {
@@ -410,6 +410,7 @@ const init = function () {
   }
   if (htmlEditPro) {
     getrain();
+    listenToClickBurger();
   }
   if (htmlDeletePage) {
     listenToChoiceDelete();
