@@ -279,6 +279,7 @@ const listenToSocket = function () {
     });
   }
   if (htmlEditPro) {
+    listenToClickBurger();
     socket.on("B2F_edit", function (data) {
       console.log(data);
       if (data == -1) {

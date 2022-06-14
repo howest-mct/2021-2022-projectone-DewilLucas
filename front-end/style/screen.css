@@ -275,6 +275,17 @@ components home
 }
 
 /*
+    Objects : edit product
+*/
+.o-body-edit-product {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/*
     Objects: edit account
 */
 .o-body--create-user {
@@ -306,13 +317,25 @@ components home
 }
 
 .o-container--edit {
-    margin-top: -100px;
+    margin-top: -160px;
     position: relative;
     max-width: 430px;
     width: 100%;
     background: #FFF;
     border-radius: 10px;
     overflow: hidden;
+}
+
+@media (max-width: 992px) {
+    .o-container--edit {
+        margin-top: -80px;
+    }
+}
+
+@media (max-width: 768px) {
+    .o-container--edit {
+        margin-top: 60px;
+    }
 }
 
 .o-container--edit .c-account-forms {
@@ -346,6 +369,13 @@ components home
 }
 
 .c-account-form .c-input--field {
+    position: relative;
+    margin-top: 10px;
+    height: 50px;
+    width: 100%;
+}
+
+.c-edit-form .c-input--field {
     position: relative;
     margin-top: 10px;
     height: 50px;
@@ -432,6 +462,66 @@ components home
 }
 
 .c-button--login input:hover {
+    background-color: #FFE699;
+}
+
+/*
+    components: edit product
+*/
+.o-container--edit .c-edit-form {
+    width: 50%;
+    padding: 30px;
+}
+
+.c-edit-product-forms {
+    display: flex;
+    align-items: center;
+    height: 440px;
+    width: 200%;
+}
+
+.o-container--edit .c-edit-forms {
+    display: flex;
+    align-items: center;
+    height: 550px;
+    width: 200%;
+}
+
+.o-container--edit .c-edit-form .c-edit-title {
+    position: relative;
+    font-size: 24px;
+    font-weight: 700;
+    color: #1A1917;
+}
+
+.c-edit-form .c-edit-title::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 3px;
+    width: 30px;
+    background-color: #FFC200;
+    border-radius: 25px;
+}
+
+.c-edit-form .c-button--edit {
+    margin-top: 35px;
+}
+
+.c-edit-form .c-button--edit button {
+    border: none;
+    color: #1A1917;
+    letter-spacing: 1px;
+    font-size: 18px;
+    font-weight: 500;
+    border-radius: 6px;
+    background-color: #FFC200;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.c-edit-form .c-button--edit button:hover {
     background-color: #FFE699;
 }
 
