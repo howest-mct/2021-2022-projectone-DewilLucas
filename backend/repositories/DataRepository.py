@@ -17,7 +17,7 @@ class DataRepository:
 
     @staticmethod
     def read_historiek():
-        sql = "SELECT idMeting , DeviceID, Waarde,concat(Tijdstip)as `Tijdstip` FROM smartfridgeDB.Historiek WHERE DeviceID = 1 order by Tijdstip desc;"
+        sql = "SELECT idMeting , DeviceID, Waarde,concat(Tijdstip)as `Tijdstip` FROM smartfridgeDB.Historiek WHERE DeviceID = 1 order by Tijdstip desc limit 20;"
         return Database.get_rows(sql)
 
     @staticmethod

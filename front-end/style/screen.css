@@ -669,6 +669,15 @@ components home
 }
 
 /*
+    components history
+*/
+
+.c-history--body {
+    align-items: center;
+    justify-content: center;
+}
+
+/*
 components : mobile nav
 */
 .c-mobile-nav {

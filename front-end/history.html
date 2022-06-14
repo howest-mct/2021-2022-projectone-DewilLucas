@@ -12,6 +12,7 @@
         crossorigin="anonymous"></script>
     <script src="script/datahandler.js"></script>
     <script src="script/app.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 </head>
 
 <body class="js-history">
@@ -44,15 +45,18 @@
 
     </header>
 
-    <div class="c-history--body"></div>
-    <table class="js-table">
-        <tr class="headers">
-            <th>idmeting</th>
-            <th>DeviceID</th>
-            <th>Waarde</th>
-            <th>Tijdstip</th>
-        </tr>
-    </table>
+    <div class="c-history--body">
+        <canvas id="js-myChart" style="width:100%;max-width:600px"></canvas>
+        <table class="js-table">
+            <tr class="headers">
+                <th>idmeting</th>
+                <th>DeviceID</th>
+                <th>Waarde</th>
+                <th>Tijdstip</th>
+            </tr>
+        </table>
+    </div>
+
     <aside class="c-mobile-nav">
         <div class="c-mobile-nav__bg"></div>
         <div class="c-mobile-nav__body">

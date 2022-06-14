@@ -25,7 +25,7 @@ class TemperatuurClass:
                         if insert_temp > 0:
                             uitvoer = f"temperatuur succesvol toegevoegd: {round(temperatuur, 2)}"
                             print(uitvoer)
-            time.sleep(5)
+            time.sleep(20)
 
     def leesTemp(self):
         while True:

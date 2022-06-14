@@ -33,6 +33,9 @@ const showHistory = function (json) {
   let htmldata = document.querySelector(".js-table");
   let htmlHeader = ``;
   let htmlUitvoer = ``;
+
+  let xValues = [];
+  let yValues = [];
   htmlHeader = `<th>idmeting</th>
                 <th>DeviceID</th>
                 <th>Waarde</th>
@@ -46,7 +49,43 @@ const showHistory = function (json) {
             <td>${obj.Waarde}</td>
             <td>${obj.Tijdstip}</td>
     </tr>`;
+    xValues.push(obj.Tijdstip);
+    yValues.push(obj.Waarde);
   }
+
+
+  new Chart("js-myChart", {
+    type: "line",
+    data: {
+      labels: xValues,
+      datasets: [{
+        fill: false,
+        lineTension: 0,
+        backgroundColor: "rgba(255,255,255,1.0)",
+        borderColor: "rgba(255,255,255,0.1)",
+        data: yValues
+      }]
+    },
+    options: {
+      plugins: {
+        title: {
+          display: true,
+          text: 'Custom Chart Title',
+          padding: {
+            top: 10,
+            bottom: 30
+          }
+        }
+      },
+      legend: {
+        display: true,
+        labels: yValues
+      },
+      scales: {
+        yAxes: [{ ticks: { min: -5, max: 30 } }],
+      }
+    }
+  });
   htmldata.innerHTML = htmlUitvoer;
 };
 const showEdit = function (json) {
