@@ -360,7 +360,8 @@ const listenToSocket = function () {
           naam: document.querySelector(".js-name").value,
           datum: document.querySelector(".js-datum").value,
           aantal: document.querySelector(".js-aantall").value,
-          barcode: document.querySelector(".js-bar").value
+          barcode: document.querySelector(".js-bar").value,
+          foto: document.querySelector(".js-foto").value
         };
         socket.emit("F2B_edit_product", jsonObj);
         window.location.href = "index.html";

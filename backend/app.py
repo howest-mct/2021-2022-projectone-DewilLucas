@@ -457,6 +457,7 @@ def delete_product(id):
 def edit(data):
     global aanwezigID
     global uitv
+
     aanwezigID = data
     uitv = DataRepository.zoekbyAanwezigId(data)
     if uitv != None or uitv != -1:
@@ -489,6 +490,7 @@ def add(data):
 @ socketio.on("F2B_edit_product")
 def update_product(data):
     try:
+        print(data)
         d = datetime.strptime(data["datum"], '%Y-%m-%d').date()
         huidigeDatum = date.today()
         verschil = d-huidigeDatum

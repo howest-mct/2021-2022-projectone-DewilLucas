@@ -525,19 +525,22 @@ components home
 .c-edit-product-forms {
     display: flex;
     align-items: center;
-    height: 440px;
+    height: 560px;
     width: 200%;
+    margin-top: -10px;
 }
 
 .o-container--edit .c-edit-forms {
     display: flex;
     align-items: center;
-    height: 550px;
+    height: 600px;
     width: 200%;
 }
 
 .o-container--edit .c-edit-form .c-edit-title {
     position: relative;
+    margin-top: 20px;
+    display: flex;
     font-size: 24px;
     font-weight: 700;
     color: #1A1917;
@@ -554,9 +557,6 @@ components home
     border-radius: 25px;
 }
 
-.c-edit-form .c-button--edit {
-    margin-top: 35px;
-}
 
 .c-edit-form .c-button--edit button {
     border: none;
@@ -599,12 +599,7 @@ components home
     padding: 30px;
 }
 
-.c-edit-product-forms {
-    display: flex;
-    align-items: center;
-    height: 440px;
-    width: 200%;
-}
+
 
 .o-container--add .c-edit-forms {
     display: flex;
@@ -852,6 +847,34 @@ components : mobile nav
         margin: 0 auto;
         padding: 3rem 2rem;
     }
+}
+
+/*
+objects - select
+*/
+.o-select {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 40px;
+    margin-bottom: -10px;
+}
+
+
+/*
+objects : images
+*/
+.o-image {
+    display: flex;
+    max-width: 150px;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    border-radius: 5px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /*
