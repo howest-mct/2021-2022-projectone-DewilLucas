@@ -315,7 +315,8 @@ const listenToAdd = function () {
       naam: document.querySelector(".js-naam").value,
       datum: document.querySelector(".js-date").value,
       aantal: document.querySelector(".js-aantal").value,
-      barcode: document.querySelector(".js-barcode").value
+      barcode: document.querySelector(".js-barcode").value,
+      foto: document.querySelector(".js-foto").value
     };
     console.log(jsonObj);
     socket.emit("F2B_add-product", jsonObj);
@@ -484,7 +485,7 @@ const init = function () {
   }
   if (htmlAdd) {
     listenToAdd();
-
+    listenTochangeDropdown();
   }
   if (htmlEditPro) {
     getrain();
