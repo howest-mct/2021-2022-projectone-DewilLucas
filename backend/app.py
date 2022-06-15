@@ -265,7 +265,6 @@ def schrijfLCD():
         ['hostname', '--all-ip-addresses']).split()
     # Eerste ip die binnenkomt aka de ip van de ethernetpoort
     eth = ips[0]
-    print(ips)
     wlan = ips[1]  # de ip van de raspberry
     lcd.write_message(f"{eth.decode()}", 0x80)  # 0x80 is lijn 1 van de LCD
     lcd.write_message(f"{wlan.decode()}", 0xC0)  # 0xC0 is lijn 2 van de LCD
@@ -463,6 +462,7 @@ def edit(data):
     uitv = DataRepository.zoekbyAanwezigId(data)
     if uitv != None or uitv != -1:
         socketio.emit("B2F_edit", uitv)
+        print(uitv)
     else:
         print("Geen data gevonden")
 
@@ -498,7 +498,7 @@ def update_product(data):
         print(verschil)
         if aanwezigID != None or aanwezigID != -1:
             DataRepository.update_by_website_product(
-                aanwezigID, data["naam"], data['datum'], data['aantal'], data["barcode"], int(verschil.days))
+                aanwezigID, data["naam"], data['datum'], data['aantal'], data["barcode"], int(verschil.days), data["foto"])
         else:
             print("Geen data gevonden")
 
