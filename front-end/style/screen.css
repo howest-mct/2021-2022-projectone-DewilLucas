@@ -305,7 +305,33 @@ components home
     overflow: hidden;
 }
 
+/*
+    objects : chart
+*/
+.c-hide {
+    overflow: hidden;
+}
 
+.o-body-chart {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media (min-width: 992px) {
+    .o-body-chart {
+        margin-top: -80px;
+        overflow: hidden;
+    }
+}
+
+@media (max-width: 768px) {
+    .o-body-chart {
+        margin-top: -40px;
+        overflow: hidden;
+    }
+}
 
 /*
     Objects: edit account

@@ -35,7 +35,14 @@ const showChart = function (datax, dataY) {
     chart: {
       type: 'line',
       colors: '#FFC200',
-      forecolor: '#FFC200'
+      forecolor: '#FFC200',
+      height: '400px'
+    },
+    title: {
+      text: 'Temperatuur',
+      style: {
+        color: '#fff'
+      }
     },
     dataLabels: {
       enabled: true,
@@ -46,7 +53,7 @@ const showChart = function (datax, dataY) {
       theme: 'dark'
     },
     series: [{
-      name: 'sales',
+      name: 'temperatuur',
       data: dataY
     }],
     xaxis: {
