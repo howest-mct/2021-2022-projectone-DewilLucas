@@ -360,9 +360,7 @@ def hallo():
 def initial_connection():
     print('A new client connect')
     data = DataRepository.geef_alle_producten()
-    # leesTemperatuur()
     socketio.emit("B2F_connected", data)
-    # DataRepository.updateDatums()
     DataRepository.geefOverdatums()
     # # Send to the client!
 

@@ -116,10 +116,12 @@ const showEdit = function (json) {
   let htmlDate = document.querySelector(".js-datum");
   let htmlaantal = document.querySelector(".js-aantall");
   let htmlbarcode = document.querySelector(".js-bar");
+  let htmlImage = document.querySelector('.js-image');
   htmlName.value = json.Naam;
   htmlDate.value = json.HoudbaarheidsDatum;
   htmlaantal.value = json.Aantal;
   htmlbarcode.value = json.Barcode;
+  htmlImage.src = `images/${json.Afbeelding}`;
 };
 const showFood = function (json) {
   console.log(json);
@@ -129,7 +131,7 @@ const showFood = function (json) {
   for (let obj of json) {
     htmlUitvoer += `<div class="c-card js-card">
               <div class="c-card__image-container js-img-card" data-id="${obj.idAanwezig}">
-                <a href="edit_product.html?idaanwezig=${obj.idAanwezig}"><img src="https://fakeimg.pl/400x300/f1db26/000/" alt="${obj.Naam}" class="c-card__img">
+                <a href="edit_product.html?idaanwezig=${obj.idAanwezig}"><img src="${obj.Afbeelding == null ? obj.Afbeelding = 'https://fakeimg.pl/400x300/f1db26/000/' : `images/${obj.Afbeelding}`}" alt="${obj.Naam}" class="c-card__img">
                 </a>
                 <h3 class="c-card--name">${obj.Naam}</h3>
               </div>

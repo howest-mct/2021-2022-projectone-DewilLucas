@@ -75,7 +75,7 @@ class DataRepository:
 
     @staticmethod
     def geef_alle_producten():
-        sql = "SELECT pa.idAanwezig,pa.idproduct,p.Naam,concat(pa.HoudbaarheidsDatum) as `HoudbaarheidsDatum`,pa.aantal from smartfridgeDB.ProductAanwezig pa join smartfridgeDB.Product p on p.idproduct = pa.idProduct where pa.aanwezig = %s order by `HoudbaarheidsDatum` asc;"
+        sql = "SELECT p.Afbeelding, pa.idAanwezig,pa.idproduct,p.Naam,concat(pa.HoudbaarheidsDatum) as `HoudbaarheidsDatum`,pa.aantal from smartfridgeDB.ProductAanwezig pa join smartfridgeDB.Product p on p.idproduct = pa.idProduct where pa.aanwezig = %s order by `HoudbaarheidsDatum` asc;"
         param = [1]
         return Database.get_rows(sql, param)
 
