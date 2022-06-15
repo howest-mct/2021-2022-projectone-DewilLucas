@@ -23,6 +23,17 @@ let htmlloadDeleteAccount;
 let htmlTest;
 let chart;
 let chartActive = false;
+let datumVandaag = new Date();
+let tdatum = datumVandaag.getDate();
+let month = datumVandaag.getMonth() + 1;
+if (month < 10) {//indien getal geen 2waarden heeft voeg er een nul aan toe
+  month = '0' + month;
+}
+if (tdatum < 10) {
+  tdatum = '0' + tdatum;
+}
+let year = datumVandaag.getUTCFullYear();
+let minimumDatum = year + '-' + month + '-' + tdatum;
 // #endregion 
 // #region ***  Callback-Visualisation - show___         ***********      
 const showTemp = function (temp) {
@@ -114,6 +125,7 @@ const showHistory = function (json) {
 const showEdit = function (json) {
   let htmlName = document.querySelector(".js-name");
   let htmlDate = document.querySelector(".js-datum");
+  htmlDate.setAttribute("min", minimumDatum);
   let htmlaantal = document.querySelector(".js-aantall");
   let htmlbarcode = document.querySelector(".js-bar");
   let htmlImage = document.querySelector('.js-image');
@@ -302,18 +314,17 @@ const listenToInput = function () {
     });
 
   }
-  /*else {
-    window.location.reload(true);
-  }*/
 
 };
 const listenToAdd = function () {
   const htmlButton = document.querySelector(".js-add-button");
+  let datumPicker = document.querySelector(".js-date");
+  datumPicker.setAttribute("min", minimumDatum);
   htmlButton.addEventListener("click", function () {
     console.log("toevoegen van nieuwe product");
     const jsonObj = {
       naam: document.querySelector(".js-naam").value,
-      datum: document.querySelector(".js-date").value,
+      datum: datumPicker.value,
       aantal: document.querySelector(".js-aantal").value,
       barcode: document.querySelector(".js-barcode").value,
       foto: document.querySelector(".js-foto").value
