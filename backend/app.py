@@ -48,7 +48,7 @@ def setup_gpio():
 def pushed(knop):
     time.sleep(5)
     print("TURNED OFF")
-    #os.system("sudo shutdown -h now")
+    # os.system("sudo shutdown -h now")
     # sys.exit()
     # quits the code
 
@@ -317,7 +317,7 @@ def leesHistoriek():
     while True:
         hist = DataRepository.read_historiek()
         socketio.emit("B2F_history", hist, broadcast=True)
-        time.sleep(5)
+        time.sleep(1)
 
 
 def start():
@@ -364,7 +364,7 @@ def initial_connection():
     # # Send to the client!
 
 
-@socketio.on("F2B_add_user")
+@ socketio.on("F2B_add_user")
 def add_user(data):
     naam = data["naam"]
     voornaam = data['voornaam']
@@ -379,7 +379,7 @@ def add_user(data):
         print("succes!")
 
 
-@socketio.on("F2B_gebruiker")
+@ socketio.on("F2B_gebruiker")
 def connection(data):
     email = data['mail']
     passwoordSalted = f"s@lt#{data['passwoord']}#tl@s"
@@ -391,7 +391,7 @@ def connection(data):
     user = login
 
 
-@socketio.on("F2B_delete_account")
+@ socketio.on("F2B_delete_account")
 def deleteUser(data):
     try:
         delete = DataRepository.delete_user(data['idgebruiker'])
@@ -402,20 +402,20 @@ def deleteUser(data):
         print(ex)
 
 
-@socketio.on("F2B_loadPage")
+@ socketio.on("F2B_loadPage")
 def loadpage(data):
     print(data)
     if data == 1:
         socketio.emit("B2F_user", user)
 
 
-@socketio.on("F2B_account")
+@ socketio.on("F2B_account")
 def showAccount(data):
     if data == 1:
         socketio.emit("B2F_account", user)
 
 
-@socketio.on("F2B_update_user")
+@ socketio.on("F2B_update_user")
 def updateAccount(data):
     print(data)
     id = data['id']
@@ -443,14 +443,14 @@ def updateAccount(data):
         socketio.emit("B2F_updated_user", user)
 
 
-@socketio.on("F2B_delete_product")
+@ socketio.on("F2B_delete_product")
 def delete_product(id):
     print("Start delete")
     verwijder = DataRepository.delete_by_website(id)
     socketio.emit("B2F_deleted", verwijder)
 
 
-@socketio.on('F2B_edit')
+@ socketio.on('F2B_edit')
 def edit(data):
     global aanwezigID
     global uitv
@@ -462,7 +462,7 @@ def edit(data):
         print("Geen data gevonden")
 
 
-@socketio.on("F2B_add-product")
+@ socketio.on("F2B_add-product")
 def add(data):
     print('new product')
     try:
@@ -483,7 +483,7 @@ def add(data):
         print(ex)
 
 
-@socketio.on("F2B_edit_product")
+@ socketio.on("F2B_edit_product")
 def update_product(data):
     try:
         d = datetime.strptime(data["datum"], '%Y-%m-%d').date()
@@ -500,7 +500,7 @@ def update_product(data):
         print(ex)
 
 
-@socketio.on("F2B_barcode")
+@ socketio.on("F2B_barcode")
 def barOffline(invoer):
     if len(invoer) >= 13:
         print(invoer)
@@ -642,7 +642,7 @@ if __name__ == '__main__':
         temp = TemperatuurClass(temperatuurSensor)
         DataRepository.updateDatums()
         overdatum = DataRepository.geefOverdatums()
-        #mail = emailPy(overdatum)
+        # mail = emailPy(overdatum)
         setup_gpio()
         start_thread()
         start_chrome_thread()

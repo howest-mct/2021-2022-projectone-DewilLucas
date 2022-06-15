@@ -21,6 +21,8 @@ let htmlLoadUpdatedAccount;
 let htmlCreateAccount;
 let htmlloadDeleteAccount;
 let htmlTest;
+let chart;
+let chartActive = false;
 // #endregion 
 // #region ***  Callback-Visualisation - show___         ***********      
 const showTemp = function (temp) {
@@ -28,65 +30,79 @@ const showTemp = function (temp) {
   let htmlUitvoer = `Huidige temperatuur: ${temp}`;
   htmlTemp.innerHTML = htmlUitvoer;
 };
-const showHistory = function (json) {
-  console.log(json);
-  let htmldata = document.querySelector(".js-table");
-  let htmlHeader = ``;
-  let htmlUitvoer = ``;
-
-  let xValues = [];
-  let yValues = [];
-  htmlHeader = `<th>idmeting</th>
-                <th>DeviceID</th>
-                <th>Waarde</th>
-                <th>Tijdstip</th>`;
-  htmlUitvoer += htmlHeader;
-  for (let obj of json) {
-    htmlUitvoer += `
-    <tr>
-            <td>${obj.idMeting}</td>
-            <td>${obj.DeviceID}</td>
-            <td>${obj.Waarde}</td>
-            <td>${obj.Tijdstip}</td>
-    </tr>`;
-    xValues.push(obj.Tijdstip);
-    yValues.push(obj.Waarde);
-  }
-
-
-  new Chart("js-myChart", {
-    type: "line",
-    data: {
-      labels: xValues,
-      datasets: [{
-        fill: false,
-        lineTension: 0,
-        backgroundColor: "rgba(255,255,255,1.0)",
-        borderColor: "rgba(255,255,255,0.1)",
-        data: yValues
-      }]
+const showChart = function (datax, dataY) {
+  let options = {
+    chart: {
+      type: 'line',
+      colors: '#FFC200',
+      forecolor: '#FFC200'
     },
-    options: {
-      plugins: {
-        title: {
-          display: true,
-          text: 'Custom Chart Title',
-          padding: {
-            top: 10,
-            bottom: 30
-          }
+    dataLabels: {
+      enabled: true,
+    },
+    colors: ['#FFC200', '#FFC200'],
+    tooltip: {
+      enabled: true,
+      theme: 'dark'
+    },
+    series: [{
+      name: 'sales',
+      data: dataY
+    }],
+    xaxis: {
+      labels: {
+        style: {
+          colors: '#fff'
         }
       },
-      legend: {
-        display: true,
-        labels: yValues
-      },
-      scales: {
-        yAxes: [{ ticks: { min: -5, max: 30 } }],
+      categories: datax
+
+    }, yaxis: {
+      labels: {
+        style: {
+          colors: '#fff'
+        }
       }
+    },
+    markers: {
+      size: 5,
+      colors: ["#FFC200"]
+    },
+    noData: {
+      text: 'Loading...',
     }
-  });
-  htmldata.innerHTML = htmlUitvoer;
+  };
+  chart = new ApexCharts(document.querySelector("#js-chart"), options);
+  chart.render();
+};
+const showHistory = function (json) {
+  let datax = [];
+  let dataY = [];
+  for (let obj of json) {
+    datax.push(obj.Tijdstip);
+    dataY.push(obj.Waarde);
+  }
+  datax.reverse();
+  dataY.reverse();
+  if (chartActive == false) {
+    showChart(datax, dataY);
+    chartActive = true;
+
+  }
+  else if (chartActive == true) {
+    chart.updateOptions({
+      xaxis: {
+        categories: datax,
+      },
+      series: [
+        {
+          data: dataY,
+        },
+      ],
+    });
+  }
+
+  //htmldata.innerHTML = htmlUitvoer;
 };
 const showEdit = function (json) {
   let htmlName = document.querySelector(".js-name");
