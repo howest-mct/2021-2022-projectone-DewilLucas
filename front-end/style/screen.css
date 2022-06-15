@@ -50,13 +50,14 @@ html {
     Default markup for btn to make them responsive
 */
 .floatingbtn {
-    bottom: 120px;
+    bottom: 30px;
     position: fixed;
-    right: 30px;
+    right: 5px;
     width: 60px;
     height: 60px;
     background: #FFC200;
     border-radius: 50%;
+    border: solid #1A1917 1px;
     z-index: 2;
 }
 
@@ -865,7 +866,8 @@ components : mobile nav
     justify-content: center;
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 30px;
+    flex-direction: row;
 }
 
 .c-cards .c-card {
@@ -874,9 +876,12 @@ components : mobile nav
 }
 
 .c-card {
-    flex: 1 0 100%;
+    flex: 2 0 100%;
     max-width: 250px;
 }
+
+
+
 
 
 .c-card--name,
@@ -915,6 +920,120 @@ components : mobile nav
 
 .c-card__content>p:last-of-type {
     margin-bottom: 0;
+}
+
+@media (min-width:100px) {
+    .floatingbtn {
+        width: 60px;
+        height: 60px;
+    }
+
+    .c-card {
+        flex: 1 0 50%;
+        max-width: 250px;
+    }
+
+    .c-card--name {
+        font-size: 16px;
+        bottom: 2px;
+        left: 8px;
+    }
+
+    .c-cards {
+        gap: 20px;
+    }
+
+    .c-card--date {
+        font-size: 16px;
+        margin-left: -5%;
+        margin-top: -12px;
+    }
+
+    .u-icons {
+        font-size: 20px;
+        float: right;
+        position: relative;
+        margin-top: -5px;
+    }
+}
+
+@media (min-width: 500px) {
+    .c-card {
+        flex: 2 0 100%;
+        max-width: 250px;
+    }
+
+    .c-cards {
+        gap: 40px;
+    }
+}
+
+@media (max-width: 768px) {
+    .c-card {
+        flex: 2 0 100%;
+        max-width: 250px;
+    }
+
+    .c-cards {
+        gap: 20px;
+    }
+}
+
+@media (min-width:768px) {
+    .c-card {
+        flex: 2 0 100%;
+        max-width: 250px;
+    }
+
+    .floatingbtn {
+        right: 10px;
+    }
+
+    .c-cards {
+        gap: 30px;
+    }
+
+    .c-card--date {
+        font-size: 12px;
+        margin-left: -5%;
+        margin-top: -10px;
+    }
+
+    .u-icons {
+        font-size: 16px;
+        float: right;
+        position: relative;
+        margin-top: -5px;
+    }
+}
+
+@media (min-width:992px) {
+    .c-card {
+        flex: 2 0 100%;
+        max-width: 250px;
+    }
+
+    .c-card--date {
+        font-size: 20px;
+        margin-left: -5%;
+        margin-top: -17px;
+        font-weight: 700;
+    }
+
+    .u-icons {
+        font-size: 24px;
+        float: right;
+        position: relative;
+        margin-top: -7px;
+    }
+
+    .c-card--name {
+        font-size: 18px;
+    }
+
+    .c-cards {
+        gap: 30px;
+    }
 }
 
 /*.grid {
@@ -1513,8 +1632,6 @@ nav {
 .u-icons {
     float: right;
     position: relative;
-    margin-top: -15px;
-    margin-left: 10px;
 }
 
 /*
