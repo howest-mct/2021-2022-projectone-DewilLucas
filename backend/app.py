@@ -164,31 +164,34 @@ def barcodeInput(invoer=""):
                             d = datetime.strptime(datumke, '%Y-%m-%d').date()
                             huidigeDatum = date.today()
                             verschil = d-huidigeDatum
-                            lcd.init_LCD()
-                            lcd.write_message("Hoeveel?", 0x80)
-                            lstAantal = []
-                            aantal = ""
-                            while aantal != "#":
-                                aantal = leesKeypad()
-                                if aantal == None or aantal == "#" or aantal == "*":
-                                    pass
-                                else:
-                                    lstAantal.append(aantal)
-                                    strAantal = str(lstAantal)
-                                    convStrAantal = converteerListNaarStr(
-                                        strAantal)
-                                    global final
-                                    final = f"{convStrAantal}"
-                                    lcd.write_message(final, 0XC0)
+                            if verschil.days <= 0:
+                                raise(Exception)
+                            else:
+                                lcd.init_LCD()
+                                lcd.write_message("Hoeveel?", 0x80)
+                                lstAantal = []
+                                aantal = ""
+                                while aantal != "#":
+                                    aantal = leesKeypad()
+                                    if aantal == None or aantal == "#" or aantal == "*":
+                                        pass
+                                    else:
+                                        lstAantal.append(aantal)
+                                        strAantal = str(lstAantal)
+                                        convStrAantal = converteerListNaarStr(
+                                            strAantal)
+                                        global final
+                                        final = f"{convStrAantal}"
+                                        lcd.write_message(final, 0XC0)
 
-                            DataRepository.add_product_in_inventory(
-                                zoek['idproduct'], d, verschil.days, int(final))
-                            print(d)
-                            lcd.init_LCD()
-                            lcd.write_message("Dit is een...", 0x80)
-                            lcd.write_message("Succes! :)", 0XC0)
-                            time.sleep(3)
-                            schrijfLCD()
+                                DataRepository.add_product_in_inventory(
+                                    zoek['idproduct'], d, verschil.days, int(final))
+                                print(d)
+                                lcd.init_LCD()
+                                lcd.write_message("Dit is een...", 0x80)
+                                lcd.write_message("Succes! :)", 0XC0)
+                                time.sleep(3)
+                                schrijfLCD()
                         except Exception as ex:
                             print("datum ongeldig")
                             lcd.write_message("datum ongeldig", 0X80)
