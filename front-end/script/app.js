@@ -271,6 +271,14 @@ const listenToChoiceDelete = function () {
     socket.emit("F2B_delete_product", get);
   });
 };
+const listenTochangeDropdown = function () {
+  let dropdown = document.querySelector(".js-foto");
+  let img = document.querySelector(".js-image");
+  dropdown.addEventListener("change", function () {
+    img.src = `images/${dropdown.value}`;
+    console.log(img.src);
+  });
+};
 const listenToInput = function () {
   let barcode = document.querySelector(".js-barcode-offline");
   barcode.focus();
@@ -344,6 +352,7 @@ const listenToSocket = function () {
     });
   }
   if (htmlEditPro) {
+
 
     socket.on("B2F_edit", function (data) {
       console.log(data);
@@ -474,6 +483,7 @@ const init = function () {
   if (htmlEditPro) {
     getrain();
     listenToClickBurger();
+    listenTochangeDropdown();
   }
   if (htmlDeletePage) {
     listenToChoiceDelete();
