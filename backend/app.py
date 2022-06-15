@@ -469,12 +469,13 @@ def edit(data):
 def add(data):
     print('new product')
     try:
+        print(data)
         d = datetime.strptime(data["datum"], '%Y-%m-%d').date()
         huidigeDatum = date.today()
         verschil = d-huidigeDatum
         print(verschil.days)
         voegtoe = DataRepository.add_product_by_web(
-            data["naam"], data["datum"], int(verschil.days), int(data["aantal"]), data['barcode'])
+            data["naam"], data["datum"], int(verschil.days), int(data["aantal"]), data['barcode'], data["foto"])
         if voegtoe == -1:
             print("Deze product is al aanwezig")
             socketio.emit("B2F_alAanwezig", {

@@ -80,13 +80,13 @@ class DataRepository:
         return Database.get_rows(sql, param)
 
     @staticmethod
-    def add_product_by_web(naam, datum, verschil, aantal, barcode):
+    def add_product_by_web(naam, datum, verschil, aantal, barcode, afbeelding):
         sql3 = "SELECT idproduct from  smartfridgeDB.Product where naam = %s AND Barcode = %s"
         paraamA = [naam, barcode]
         test1 = Database.get_one_row(sql3, paraamA)
         if test1 == -1 or test1 == None:
-            sql1 = "insert into Product(Naam,Eersteinvoeg,Barcode) values(%s,now(),%s)"
-            param = [naam, barcode]
+            sql1 = "insert into Product(Naam,Eersteinvoeg,Barcode,Afbeelding) values(%s,now(),%s,%s)"
+            param = [naam, barcode, afbeelding]
             Database.execute_sql(sql1, param)
 
             sql2 = "SELECT idproduct from  smartfridgeDB.Product where naam = %s AND Barcode = %s"
