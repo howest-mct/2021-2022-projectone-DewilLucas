@@ -135,9 +135,12 @@ const showEdit = function (json) {
   htmlaantal.value = json.Aantal;
   htmlbarcode.value = json.Barcode;
   let str = json.Afbeelding;
-  console.log(str.substring(0, str.indexOf(".")));
-  dropdown.value = str;
-  htmlImage.src = `images/${json.Afbeelding}`;
+  dropdown.selectedIndex = 0;
+  if (str != null && str != 'https://fakeimg.pl/400x300/f1db26/000/') {
+    dropdown.value = str;
+  }
+  else { dropdown.selectedIndex = 0; }
+  htmlImage.src = json.Afbeelding == null || json.Afbeelding == 'https://fakeimg.pl/400x300/f1db26/000/' ? json.Afbeelding = 'https://fakeimg.pl/400x300/f1db26/000/' : `images/${json.Afbeelding}`;
 };
 const showFood = function (json) {
   console.log(json);
