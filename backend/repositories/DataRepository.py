@@ -17,7 +17,7 @@ class DataRepository:
 
     @staticmethod
     def read_historiek():
-        sql = "SELECT idMeting , DeviceID, Waarde,concat(Tijdstip)as `Tijdstip` FROM smartfridgeDB.Historiek order by Tijdstip desc;"
+        sql = "SELECT idMeting , DeviceID, Waarde,concat(Tijdstip)as `Tijdstip` FROM smartfridgeDB.Historiek WHERE DeviceID = 1 order by Tijdstip desc limit 20;"
         return Database.get_rows(sql)
 
     @staticmethod
@@ -75,7 +75,7 @@ class DataRepository:
 
     @staticmethod
     def geef_alle_producten():
-        sql = "SELECT pa.idproduct,p.Naam,concat(pa.HoudbaarheidsDatum) as `HoudbaarheidsDatum`,pa.aantal from smartfridgeDB.ProductAanwezig pa join smartfridgeDB.Product p on p.idproduct = pa.idProduct where pa.aanwezig = %s order by `HoudbaarheidsDatum` asc;"
+        sql = "SELECT pa.idAanwezig,pa.idproduct,p.Naam,concat(pa.HoudbaarheidsDatum) as `HoudbaarheidsDatum`,pa.aantal from smartfridgeDB.ProductAanwezig pa join smartfridgeDB.Product p on p.idproduct = pa.idProduct where pa.aanwezig = %s order by `HoudbaarheidsDatum` asc;"
         param = [1]
         return Database.get_rows(sql, param)
 

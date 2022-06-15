@@ -35,7 +35,6 @@ lcd = Lcd(E, RS, lcdPins)
 oled = OLED(128, 64, 5)
 lees = TemperatuurClass(temperatuurSensor)
 user = -1
-datumVandaag = datetime.now()
 # Code voor Hardware
 
 
@@ -49,18 +48,20 @@ def setup_gpio():
 def pushed(knop):
     time.sleep(5)
     print("TURNED OFF")
-    os.system("sudo shutdown -h now")
-    sys.exit()
+    # os.system("sudo shutdown -h now")
+    # sys.exit()
     # quits the code
 
 
 def reboot():
-    if datumVandaag.hour == 00 and datumVandaag.minute == 00 and datumVandaag.second == 00:
-        print("UPDATE")
-        time.sleep(5)
-        DataRepository.updateDatums()
-    else:
-        time.sleep(1)
+    while True:
+        datumVandaag = datetime.now()
+        if datumVandaag.hour == 0 and datumVandaag.minute == 0 and datumVandaag.second == 0:
+            print("UPDATE")
+            DataRepository.updateDatums()
+            mail = emailPy(overdatum)
+        else:
+            pass
 
 
 def geefAantal():
@@ -163,31 +164,34 @@ def barcodeInput(invoer=""):
                             d = datetime.strptime(datumke, '%Y-%m-%d').date()
                             huidigeDatum = date.today()
                             verschil = d-huidigeDatum
-                            lcd.init_LCD()
-                            lcd.write_message("Hoeveel?", 0x80)
-                            lstAantal = []
-                            aantal = ""
-                            while aantal != "#":
-                                aantal = leesKeypad()
-                                if aantal == None or aantal == "#" or aantal == "*":
-                                    pass
-                                else:
-                                    lstAantal.append(aantal)
-                                    strAantal = str(lstAantal)
-                                    convStrAantal = converteerListNaarStr(
-                                        strAantal)
-                                    global final
-                                    final = f"{convStrAantal}"
-                                    lcd.write_message(final, 0XC0)
+                            if verschil.days <= 0:
+                                raise(Exception)
+                            else:
+                                lcd.init_LCD()
+                                lcd.write_message("Hoeveel?", 0x80)
+                                lstAantal = []
+                                aantal = ""
+                                while aantal != "#":
+                                    aantal = leesKeypad()
+                                    if aantal == None or aantal == "#" or aantal == "*":
+                                        pass
+                                    else:
+                                        lstAantal.append(aantal)
+                                        strAantal = str(lstAantal)
+                                        convStrAantal = converteerListNaarStr(
+                                            strAantal)
+                                        global final
+                                        final = f"{convStrAantal}"
+                                        lcd.write_message(final, 0XC0)
 
-                            DataRepository.add_product_in_inventory(
-                                zoek['idproduct'], d, verschil.days, int(final))
-                            print(d)
-                            lcd.init_LCD()
-                            lcd.write_message("Dit is een...", 0x80)
-                            lcd.write_message("Succes! :)", 0XC0)
-                            time.sleep(3)
-                            schrijfLCD()
+                                DataRepository.add_product_in_inventory(
+                                    zoek['idproduct'], d, verschil.days, int(final))
+                                print(d)
+                                lcd.init_LCD()
+                                lcd.write_message("Dit is een...", 0x80)
+                                lcd.write_message("Succes! :)", 0XC0)
+                                time.sleep(3)
+                                schrijfLCD()
                         except Exception as ex:
                             print("datum ongeldig")
                             lcd.write_message("datum ongeldig", 0X80)
@@ -256,7 +260,6 @@ def barcodeInput(invoer=""):
 
 
 def schrijfLCD():
-
     lcd.init_LCD()  # kuis het eerst op
     ips = check_output(
         ['hostname', '--all-ip-addresses']).split()
@@ -316,7 +319,7 @@ def leesHistoriek():
     while True:
         hist = DataRepository.read_historiek()
         socketio.emit("B2F_history", hist, broadcast=True)
-        time.sleep(5)
+        time.sleep(1)
 
 
 def start():
@@ -357,13 +360,14 @@ def hallo():
 def initial_connection():
     print('A new client connect')
     data = DataRepository.geef_alle_producten()
+    # leesTemperatuur()
     socketio.emit("B2F_connected", data)
     # DataRepository.updateDatums()
     DataRepository.geefOverdatums()
     # # Send to the client!
 
 
-@socketio.on("F2B_add_user")
+@ socketio.on("F2B_add_user")
 def add_user(data):
     naam = data["naam"]
     voornaam = data['voornaam']
@@ -378,7 +382,7 @@ def add_user(data):
         print("succes!")
 
 
-@socketio.on("F2B_gebruiker")
+@ socketio.on("F2B_gebruiker")
 def connection(data):
     email = data['mail']
     passwoordSalted = f"s@lt#{data['passwoord']}#tl@s"
@@ -390,7 +394,7 @@ def connection(data):
     user = login
 
 
-@socketio.on("F2B_delete_account")
+@ socketio.on("F2B_delete_account")
 def deleteUser(data):
     try:
         delete = DataRepository.delete_user(data['idgebruiker'])
@@ -401,20 +405,20 @@ def deleteUser(data):
         print(ex)
 
 
-@socketio.on("F2B_loadPage")
+@ socketio.on("F2B_loadPage")
 def loadpage(data):
     print(data)
     if data == 1:
         socketio.emit("B2F_user", user)
 
 
-@socketio.on("F2B_account")
+@ socketio.on("F2B_account")
 def showAccount(data):
     if data == 1:
         socketio.emit("B2F_account", user)
 
 
-@socketio.on("F2B_update_user")
+@ socketio.on("F2B_update_user")
 def updateAccount(data):
     print(data)
     id = data['id']
@@ -442,14 +446,14 @@ def updateAccount(data):
         socketio.emit("B2F_updated_user", user)
 
 
-@socketio.on("F2B_delete_product")
+@ socketio.on("F2B_delete_product")
 def delete_product(id):
     print("Start delete")
     verwijder = DataRepository.delete_by_website(id)
     socketio.emit("B2F_deleted", verwijder)
 
 
-@socketio.on('F2B_edit')
+@ socketio.on('F2B_edit')
 def edit(data):
     global aanwezigID
     global uitv
@@ -461,7 +465,7 @@ def edit(data):
         print("Geen data gevonden")
 
 
-@socketio.on("F2B_add-product")
+@ socketio.on("F2B_add-product")
 def add(data):
     print('new product')
     try:
@@ -482,7 +486,7 @@ def add(data):
         print(ex)
 
 
-@socketio.on("F2B_edit_product")
+@ socketio.on("F2B_edit_product")
 def update_product(data):
     try:
         d = datetime.strptime(data["datum"], '%Y-%m-%d').date()
@@ -499,7 +503,7 @@ def update_product(data):
         print(ex)
 
 
-@socketio.on("F2B_barcode")
+@ socketio.on("F2B_barcode")
 def barOffline(invoer):
     if len(invoer) >= 13:
         print(invoer)
@@ -641,7 +645,7 @@ if __name__ == '__main__':
         temp = TemperatuurClass(temperatuurSensor)
         DataRepository.updateDatums()
         overdatum = DataRepository.geefOverdatums()
-        #mail = emailPy(overdatum)
+        # mail = emailPy(overdatum)
         setup_gpio()
         start_thread()
         start_chrome_thread()

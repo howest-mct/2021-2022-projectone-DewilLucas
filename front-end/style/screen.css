@@ -2,10 +2,15 @@
   #FONTS
 \*------------------------------------*/
 @import url("https://use.typekit.net/buv0ixq.css");
+
 /*------------------------------------*\
   #GENERIC
 \*------------------------------------*/
-
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
 /*
     Generic: Page
@@ -14,7 +19,7 @@
 */
 html {
     background-color: #2B2E33;
-    font-size: 12px;
+    font-size: 18px;
     /*stap 1 : FONT SIZE AANPASSEN */
     line-height: 32px;
     /*stap 2 : Line Height AANPASSEN*/
@@ -25,7 +30,9 @@ html {
     box-sizing: border-box;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    box-sizing: border-box;
 }
+
 
 /*
  * Remove text-shadow in selection highlight:
@@ -43,13 +50,15 @@ html {
     Default markup for btn to make them responsive
 */
 .floatingbtn {
-    bottom: 120px;
+    bottom: 30px;
     position: fixed;
-    right: 30px;
+    right: 5px;
     width: 60px;
     height: 60px;
     background: #FFC200;
     border-radius: 50%;
+    border: solid #1A1917 1px;
+    z-index: 2;
 }
 
 .floatingbtn a {
@@ -62,6 +71,7 @@ html {
     color: #1A1917;
     font-size: 24px;
     text-decoration: none;
+    z-index: 2;
 }
 
 .floatingbtn:hover {
@@ -86,13 +96,762 @@ html {
   #OBJECTS
 \*------------------------------------*/
 /*
+objects : container navbar
+*/
+.o-container--nav {
+    max-width: 1300px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/*
+    Objects: List
+    ---
+    Small reusable object to remove default list styling from lists
+*/
+
+.o-list {
+    list-style: none;
+    padding: 0;
+}
+
+/*OBJECTS body-delete*/
+.o-body-delete-product {
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+}
+
+/*
+components home
+*/
+.c-home {
+    overflow: visible;
+}
+
+
+/*
+    Objects: login
+    
+*/
+
+.o-body-login {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.o-container--login {
+    position: relative;
+    max-width: 430px;
+    width: 100%;
+    background: #FFF;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.o-container--login .c-forms {
+    display: flex;
+    align-items: center;
+    height: 440px;
+    width: 200%;
+}
+
+.o-container--login .c-login-form {
+    width: 50%;
+    padding: 30px;
+}
+
+.o-container--login .c-login-form .c-title {
+    position: relative;
+    font-size: 24px;
+    font-weight: 700;
+    color: #1A1917;
+}
+
+.c-login-form .c-title::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 3px;
+    width: 30px;
+    background-color: #FFC200;
+    border-radius: 25px;
+}
+
+.c-login-form .c-input--field {
+    position: relative;
+    margin-top: 30px;
+    height: 50px;
+    width: 100%;
+}
+
+.c-input--field input {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    padding: 0 35px;
+    border: none;
+    outline: none;
+    border-bottom: 2px solid #FFE699;
+    border-top: 2px solid transparent;
+    font-size: 18px;
+    transition: all 0.2s ease;
+}
+
+.c-input--field button {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    padding: 0 35px;
+    border: none;
+    outline: none;
+    border-bottom: 2px solid #FFE699;
+    border-top: 2px solid transparent;
+    font-size: 18px;
+    transition: all 0.2s ease;
+}
+
+.c-input--field a {
+    text-decoration: none;
+    padding: 15px 80px 15px 80px;
+    color: #1A1917;
+}
+
+@media (max-width: 992px) {
+    .c-input--field a {
+        padding: 5px 40px 5px 40px;
+        color: #1A1917;
+    }
+}
+
+.c-input--field input:is(:focus, :valid) {
+    border-bottom-color: #FFC200;
+}
+
+.c-input--field i {
+    color: #1A1917;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    font-size: 24px;
+}
+
+.c-input--field input:is(:focus, :valid)~i {
+    color: #FFC200;
+}
+
+.c-login-form .c-button--login {
+    margin-top: 35px;
+}
+
+.c-login-form .c-button--login input {
+    border: none;
+    color: #1A1917;
+    letter-spacing: 1px;
+    font-size: 18px;
+    font-weight: 500;
+    border-radius: 6px;
+    background-color: #FFC200;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.c-login-form .c-button--login button {
+    border: none;
+    color: #1A1917;
+    letter-spacing: 1px;
+    font-size: 18px;
+    font-weight: 500;
+    border-radius: 6px;
+    background-color: #FFC200;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.c-button--delete button:hover {
+    background-color: #FFE699;
+}
+
+.c-button--delete--no button:hover {
+    background-color: #FFE699;
+}
+
+.c-button--login button:hover {
+    background-color: #FFE699;
+}
+
+.c-button--login input:hover {
+    background-color: #FFE699;
+}
+
+/*
+    Objects : edit product
+*/
+.o-body-add-product {
+    overflow: hidden;
+}
+
+.o-body-edit-product {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/*
+    objects : chart
+*/
+.c-hide {
+    overflow: hidden;
+}
+
+.o-body-chart {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media (min-width: 992px) {
+    .o-body-chart {
+        margin-top: -80px;
+        overflow: hidden;
+    }
+}
+
+@media (max-width: 768px) {
+    .o-body-chart {
+        margin-top: -40px;
+        overflow: hidden;
+    }
+}
+
+/*
+    Objects: edit account
+*/
+.o-body--create-user {
+    overflow: hidden;
+}
+
+.o-body-acc {
+    overflow: hidden;
+}
+
+.o-body-account {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+@media (min-width: 992px) {
+    .o-body-account {
+        margin-top: -40px;
+    }
+}
+
+@media (max-width: 768px) {
+    .o-body-account {
+        margin-top: -40px;
+    }
+}
+
+.o-container--edit {
+    margin-top: -160px;
+    position: relative;
+    max-width: 430px;
+    width: 100%;
+    background: #FFF;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+@media (max-width: 992px) {
+    .o-container--edit {
+        margin-top: -80px;
+    }
+}
+
+@media (max-width: 768px) {
+    .o-container--edit {
+        margin-top: -40px;
+    }
+}
+
+.o-container--edit .c-account-forms {
+    display: flex;
+    align-items: center;
+    height: 550px;
+    width: 200%;
+}
+
+.o-container--edit .c-account-form {
+    width: 50%;
+    padding: 30px;
+}
+
+.o-container--edit .c-account-form .c-account-title {
+    position: relative;
+    font-size: 24px;
+    font-weight: 700;
+    color: #1A1917;
+}
+
+.c-account-form .c-account-title::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 3px;
+    width: 30px;
+    background-color: #FFC200;
+    border-radius: 25px;
+}
+
+.c-account-form .c-input--field {
+    position: relative;
+    margin-top: 10px;
+    height: 50px;
+    width: 100%;
+}
+
+.c-edit-form .c-input--field {
+    position: relative;
+    margin-top: 10px;
+    height: 50px;
+    width: 100%;
+}
+
+.c-input--field input {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    padding: 0 35px;
+    border: none;
+    outline: none;
+    border-bottom: 2px solid #FFE699;
+    border-top: 2px solid transparent;
+    font-size: 18px;
+    transition: all 0.2s ease;
+}
+
+
+.c-input--field input:is(:focus, :valid) {
+    border-bottom-color: #FFC200;
+}
+
+.c-input--field i {
+    color: #1A1917;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    font-size: 24px;
+}
+
+.c-input--field input:is(:focus, :valid)~i {
+    color: #FFC200;
+}
+
+.c-account-form .c-button--login {
+    margin-top: 35px;
+}
+
+.c-account-form .c-button--add {
+    margin-top: 35px;
+}
+
+.c-account-form .c-button--login input {
+    border: none;
+    color: #1A1917;
+    letter-spacing: 1px;
+    font-size: 18px;
+    font-weight: 500;
+    border-radius: 6px;
+    background-color: #FFC200;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.c-account-form .c-button--add button {
+    border: none;
+    color: #1A1917;
+    letter-spacing: 1px;
+    font-size: 18px;
+    font-weight: 500;
+    border-radius: 6px;
+    background-color: #FFC200;
+}
+
+.c-account-form .c-button--login button {
+    border: none;
+    color: #1A1917;
+    letter-spacing: 1px;
+    font-size: 18px;
+    font-weight: 500;
+    border-radius: 6px;
+    background-color: #FFA4A4;
+}
+
+.c-account-form .c-button--add button:hover {
+    background-color: #FFE699;
+}
+
+.c-button--login button:hover {
+    background-color: #850000;
+}
+
+.c-button--login input:hover {
+    background-color: #FFE699;
+}
+
+/*
+    components: edit product
+*/
+.o-container--edit .c-edit-form {
+    width: 50%;
+    padding: 30px;
+}
+
+.c-edit-product-forms {
+    display: flex;
+    align-items: center;
+    height: 440px;
+    width: 200%;
+}
+
+.o-container--edit .c-edit-forms {
+    display: flex;
+    align-items: center;
+    height: 550px;
+    width: 200%;
+}
+
+.o-container--edit .c-edit-form .c-edit-title {
+    position: relative;
+    font-size: 24px;
+    font-weight: 700;
+    color: #1A1917;
+}
+
+.c-edit-form .c-edit-title::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 3px;
+    width: 30px;
+    background-color: #FFC200;
+    border-radius: 25px;
+}
+
+.c-edit-form .c-button--edit {
+    margin-top: 35px;
+}
+
+.c-edit-form .c-button--edit button {
+    border: none;
+    color: #1A1917;
+    letter-spacing: 1px;
+    font-size: 18px;
+    font-weight: 500;
+    border-radius: 6px;
+    background-color: #FFC200;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.c-edit-form .c-button--edit button:hover {
+    background-color: #FFE699;
+}
+
+/*
+    components : add-product
+*/
+.o-container--add {
+    position: relative;
+    max-width: 430px;
+    width: 100%;
+    background: #FFF;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: -160px;
+}
+
+@media (max-width: 992px) {
+    .o-container--add {
+        margin-top: -80px;
+    }
+}
+
+
+.o-container--add .c-edit-form {
+    width: 50%;
+    padding: 30px;
+}
+
+.c-edit-product-forms {
+    display: flex;
+    align-items: center;
+    height: 440px;
+    width: 200%;
+}
+
+.o-container--add .c-edit-forms {
+    display: flex;
+    align-items: center;
+    height: 550px;
+    width: 200%;
+}
+
+.o-container--add .c-edit-form .c-edit-title {
+    position: relative;
+    font-size: 24px;
+    font-weight: 700;
+    color: #1A1917;
+}
+
+.c-edit-form .c-edit-title::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 3px;
+    width: 30px;
+    background-color: #FFC200;
+    border-radius: 25px;
+}
+
+.c-edit-form .c-button--add {
+    margin-top: 35px;
+}
+
+.c-edit-form .c-button--delete {
+    margin-top: 35px;
+}
+
+.c-edit-form .c-button--delete button {
+    border: none;
+    color: #1A1917;
+    letter-spacing: 1px;
+    font-size: 18px;
+    font-weight: 500;
+    border-radius: 6px;
+    background-color: #FFC200;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.c-edit-form .c-button--delete button:hover {
+    background-color: #FFCE33;
+}
+
+.c-edit-form .c-button--delete--no {
+    margin-top: 35px;
+}
+
+.c-edit-form .c-button--delete--no button {
+    border: none;
+    color: #1A1917;
+    letter-spacing: 1px;
+    font-size: 18px;
+    font-weight: 500;
+    border-radius: 6px;
+    background-color: #FFA4A4;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.c-edit-form .c-button--delete--no button:hover {
+    background-color: #850000;
+}
+
+.c-edit-form .c-button--add button:hover {
+    background-color: #FFE699;
+}
+
+.c-edit-form .c-button--add button {
+    border: none;
+    color: #1A1917;
+    letter-spacing: 1px;
+    font-size: 18px;
+    font-weight: 500;
+    border-radius: 6px;
+    background-color: #FFC200;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.c-edit-form .c-button--add button:hover {
+    background-color: #FFE699;
+}
+
+/*
+    components history
+*/
+
+.c-history--body {
+    align-items: center;
+    justify-content: center;
+}
+
+/*
+components : mobile nav
+*/
+.c-mobile-nav {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 60;
+}
+
+.has-mobile-nav .c-mobile-nav {
+    pointer-events: auto;
+}
+
+.c-mobile-nav__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.c-mobile-nav__bg {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: #202024;
+    opacity: 0;
+    will-change: opacity;
+    transition: opacity .25s ease;
+}
+
+.has-mobile-nav .c-mobile-nav__bg {
+    opacity: 0.5;
+}
+
+.c-mobile-nav__body {
+    position: relative;
+    padding: 24px;
+    height: 100vh;
+    width: 100vw;
+    background-color: #fff;
+    will-change: transform;
+    transform: translateX(100%);
+    transition: transform .25s ease;
+}
+
+.has-mobile-nav .c-mobile-nav__body {
+    transform: translateX(0);
+}
+
+@media (min-width: 768px) {
+    .c-mobile-nav__body {
+        padding: 48px;
+    }
+}
+
+@media (min-width: 992px) {
+
+    /* Hide the mobile nav on larger viewports even whent it's open on smaller screens */
+    .c-mobile-nav {
+        display: none !important;
+    }
+}
+
+/*
+    components : delete
+*/
+.o-container--delete {
+    position: relative;
+    max-width: 430px;
+    width: 100%;
+    background: #FFF;
+    border-radius: 10px;
+    overflow: hidden;
+    /*margin-top: -160px;*/
+}
+
+.o-container--delete .c-edit-form {
+    width: 50%;
+    padding: 30px;
+}
+
+.o-container--delete .c-edit-forms {
+    display: flex;
+    align-items: center;
+    height: 320px;
+    width: 200%;
+}
+
+.o-container--delete .c-edit-title {
+    position: relative;
+    font-size: 24px;
+    font-weight: 700;
+    color: #1A1917;
+}
+
+.o-container--delete .c-edit-form .c-edit-title {
+    position: relative;
+    font-size: 24px;
+    font-weight: 700;
+    color: #1A1917;
+}
+
+/*
+@media (max-width: 992px) {
+    .o-container--add {
+        margin-top: -80px;
+    }
+}
+
+@media (max-width: 768px) {
+    .o-container--add {
+        margin-top: 60px;
+    }
+}
+*/
+/*
     Objects: container
     
 */
 .o-container {
-    width: 1300px;
-    margin: 0 auto;
-    padding: 3rem 2rem;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    max-width: 70.66666666666667em;
+    margin-top: 60px;
+}
+
+@media (min-width:768px) {
+    .o-container {
+        width: 900px;
+        margin: 0 auto;
+        padding: 1.5rem 1rem;
+    }
+}
+
+@media (min-width:992px) {
+    .o-container {
+        margin-top: 40px;
+        width: 1300px;
+        margin: 0 auto;
+        padding: 3rem 2rem;
+    }
 }
 
 /*
@@ -102,17 +861,26 @@ html {
 */
 
 .c-cards {
-    margin: 70px auto 20px auto;
-    max-width: 1300px;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
+    margin: 20px auto 20px auto;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    flex-direction: row;
 }
 
 .c-cards .c-card {
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
 }
+
+.c-card {
+    flex: 2 0 100%;
+    max-width: 250px;
+}
+
+
 
 
 
@@ -123,8 +891,11 @@ html {
 
 .c-card--date {
     float: left;
+    margin-left: -2%;
+    font-size: 10px;
+    margin-top: -17px;
     font-size: 20px;
-    margin-top: -20px;
+    font-weight: 500;
 }
 
 .c-card--name {
@@ -134,8 +905,8 @@ html {
     color: #1A1917;
     font-weight: 700;
     font-style: normal;
-    font-size: 24px;
     text-transform: uppercase;
+    font-size: 20px;
 }
 
 .c-card__content {
@@ -149,6 +920,120 @@ html {
 
 .c-card__content>p:last-of-type {
     margin-bottom: 0;
+}
+
+@media (min-width:100px) {
+    .floatingbtn {
+        width: 60px;
+        height: 60px;
+    }
+
+    .c-card {
+        flex: 1 0 50%;
+        max-width: 250px;
+    }
+
+    .c-card--name {
+        font-size: 16px;
+        bottom: 2px;
+        left: 8px;
+    }
+
+    .c-cards {
+        gap: 20px;
+    }
+
+    .c-card--date {
+        font-size: 16px;
+        margin-left: -5%;
+        margin-top: -12px;
+    }
+
+    .u-icons {
+        font-size: 20px;
+        float: right;
+        position: relative;
+        margin-top: -5px;
+    }
+}
+
+@media (min-width: 500px) {
+    .c-card {
+        flex: 2 0 100%;
+        max-width: 250px;
+    }
+
+    .c-cards {
+        gap: 40px;
+    }
+}
+
+@media (max-width: 768px) {
+    .c-card {
+        flex: 2 0 100%;
+        max-width: 250px;
+    }
+
+    .c-cards {
+        gap: 20px;
+    }
+}
+
+@media (min-width:768px) {
+    .c-card {
+        flex: 2 0 100%;
+        max-width: 250px;
+    }
+
+    .floatingbtn {
+        right: 10px;
+    }
+
+    .c-cards {
+        gap: 30px;
+    }
+
+    .c-card--date {
+        font-size: 12px;
+        margin-left: -5%;
+        margin-top: -10px;
+    }
+
+    .u-icons {
+        font-size: 16px;
+        float: right;
+        position: relative;
+        margin-top: -5px;
+    }
+}
+
+@media (min-width:992px) {
+    .c-card {
+        flex: 2 0 100%;
+        max-width: 250px;
+    }
+
+    .c-card--date {
+        font-size: 20px;
+        margin-left: -5%;
+        margin-top: -17px;
+        font-weight: 700;
+    }
+
+    .u-icons {
+        font-size: 24px;
+        float: right;
+        position: relative;
+        margin-top: -7px;
+    }
+
+    .c-card--name {
+        font-size: 18px;
+    }
+
+    .c-cards {
+        gap: 30px;
+    }
 }
 
 /*.grid {
@@ -174,25 +1059,288 @@ html {
 }
 
 /*
-    components : add form
+    Component: Nav
+    ---
+    Main navigation of the site
 */
-.c-form {
-    align-items: center;
-    justify-content: center;
+
+.c-nav {
+    font-size: 16px;
+    line-height: 21px;
+}
+
+.c-nav__link {
+    text-decoration: none;
+    font-weight: 600;
     display: block;
-    text-align: center;
+    padding: 8px 16px;
+    margin: 0 8px;
+    border-radius: 100px;
 }
 
-.c-form__item label {
-    display: inline-block;
-    width: 140px;
+.c-nav__link,
+.c-nav__link:visited,
+.c-nav__link:active {
+    color: #1A1917;
 }
 
-.c-form__item input,
-button {
-    display: inline-block;
-    width: 200px;
-    border-radius: 10px;
+@media (min-width: 992px) {
+    .c-nav__list {
+        display: flex;
+        margin-left: -16px;
+        margin-right: -16px;
+    }
+
+    .c-nav__link {
+        padding: 8px 16px;
+    }
+}
+
+.c-nav--menu a.c-active,
+.c-nav--menu a:hover {
+    background-color: #1A1917;
+    color: #F7F6F2;
+}
+
+.c-nav__link:hover,
+.c-nav__link:focus {
+    color: #F7F6F2;
+}
+
+@media (min-width: 768px) {
+
+
+    .c-nav__item--cta {
+        margin-left: 20px;
+    }
+
+    .c-nav__link {
+        padding: 8px 20px;
+    }
+}
+
+/*
+components navbar
+*/
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 99;
+    background-color: #FFC200;
+    padding: 16px 32px;
+
+}
+
+.c-nav--Titel {
+    color: #1A1917;
+    font-size: 24px;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+.c-hamburger {
+    display: block;
+    position: relative;
+    z-index: 100;
+    user-select: none;
+    appearance: none;
+    border: none;
+    outline: none;
+    background: none;
+    cursor: pointer;
+}
+
+.c-hamburger span {
+    display: block;
+    width: 33px;
+    height: 4px;
+    margin-bottom: 5px;
+    position: relative;
+    background-color: #1A1917;
+    border-radius: 6px;
+    z-index: 100;
+    transform-origin: 0 0;
+    transition: 0.4s;
+}
+
+
+.c-hamburger:hover span:nth-child(1) {
+    transform: translateX(10px);
+    background-color: #F7F6F2;
+}
+
+.c-hamburger:hover span:nth-child(2) {
+    transform: translateX(-10px);
+    background-color: #F7F6F2;
+}
+
+.c-hamburger:hover span:nth-child(3) {
+    transform: translateX(10px);
+    background-color: #F7F6F2;
+}
+
+.c-hamburger:hover span:nth-child(4) {
+    transform: translateX(-10px);
+    background-color: #F7F6F2;
+}
+
+.c-hamburger.c-active span:nth-child(1) {
+    transform: translate(2px, 0px) rotate(45deg) translateY(-5px);
+}
+
+.c-hamburger.c-active span:nth-child(2) {
+    opacity: 0;
+    transform: translateX(15px);
+}
+
+.c-hamburger.c-active span:nth-child(3) {
+    transform: translate(-2px, -3px) rotate(-45deg) translateY(6px);
+
+}
+
+.c-hamburger.c-active span:nth-child(4) {
+    opacity: 0;
+    transform: translateX(15px);
+}
+
+.c-nav--menu {
+    display: none;
+    flex: 1 1 0%;
+    justify-content: flex-end;
+    margin: 0 -16px;
+}
+
+@media (min-width: 992px) {
+    .c-hamburger {
+        display: none;
+    }
+
+    .c-nav--menu {
+        display: flex;
+    }
+}
+
+@media (max-width: 992px) {
+    .c-hamburger {
+        display: block;
+    }
+
+
+}
+
+
+.has-mobile-nav .c-page {
+    transform: translateX(25%)
+}
+
+.c-mobile-nav {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: 100vh;
+    pointer-events: none;
+}
+
+.has-mobile-nav .c-mobile-nav {
+    pointer-events: auto;
+}
+
+.c-mobile-nav__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.c-mobile-nav__bg {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: #202024;
+    opacity: 0;
+    will-change: opacity;
+    transition: opacity .25s ease;
+}
+
+.has-mobile-nav .c-mobile-nav__bg {
+    opacity: 0.5;
+}
+
+.c-mobile-nav__body {
+    position: relative;
+    padding: 24px;
+    height: 100vh;
+    width: 100vw;
+    background-color: #FFC200;
+    will-change: transform;
+    transform: translateX(-100%);
+    transition: transform .25s ease;
+}
+
+.has-mobile-nav .c-mobile-nav__body {
+    transform: translateX(0);
+}
+
+@media (min-width: 768px) {
+    .c-mobile-nav__body {
+        padding: 48px;
+    }
+}
+
+@media (min-width: 992px) {
+
+    /* Hide the mobile nav on larger viewports even whent it's open on smaller screens */
+    .c-mobile-nav {
+        display: none !important;
+    }
+
+}
+
+/*
+    Component: header
+    ---
+    Main header of the website
+*/
+
+.c-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #FFC200;
+    z-index: 100;
+    border-radius: 0px 30px 0px 30px;
+    position: fixed;
+    border-color: #707070;
+}
+
+.c-header__nav,
+.c-header__cta {
+    display: none;
+}
+
+@media (min-width: 992px) {
+
+    .c-header__nav,
+    .c-header__cta {
+        display: block;
+    }
+
+    .c-header__nav {
+        margin-right: 20px;
+
+        /* solution 1 */
+        /* margin-left: auto; */
+
+        /* solution 2 */
+        display: flex;
+        flex-grow: 1;
+        justify-content: center;
+    }
 }
 
 /*
@@ -259,37 +1407,6 @@ button {
     opacity: 0;
 }
 
-/*
-    components: Popup screen
-*/
-
-.c-edit-product {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 100;
-    background: rgba(77, 77, 77, 0.7);
-    transition: all 0.2s;
-}
-
-.c-edit-product_click {
-    display: flex;
-    opacity: 1;
-}
-
-.c-popup {
-    position: relative;
-    background: #FFC200;
-    width: 500px;
-    max-width: 90%;
-    padding: 1em, 2em;
-    border-radius: 5px;
-}
 
 /*
     Objects: Row
@@ -515,7 +1632,6 @@ button {
 .u-icons {
     float: right;
     position: relative;
-    margin-top: -15px;
 }
 
 /*

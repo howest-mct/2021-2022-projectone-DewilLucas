@@ -1,22 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zeker?</title>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet">
-    <link rel="stylesheet" href="https://use.typekit.net/buv0ixq.css">
-    <link rel="stylesheet" href="style/screen.css" />
-    <script src="https://cdn.socket.io/4.0.1/socket.io.min.js" integrity="sha384-LzhRnpGmQP+lOvWruF/lgkcqD+WDVt9fU3H4BWmwP5u5LTmkUGafMcpZKNObVMLU" crossorigin="anonymous"></script>
-    <script src="script/datahandler.js"></script>
-    <script src="script/app.js"></script>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Are you sure?</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.typekit.net/buv0ixq.css">
+  <link rel="stylesheet" href="style/screen.css" />
+  <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"
+    integrity="sha384-LzhRnpGmQP+lOvWruF/lgkcqD+WDVt9fU3H4BWmwP5u5LTmkUGafMcpZKNObVMLU"
+    crossorigin="anonymous"></script>
+  <script src="script/datahandler.js"></script>
+  <script src="script/app.js"></script>
 </head>
-<body class="js-delete-page">
+
+<body class="js-delete-page o-body-add-product">
   <div class="c-loader js-loader"></div>
-    <p>Are you sure you want to delete this product?</p>
-    <a href="home.html?del=1" class="c-button js-ja">Yes</a>
-    <a href="home.html?del=0" class="c-button js-neen">No</a>
+  <div class="o-body-edit-product">
+    <div class="o-container--delete">
+      <div class="c-edit-forms">
+        <div class="c-edit-form c-login">
+          <form class="c-form js-add">
+            <span class="c-edit-title">Are you sure you want to delete this product?</span>
+            <div class="c-input--field c-button--delete">
+              <button><a href="home.html?del=1" class="c-button--delete js-ja">Yes</a></button>
+            </div>
+            <div class="c-input--field c-button--delete--no">
+              <button><a href="home.html?del=0" class="c-button--delete--no js-neen">No</a></button>
+            </div>
+          </form>
+
+        </div>
+
+      </div>
+    </div>
+
+
+  </div>
 </body>
+
 </html>

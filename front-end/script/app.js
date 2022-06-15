@@ -2,6 +2,7 @@
 const lanIP = `${window.location.hostname}:5000`;
 const socket = io(`http://${lanIP}`);
 // #region ***  DOM references   ***********
+let hamburger;
 let htmlIndex, htmlHistory;
 let htmlCards;
 let htmlSingleCard;
@@ -19,6 +20,9 @@ let htmlAccount;
 let htmlLoadUpdatedAccount;
 let htmlCreateAccount;
 let htmlloadDeleteAccount;
+let htmlTest;
+let chart;
+let chartActive = false;
 // #endregion 
 // #region ***  Callback-Visualisation - show___         ***********      
 const showTemp = function (temp) {
@@ -26,26 +30,86 @@ const showTemp = function (temp) {
   let htmlUitvoer = `Huidige temperatuur: ${temp}`;
   htmlTemp.innerHTML = htmlUitvoer;
 };
+const showChart = function (datax, dataY) {
+  let options = {
+    chart: {
+      type: 'line',
+      colors: '#FFC200',
+      forecolor: '#FFC200',
+      height: '400px'
+    },
+    title: {
+      text: 'Temperatuur',
+      style: {
+        color: '#fff'
+      }
+    },
+    dataLabels: {
+      enabled: true,
+    },
+    colors: ['#FFC200', '#FFC200'],
+    tooltip: {
+      enabled: true,
+      theme: 'dark'
+    },
+    series: [{
+      name: 'temperatuur',
+      data: dataY
+    }],
+    xaxis: {
+      labels: {
+        style: {
+          colors: '#fff'
+        }
+      },
+      categories: datax
+
+    }, yaxis: {
+      labels: {
+        style: {
+          colors: '#fff'
+        }
+      }
+    },
+    markers: {
+      size: 5,
+      colors: ["#FFC200"]
+    },
+    noData: {
+      text: 'Loading...',
+    }
+  };
+  chart = new ApexCharts(document.querySelector("#js-chart"), options);
+  chart.render();
+};
 const showHistory = function (json) {
-  console.log(json);
-  let htmldata = document.querySelector(".js-table");
-  let htmlHeader = ``;
-  let htmlUitvoer = ``;
-  htmlHeader = `<th>idmeting</th>
-                <th>DeviceID</th>
-                <th>Waarde</th>
-                <th>Tijdstip</th>`;
-  htmlUitvoer += htmlHeader;
+  let datax = [];
+  let dataY = [];
   for (let obj of json) {
-    htmlUitvoer += `
-    <tr>
-            <td>${obj.idMeting}</td>
-            <td>${obj.DeviceID}</td>
-            <td>${obj.Waarde}</td>
-            <td>${obj.Tijdstip}</td>
-    </tr>`;
+    datax.push(obj.Tijdstip);
+    dataY.push(obj.Waarde);
   }
-  htmldata.innerHTML = htmlUitvoer;
+  datax.reverse();
+  dataY.reverse();
+  if (chartActive == false) {
+    showChart(datax, dataY);
+    chartActive = true;
+
+  }
+  else if (chartActive == true) {
+    chart.updateOptions({
+      xaxis: {
+        categories: datax,
+      },
+      series: [
+        {
+          data: dataY,
+        },
+      ],
+    });
+  }
+
+  //htmldata.innerHTML = htmlUitvoer;
 };
 const showEdit = function (json) {
   let htmlName = document.querySelector(".js-name");
@@ -70,7 +134,7 @@ const showFood = function (json) {
                 <h3 class="c-card--name">${obj.Naam}</h3>
               </div>
                 <div class="c-card__content">
-                <span class="c-card--date">${obj.HoudbaarheidsDatum}</span> <span class="material-icons u-icons">notifications</span><a href="edit_product.html?idaanwezig=${obj.idAanwezig}"><span class="material-icons u-icons js-edit"data-id="${obj.idAanwezig}">edit</span></a><a href="delete.html?idaanwezig=${obj.idAanwezig}"><span  class="material-icons u-icons js-delete">delete</span></a>
+                <span class="c-card--date">${obj.HoudbaarheidsDatum}</span><a href="edit_product.html?idaanwezig=${obj.idAanwezig}" class="u-icons"><span class="material-icons u-icons js-edit"data-id="${obj.idAanwezig}">edit</span></a><a href="delete.html?idaanwezig=${obj.idAanwezig}" class="u-icons"><span  class="material-icons u-icons js-delete">delete</span></a>
                 </div>
             </div>`;
   }
@@ -79,10 +143,12 @@ const showFood = function (json) {
 };
 const showAccount = function (json) {
   let admin = document.querySelector(".js-admin");
+  let admin2 = document.querySelector(".js-admin-2");
   const deleteButton = document.querySelector(".js-delete-user-button");
   if (json.idgebruiker == 1) {
     deleteButton.classList.add("u-hide--button");
-    admin.innerHTML = `<div class="c-form__item"><a href="createAccount.html?id=1">create</a></div>`;
+    admin.innerHTML = `<a href="createAccount.html?id=1" class="c-nav__link">create account</a>`;
+    admin2.innerHTML = `<a href="createAccount.html?id=1" class="c-nav__link">create account</a>`;
   }
   let naam = document.querySelector(".js-first").value = json.Naam;
   let voornaam = document.querySelector(".js-last").value = json.voornaam;
@@ -106,6 +172,7 @@ const getrain = function () {
   let get = urlParams.get("idaanwezig");
   socket.emit("F2B_edit", get);
   listenToSocket();
+
 };
 // #endregion 
 
@@ -121,6 +188,24 @@ const listenToUI = function () {
     }
   }
 
+};
+const listenToClickBurger = function () {
+  const burger = document.querySelector(".js-hamburger");
+  const nav = document.querySelector(".js-nav");
+  let teller = 0;
+  burger.addEventListener('click', function () {
+    teller++;
+    if (teller === 1) {
+
+      burger.classList.add("c-active");
+    }
+    else {
+      burger.classList.remove("c-active");
+      teller = 0;
+    }
+    console.log("CLICKE");
+    document.querySelector("body").classList.toggle("has-mobile-nav");
+  });
 };
 const listenToAddUser = function () {
   const button = document.querySelector(".js-add-user-button");
@@ -142,6 +227,7 @@ const listenToUpdateUser = function (json) {
   const deleteButton = document.querySelector(".js-delete-user-button");
   deleteButton.addEventListener("click", function () {
     socket.emit('F2B_delete_account', json);
+    window.location.href = "loadDeleteUser.html";
   });
   button.addEventListener("click", function () {
     let naamU = document.querySelector(".js-first").value;
@@ -226,6 +312,7 @@ const listenToSocket = function () {
     socket.on("B2F_alAanwezig", function (json) {
       console.log(json);
     });
+    listenToClickBurger();
   }
   if (htmlIndex) {
     socket.on("connect", function () {
@@ -247,6 +334,7 @@ const listenToSocket = function () {
   }
 
   if (htmlHistory) {
+    listenToClickBurger();
     socket.on("connect", function () {
       console.log("verbonden met socket");
     });
@@ -256,6 +344,7 @@ const listenToSocket = function () {
     });
   }
   if (htmlEditPro) {
+
     socket.on("B2F_edit", function (data) {
       console.log(data);
       if (data == -1) {
@@ -312,6 +401,7 @@ const listenToSocket = function () {
     });
   }
   if (htmlAccount) {
+    listenToClickBurger();
     socket.emit("F2B_account", 1);
     socket.on("B2F_account", function (data) {
       showAccount(data);
@@ -321,6 +411,9 @@ const listenToSocket = function () {
       showAccount(data);
     });
   }
+  if (htmlCreateAccount) {
+    listenToClickBurger();
+  }
 };
 
 // #endregion      
@@ -328,7 +421,9 @@ const listenToSocket = function () {
 const init = function () {
 
   listenToLoad();
+
   console.info("DOM geladen");
+
   htmlIndex = document.querySelector(".js-index");
   htmlHistory = document.querySelector(".js-history");
   htmlCards = document.querySelector(".js-cards");
@@ -343,10 +438,15 @@ const init = function () {
   htmlLoadUpdatedAccount = document.querySelector(".js-update-account-load");
   htmlCreateAccount = document.querySelector(".js-create-account");
   htmlloadDeleteAccount = document.querySelector(".js-delete-account-load");
+  htmlTest = document.querySelector(".js-test");
+  if (htmlTest) {
+    listenToClickBurger();
+  }
   if (htmlLogin) {
     listenToLogin();
   }
   if (htmlIndex) {
+    listenToClickBurger();
     let loginParam = new URLSearchParams(window.location.search);
     let getUser = loginParam.get("name");
     let urlParams = new URLSearchParams(window.location.search);
@@ -368,9 +468,11 @@ const init = function () {
   }
   if (htmlAdd) {
     listenToAdd();
+
   }
   if (htmlEditPro) {
     getrain();
+    listenToClickBurger();
   }
   if (htmlDeletePage) {
     listenToChoiceDelete();
