@@ -260,7 +260,6 @@ def barcodeInput(invoer=""):
 
 
 def schrijfLCD():
-
     lcd.init_LCD()  # kuis het eerst op
     ips = check_output(
         ['hostname', '--all-ip-addresses']).split()
@@ -361,6 +360,7 @@ def hallo():
 def initial_connection():
     print('A new client connect')
     data = DataRepository.geef_alle_producten()
+    # leesTemperatuur()
     socketio.emit("B2F_connected", data)
     # DataRepository.updateDatums()
     DataRepository.geefOverdatums()
