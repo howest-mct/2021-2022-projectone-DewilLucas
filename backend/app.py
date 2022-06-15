@@ -265,6 +265,7 @@ def schrijfLCD():
         ['hostname', '--all-ip-addresses']).split()
     # Eerste ip die binnenkomt aka de ip van de ethernetpoort
     eth = ips[0]
+    print(ips)
     wlan = ips[1]  # de ip van de raspberry
     lcd.write_message(f"{eth.decode()}", 0x80)  # 0x80 is lijn 1 van de LCD
     lcd.write_message(f"{wlan.decode()}", 0xC0)  # 0xC0 is lijn 2 van de LCD
