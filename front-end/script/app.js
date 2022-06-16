@@ -38,7 +38,8 @@ let minimumDatum = year + '-' + month + '-' + tdatum;
 // #region ***  Callback-Visualisation - show___         ***********      
 const showTemp = function (temp) {
   let htmlTemp = document.querySelector(".js-temperatuur");
-  let htmlUitvoer = `Huidige temperatuur: ${temp}`;
+  let htmlUitvoer = `Temperatuur: 
+    ${temp}`;
   htmlTemp.innerHTML = htmlUitvoer;
 };
 const showChart = function (datax, dataY) {

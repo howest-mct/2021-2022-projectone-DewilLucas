@@ -176,18 +176,13 @@ def barcodeInput(invoer=""):
                                     if aantal == None or aantal == "#" or aantal == "*":
                                         pass
                                     else:
-                                        if lstAantal[0] == 0:
-                                            lcd.write_message(
-                                                "0 niet mogelijk!")
-                                            del(lstAantal[0])
-                                        else:
-                                            lstAantal.append(aantal)
-                                            strAantal = str(lstAantal)
-                                            convStrAantal = converteerListNaarStr(
-                                                strAantal)
-                                            global final
-                                            final = f"{convStrAantal}"
-                                            lcd.write_message(final, 0XC0)
+                                        lstAantal.append(aantal)
+                                        strAantal = str(lstAantal)
+                                        convStrAantal = converteerListNaarStr(
+                                            strAantal)
+                                        global final
+                                        final = f"{convStrAantal}"
+                                        lcd.write_message(final, 0XC0)
 
                                 DataRepository.add_product_in_inventory(
                                     zoek['idproduct'], d, verschil.days, int(final))
