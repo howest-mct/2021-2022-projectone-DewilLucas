@@ -41,7 +41,7 @@ class OLED:
         draw.rectangle((0, 0, self.oled.width, self.oled.height),
                        outline=0, fill=0)
         # Pi Stats Display
-        draw.text((0, 0), "temperatuur: " +
+        draw.text((0, 0), "Temperature: " +
                   temp, font=self.font, fill=255)
         draw.text((0, 16), aantal, font=self.font, fill=255)
 

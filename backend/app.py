@@ -75,7 +75,7 @@ def geefAantal():
             getal = int(totaalAanwezig['totaalAanwezig'])
             socketio.emit(
                 "B2F_aantal", {'aantal': getal}, broadcast=True)
-            return f"Aantal producten:{totaalAanwezig['totaalAanwezig']}"
+            return f"Number of product:{totaalAanwezig['totaalAanwezig']}"
 
 
 def showOled():

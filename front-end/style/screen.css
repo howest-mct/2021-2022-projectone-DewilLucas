@@ -192,7 +192,11 @@ components home
 }
 
 input[type="text"] {
-    font: 600;
+    font: 800;
+}
+
+input[type="date"] {
+    font: 800;
 }
 
 .c-input--field input {
