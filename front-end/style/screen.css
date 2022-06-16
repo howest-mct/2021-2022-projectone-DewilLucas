@@ -191,7 +191,12 @@ components home
     width: 100%;
 }
 
+input[type="text"] {
+    font: 600;
+}
+
 .c-input--field input {
+    font-family: 'azo-sans-web';
     position: absolute;
     height: 100%;
     width: 100%;
