@@ -163,7 +163,7 @@ const showFood = function (json) {
     if (date < vergelijk) {
       htmlUitvoer += `<div class="c-card js-card">
               <div class="c-card__image-container js-img-card" data-id="${obj.idAanwezig}">
-                <a style="display: flex;height: 187.5px;width: 250px;" href="edit_product.html?idaanwezig=${obj.idAanwezig}"><img src="${obj.Afbeelding == null ? obj.Afbeelding = 'https://fakeimg.pl/400x300/f1db26/000/' : `images/${obj.Afbeelding}`}" alt="${obj.Naam}" class="c-card__img">
+                <a style="display: flex;height: 187.5px;width: 250px;" href="edit_product.html?idaanwezig=${obj.idAanwezig}"><img src="${obj.Afbeelding == null || obj.Afbeelding == '' || obj.Afbeelding.length == 0 ? obj.Afbeelding = 'https://fakeimg.pl/400x300/f1db26/000/' : `images/${obj.Afbeelding}`}" alt="${obj.Naam}" class="c-card__img">
                 </a>
                 <h3 class="c-card--name">${obj.Naam}</h3>
               </div>
@@ -357,7 +357,7 @@ const listenToAdd = function () {
       datum: datumPicker.value,
       aantal: document.querySelector(".js-aantal").value,
       barcode: document.querySelector(".js-barcode").value,
-      foto: document.querySelector(".js-foto").value
+      foto: document.querySelector(".js-foto").value == '' ? null : document.querySelector(".js-foto").value
     };
     console.log(jsonObj);
     socket.emit("F2B_add-product", jsonObj);
@@ -429,7 +429,7 @@ const listenToSocket = function () {
           datum: document.querySelector(".js-datum").value,
           aantal: document.querySelector(".js-aantall").value,
           barcode: document.querySelector(".js-bar").value,
-          foto: document.querySelector(".js-foto").value
+          foto: document.querySelector(".js-foto").value == '' ? null : document.querySelector(".js-foto").value
         };
         socket.emit("F2B_edit_product", jsonObj);
         window.location.href = "index.html";
