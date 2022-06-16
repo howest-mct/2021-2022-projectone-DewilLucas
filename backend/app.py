@@ -71,7 +71,10 @@ def geefAantal():
             print(totaalAanwezig)
             return "Geen aanwezige producten"
         else:
-            print(totaalAanwezig)
+            print(totaalAanwezig['totaalAanwezig'])
+            getal = int(totaalAanwezig['totaalAanwezig'])
+            socketio.emit(
+                "B2F_aantal", {'aantal': getal}, broadcast=True)
             return f"Aantal producten:{totaalAanwezig['totaalAanwezig']}"
 
 
@@ -157,8 +160,8 @@ def barcodeInput(invoer=""):
                     else:
                         eersteGetal = str(lstDatum[0]) + str(lstDatum[1])
                         tweedeGetal = str(lstDatum[2]) + str(lstDatum[3])
-                        jaartal = str(lstDatum[4])+str(lstDatum[5]) + \
-                            str(lstDatum[6]) + str(lstDatum[7])
+                        jaartal = str(
+                            lstDatum[4])+str(lstDatum[5])+str(lstDatum[6]) + str(lstDatum[7])
                         datumke = f"{jaartal}-{tweedeGetal}-{eersteGetal}"
                         try:
                             d = datetime.strptime(datumke, '%Y-%m-%d').date()

@@ -914,6 +914,14 @@ objects - select
     align-items: center;
 }
 
+.u-color--temp-history {
+    color: #F7F6F2;
+    font-size: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .c-home--melding {
     display: flex;
     text-align: center;

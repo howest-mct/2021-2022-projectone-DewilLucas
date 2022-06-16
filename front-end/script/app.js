@@ -38,8 +38,16 @@ let minimumDatum = year + '-' + month + '-' + tdatum;
 // #region ***  Callback-Visualisation - show___         ***********      
 const showTemp = function (temp) {
   let htmlTemp = document.querySelector(".js-temperatuur");
-  let htmlUitvoer = `Temperatuur: 
+  let htmlUitvoer;
+  if (htmlIndex) {
+    htmlUitvoer = `Temperature: 
     ${temp}`;
+  }
+  else {
+    htmlUitvoer = `Current temperature: 
+    ${temp}`;
+  }
+
   htmlTemp.innerHTML = htmlUitvoer;
 };
 const showChart = function (datax, dataY) {
@@ -369,7 +377,7 @@ const listenToSocket = function () {
     socket.on("B2F_temperatuur", function (json) {
       let temp = `${json.temperatuur.waarde}°C`;
       console.log(
-        `huidige temperatuur : ${temp}`
+        `Current temperature : ${temp}`
       );
       showTemp(temp);
     });
@@ -385,6 +393,17 @@ const listenToSocket = function () {
     listenToClickBurger();
     socket.on("connect", function () {
       console.log("verbonden met socket");
+    });
+    socket.on("B2F_temperatuur", function (json) {
+      let temp = `${json.temperatuur.waarde}°C`;
+      console.log(
+        `Current temperature : ${temp}`
+      );
+      showTemp(temp);
+    });
+    socket.on("B2F_aantal", function (json) {
+      let htmlAantal = document.querySelector(".js-totaantal");
+      htmlAantal.innerHTML = `Number of products present: ${json.aantal}`;
     });
     console.log("listen B2F_history");
     socket.on("B2F_history", (data) => {
