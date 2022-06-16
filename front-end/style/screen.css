@@ -978,8 +978,8 @@ objects : images
 */
 .o-image {
     display: flex;
-    width: 150px;
-    height: 100px;
+    max-width: 150px;
+    max-height: 100px;
     align-items: center;
     justify-content: center;
     position: relative;
