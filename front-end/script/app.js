@@ -149,7 +149,23 @@ const showFood = function (json) {
   let htmlUitvoer = ``;
 
   for (let obj of json) {
-    htmlUitvoer += `<div class="c-card js-card">
+
+    let date = Date.parse(obj.HoudbaarheidsDatum);
+    let vergelijk = Date.parse(datumVandaag);
+    if (date < vergelijk) {
+      htmlUitvoer += `<div class="c-card js-card">
+              <div class="c-card__image-container js-img-card" data-id="${obj.idAanwezig}">
+                <a style="display: flex;height: 187.5px;width: 250px;" href="edit_product.html?idaanwezig=${obj.idAanwezig}"><img src="${obj.Afbeelding == null ? obj.Afbeelding = 'https://fakeimg.pl/400x300/f1db26/000/' : `images/${obj.Afbeelding}`}" alt="${obj.Naam}" class="c-card__img">
+                </a>
+                <h3 class="c-card--name">${obj.Naam}</h3>
+              </div>
+                <div class="c-card__content--overdatum">
+                <span class="c-card--date">${obj.HoudbaarheidsDatum}(ex)</span><a href="edit_product.html?idaanwezig=${obj.idAanwezig}" class="u-icons"><span class="material-icons u-icons js-edit"data-id="${obj.idAanwezig}">edit</span></a><a href="delete.html?idaanwezig=${obj.idAanwezig}" class="u-icons"><span  class="material-icons u-icons js-delete">delete</span></a>
+                </div>
+            </div>`;
+    }
+    else {
+      htmlUitvoer += `<div class="c-card js-card">
               <div class="c-card__image-container js-img-card" data-id="${obj.idAanwezig}">
                 <a style="display: flex;height: 187.5px;width: 250px;" href="edit_product.html?idaanwezig=${obj.idAanwezig}"><img src="${obj.Afbeelding == null ? obj.Afbeelding = 'https://fakeimg.pl/400x300/f1db26/000/' : `images/${obj.Afbeelding}`}" alt="${obj.Naam}" class="c-card__img">
                 </a>
@@ -159,6 +175,8 @@ const showFood = function (json) {
                 <span class="c-card--date">${obj.HoudbaarheidsDatum}</span><a href="edit_product.html?idaanwezig=${obj.idAanwezig}" class="u-icons"><span class="material-icons u-icons js-edit"data-id="${obj.idAanwezig}">edit</span></a><a href="delete.html?idaanwezig=${obj.idAanwezig}" class="u-icons"><span  class="material-icons u-icons js-delete">delete</span></a>
                 </div>
             </div>`;
+    }
+
   }
   htmlCards.innerHTML = htmlUitvoer;
   listenToUI();

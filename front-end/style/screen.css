@@ -909,7 +909,12 @@ objects - select
     align-items: center;
 }
 
-
+.c-home--melding {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
 
 @media (max-width:768px) {
     .u-color--temp {
@@ -1030,6 +1035,15 @@ objects : images
     border-radius: 0 0px 5px 5px;
 }
 
+.c-card__content--overdatum {
+    display: block;
+    line-height: 1.5;
+    font-size: 0.9em;
+    padding: 20px;
+    background: #FFA4A4;
+    border-radius: 0 0px 5px 5px;
+}
+
 .c-card__content>p:last-of-type {
     margin-bottom: 0;
 }
@@ -1062,6 +1076,7 @@ objects : images
     }
 
     .u-icons {
+        color: #1A1917;
         font-size: 20px;
         float: right;
         position: relative;
