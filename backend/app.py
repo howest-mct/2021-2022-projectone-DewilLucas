@@ -121,8 +121,8 @@ def barcodeInput(invoer=""):
             thread.start()
             uit = []
             lcd.init_LCD()
-            lcd.write_message("Invoer:#", 0X80)
-            lcd.write_message("uitvoer:*", 0xC0)
+            lcd.write_message("Add product:#", 0X80)
+            lcd.write_message("Delete product:*", 0xC0)
             while len(uit) != 1:
                 inofUit = leesKeypad()
                 if inofUit == "#" or inofUit == "*":
@@ -134,14 +134,14 @@ def barcodeInput(invoer=""):
                 zoek = DataRepository.zoekByBaarcode(barcode)
                 if zoek == -1:
                     DataRepository.write_barcode(barcode)
-                    lcd.write_message("Verander de naam", 0X80)
-                    lcd.write_message("Op de webapp", 0xC0)
+                    lcd.write_message("Change the name", 0X80)
+                    lcd.write_message("On the web app", 0xC0)
                     print("nieuwe product ingevoegd")
                     time.sleep(2)
                     lcd.init_LCD()
                     zoek = DataRepository.zoekByBaarcode(barcode)
                 if uit[0] == "#":
-                    lcd.write_message("Geef vervaldatum", 0x80)
+                    lcd.write_message("Expiry date", 0x80)
                     lstDatum = []
 
                     while len(lstDatum) != 8:
@@ -150,7 +150,7 @@ def barcodeInput(invoer=""):
                             pass
                         elif waarde == "*":
                             lcd.init_LCD()
-                            lcd.write_message("STOPGEZET", 0x80)
+                            lcd.write_message("STOPPED", 0x80)
                             time.sleep(2)
                             schrijfLCD()
                             break
@@ -174,7 +174,7 @@ def barcodeInput(invoer=""):
                                 raise(Exception)
                             else:
                                 lcd.init_LCD()
-                                lcd.write_message("Hoeveel?", 0x80)
+                                lcd.write_message("How much?", 0x80)
                                 lstAantal = []
                                 aantal = ""
                                 while aantal != "#":
@@ -194,14 +194,14 @@ def barcodeInput(invoer=""):
                                     zoek['idproduct'], d, verschil.days, int(final))
                                 print(d)
                                 lcd.init_LCD()
-                                lcd.write_message("Dit is een...", 0x80)
+                                lcd.write_message("This is a...", 0x80)
                                 lcd.write_message("Succes! :)", 0XC0)
                                 time.sleep(3)
                                 schrijfLCD()
                         except Exception as ex:
                             print("datum ongeldig")
-                            lcd.write_message("datum ongeldig", 0X80)
-                            lcd.write_message("herscan barcode", 0xC0)
+                            lcd.write_message("date invalid", 0X80)
+                            lcd.write_message("rescan barcode", 0xC0)
                             print(ex)
                 else:
                     try:
@@ -209,7 +209,7 @@ def barcodeInput(invoer=""):
                             barcode)
                         print(zoek_delete)
                         totaalAantal = zoek_delete['aantal']
-                        lcd.write_message("Hoeveel uitlezen", 0x80)
+                        lcd.write_message("How much?", 0x80)
                         lcd.write_message(">", 0xC0)
                         aantalVerwijderen = []
                         vw = ""
@@ -221,12 +221,12 @@ def barcodeInput(invoer=""):
                                     vw = ""
                                     aantalVerwijderen = []
                                     final2 = ">"
-                                    lcd.write_message("TEVEEL!", 0XC0)
+                                    lcd.write_message("TOO MUCH!", 0XC0)
                                     time.sleep(2)
                                     lcd.write_message(final2, 0XC0)
                             elif vw == "*":
                                 lcd.init_LCD()
-                                lcd.write_message("STOPGEZET", 0x80)
+                                lcd.write_message("STOPPED", 0x80)
                                 time.sleep(2)
                                 schrijfLCD()
                                 break
@@ -251,8 +251,8 @@ def barcodeInput(invoer=""):
                                     DataRepository.update_Product(
                                         verschilVerwijdern, zoek_delete['idProduct'], zoek_delete['HoudbaarheidsDatum'])
                                 lcd.init_LCD()
-                                lcd.write_message("Verwijderen", 0x80)
-                                lcd.write_message("Succes!", 0xC0)
+                                lcd.write_message("DELETE...", 0x80)
+                                lcd.write_message("SUCCES!", 0xC0)
                                 time.sleep(3)
                                 schrijfLCD()
                             except Exception as ex:
