@@ -375,6 +375,7 @@ const listenToSocket = function () {
       console.log("verbonden met socket");
     });
     socket.on("B2F_temperatuur", function (json) {
+      console.log(json);
       let temp = `${json.temperatuur.waarde}°C`;
       console.log(
         `Current temperature : ${temp}`

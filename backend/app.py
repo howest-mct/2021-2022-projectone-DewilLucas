@@ -81,8 +81,11 @@ def geefAantal():
 def showOled():
     while True:
         huidigeTemp = leesTemperatuur()
-        print(huidigeTemp)
+        print(huidigeTemp["waarde"])
+
         aanwezig = geefAantal()
+        socketio.emit('B2F_temperatuur', {
+            'temperatuur': huidigeTemp}, broadcast=True)
         print(aanwezig)
         uitvoerTemp = f"{str(huidigeTemp['waarde'])}°C"
         uitvoerAantal = aanwezig
