@@ -227,12 +227,14 @@ input[type="date"] {
 }
 
 .c-input--field a {
+    font-family: 'azo-sans-web';
     text-decoration: none;
     padding: 15px 80px 15px 80px;
     color: #1A1917;
 }
 
 .c-button--add.c-input--field a {
+    font-family: 'azo-sans-web';
     text-decoration: none;
     padding: 15px 135px 15px 135px;
     color: #1A1917;
@@ -240,13 +242,25 @@ input[type="date"] {
 
 @media (max-width: 992px) {
     .c-input--field a {
-        padding: 5px 40px 5px 40px;
+        font-family: 'azo-sans-web';
+        padding: 15px 120px 15px 120px;
         color: #1A1917;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .c-button--add.c-input--field a {
+        font-family: 'azo-sans-web';
         text-decoration: none;
         padding: 15px 95px 15px 95px;
+        color: #1A1917;
+    }
+
+    .c-button--login.c-input--field a {
+        font-family: 'azo-sans-web';
+        text-decoration: none;
+        padding: 5px 95px 5px 95px;
         color: #1A1917;
     }
 }
@@ -315,9 +329,6 @@ input[type="date"] {
 /*
     Objects : edit product
 */
-.o-body-add-product {
-    overflow: hidden;
-}
 
 .o-body-edit-product {
     height: 100vh;
@@ -330,10 +341,6 @@ input[type="date"] {
 /*
     objects : chart
 */
-.c-hide {
-    overflow: hidden;
-}
-
 .o-body-chart {
     height: 100vh;
     display: flex;
@@ -358,13 +365,8 @@ input[type="date"] {
 /*
     Objects: edit account
 */
-.o-body--create-user {
-    overflow: hidden;
-}
 
-.o-body-acc {
-    overflow: hidden;
-}
+
 
 .o-body-account {
     height: 100vh;
@@ -484,11 +486,11 @@ input[type="date"] {
 }
 
 .c-account-form .c-button--login {
-    margin-top: 35px;
+    margin-top: 15px;
 }
 
 .c-account-form .c-button--add {
-    margin-top: 35px;
+    margin-top: 15px;
 }
 
 .c-account-form .c-button--login input {
@@ -651,9 +653,6 @@ input[type="date"] {
     margin-top: 35px;
 }
 
-.c-edit-form .c-button--delete {
-    margin-top: 35px;
-}
 
 .c-edit-form .c-button--delete button {
     border: none;
@@ -671,9 +670,6 @@ input[type="date"] {
     background-color: #FFCE33;
 }
 
-.c-edit-form .c-button--delete--no {
-    margin-top: 35px;
-}
 
 .c-edit-form .c-button--delete--no button {
     border: none;
