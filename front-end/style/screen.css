@@ -348,6 +348,7 @@ input[type="date"] {
     justify-content: center;
 }
 
+
 @media (min-width: 992px) {
     .o-body-chart {
         margin-top: -80px;
@@ -1269,6 +1270,10 @@ objects : images
     .c-nav__link {
         padding: 8px 20px;
     }
+}
+
+.c-power {
+    margin-top: 5px;
 }
 
 /*
