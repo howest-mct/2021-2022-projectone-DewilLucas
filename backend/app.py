@@ -661,7 +661,10 @@ if __name__ == '__main__':
         temp = TemperatuurClass(temperatuurSensor)
         DataRepository.updateDatums()
         overdatum = DataRepository.geefOverdatums()
-        # mail = emailPy(overdatum)
+        #mails = DataRepository.geefmails()
+        # for email in mails:
+        #    print(email)
+        #    mail = emailPy(overdatum, email['E-mail'])
         setup_gpio()
         start_thread()
         start_chrome_thread()

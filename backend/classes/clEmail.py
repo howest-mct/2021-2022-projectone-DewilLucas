@@ -23,7 +23,7 @@ class emailPy:
         self.send_mail()
 
     def send_mail(self):
-        self.body = f"Hi there! This are the product that expired today: "
+        self.body = "Hi there! This are the product that expired today: "
         self.teller = 1
         for product in self.expired:
             self.body += f"\n{self.teller}-{product['Naam']},{product['HoudbaarheidsDatum']}"

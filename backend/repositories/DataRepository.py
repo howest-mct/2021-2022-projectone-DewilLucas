@@ -230,3 +230,13 @@ class DataRepository:
         except Exception as ex:
             print(ex)
             return -1
+
+    @staticmethod
+    def geefmails():
+        try:
+            sql = "SELECT `E-mail` FROM smartfridgeDB.Gebruiker;"
+            mails = Database.get_rows(sql)
+            return mails
+        except Exception as ex:
+            print(ex)
+            return -1
