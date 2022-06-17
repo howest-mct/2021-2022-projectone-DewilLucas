@@ -239,6 +239,11 @@ const listenToUI = function () {
 };
 const listenToPowerOff = function () {
   const shutdown = document.querySelector(".js-poweroff");
+  const shutdown2 = document.querySelector(".js-poweroff2");
+  shutdown2.addEventListener("click", function () {
+    console.log("Pi shutdown");
+    socket.emit('F2B_shutdown', 1);
+  });
   shutdown.addEventListener("click", function () {
     console.log("Pi shutdown");
     socket.emit('F2B_shutdown', 1);
@@ -398,6 +403,7 @@ const listenToSocket = function () {
   }
 
   if (htmlHistory) {
+    listenToPowerOff();
     listenToClickBurger();
     socket.on("connect", function () {
       console.log("verbonden met socket");
@@ -478,6 +484,7 @@ const listenToSocket = function () {
     });
   }
   if (htmlAccount) {
+    listenToPowerOff();
     listenToClickBurger();
     socket.emit("F2B_account", 1);
     socket.on("B2F_account", function (data) {
@@ -515,11 +522,7 @@ const init = function () {
   htmlLoadUpdatedAccount = document.querySelector(".js-update-account-load");
   htmlCreateAccount = document.querySelector(".js-create-account");
   htmlloadDeleteAccount = document.querySelector(".js-delete-account-load");
-  htmlTest = document.querySelector(".js-test");
 
-  if (htmlTest) {
-    listenToClickBurger();
-  }
   if (htmlLogin) {
     listenToLogin();
   }
@@ -546,10 +549,12 @@ const init = function () {
     listenToInput();
   }
   if (htmlAdd) {
+    listenToPowerOff();
     listenToAdd();
     listenTochangeDropdown();
   }
   if (htmlEditPro) {
+    listenToPowerOff();
     getrain();
     listenToClickBurger();
     listenTochangeDropdown();
@@ -558,6 +563,7 @@ const init = function () {
     listenToChoiceDelete();
   }
   if (htmlCreateAccount) {
+    listenToPowerOff();
     let urlParams = new URLSearchParams(window.location.search);
     let get = urlParams.get("id");
     if (get == null || get != 1) {

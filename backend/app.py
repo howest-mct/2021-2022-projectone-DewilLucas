@@ -514,8 +514,8 @@ def update_product(data):
 @socketio.on("F2B_shutdown")
 def shutdown_by_web(json):
     print("TURNED OFF")
-    # os.system("sudo shutdown -h now")
-    # sys.exit()
+    os.system("sudo shutdown -h now")
+    sys.exit()
     # quits the code
 
 
