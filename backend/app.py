@@ -26,7 +26,7 @@ from classes.clEmail import emailPy
 temperatuurSensor = '/sys/bus/w1/devices/28-22cfd2000900/w1_slave'
 mpu = MPU6050(0x68)
 rijKeypad = [9, 6, 22, 27]
-kolumKeypad = [17, 16, 5]
+kolumKeypad = [24, 12, 5]
 button = 18
 lcdPins = [23, 26, 19, 13]
 E = 20
