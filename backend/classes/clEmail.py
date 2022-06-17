@@ -8,9 +8,7 @@ emailme = "lucas03dewil@gmail.com"
 
 sub = "Expired dates!"
 em = EmailMessage()
-em['From'] = email
-em['To'] = emailme
-em['Subject'] = sub
+
 # lucas03dewil@gmail.com"
 
 
@@ -18,6 +16,10 @@ class emailPy:
     def __init__(self,  dates, emailToSend="lucas03dewil@gmail.com") -> None:
         self.expired = dates
         self.body = ""
+        self.emailme = emailToSend
+        em['From'] = email
+        em['To'] = self.emailme
+        em['Subject'] = sub
         self.send_mail()
 
     def send_mail(self):
@@ -30,4 +32,4 @@ class emailPy:
         context = ssl.create_default_context()
         with smtplib.SMTP_SSL('smtp.gmail.com', 465, context=context) as smtp:
             smtp.login(email, passwd)
-            smtp.sendmail(email, emailme, em.as_string())
+            smtp.sendmail(email, self.emailme, em.as_string())

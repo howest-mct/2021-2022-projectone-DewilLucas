@@ -200,7 +200,7 @@ class DataRepository:
     @staticmethod
     def geefOverdatums():
         lstOverDatum = []
-        sql = "SELECT p.Naam, pa.idAanwezig, concat(pa.HoudbaarheidsDatum) as HoudbaarheidsDatum from smartfridgeDB.ProductAanwezig pa join Product p on pa.idProduct = p.idproduct WHERE pa.AantalDagenResterend <= 0"
+        sql = "SELECT p.Naam, pa.idAanwezig, concat(pa.HoudbaarheidsDatum) as HoudbaarheidsDatum from smartfridgeDB.ProductAanwezig pa join Product p on pa.idProduct = p.idproduct WHERE pa.AantalDagenResterend <= 0 order by pa.AantalDagenResterend asc"
         over = Database.get_rows(sql)
         for product in over:
             lstOverDatum.append(product)
