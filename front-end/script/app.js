@@ -237,6 +237,13 @@ const listenToUI = function () {
   }
 
 };
+const listenToPowerOff = function () {
+  const shutdown = document.querySelector(".js-poweroff");
+  shutdown.addEventListener("click", function () {
+    console.log("Pi shutdown");
+    socket.emit('F2B_shutdown', 1);
+  });
+};
 const listenToClickBurger = function () {
   const burger = document.querySelector(".js-hamburger");
   const nav = document.querySelector(".js-nav");
@@ -509,6 +516,7 @@ const init = function () {
   htmlCreateAccount = document.querySelector(".js-create-account");
   htmlloadDeleteAccount = document.querySelector(".js-delete-account-load");
   htmlTest = document.querySelector(".js-test");
+
   if (htmlTest) {
     listenToClickBurger();
   }
@@ -516,6 +524,7 @@ const init = function () {
     listenToLogin();
   }
   if (htmlIndex) {
+    listenToPowerOff();
     listenToClickBurger();
     let loginParam = new URLSearchParams(window.location.search);
     let getUser = loginParam.get("name");
