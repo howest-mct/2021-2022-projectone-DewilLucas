@@ -8,7 +8,7 @@ from flask_cors import CORS
 from flask_socketio import SocketIO, emit, send
 from flask import Flask, jsonify, request, render_template, redirect
 from repositories.DataRepository import DataRepository
-from classes.mpuClass import MPU6050
+#from classes.mpuClass import MPU6050
 from classes.keypadClass import clKeypad
 from selenium import webdriver
 from classes.TemperatuurClass import TemperatuurClass
@@ -23,8 +23,8 @@ from classes.clEmail import emailPy
 # from selenium.webdriver.chrome.options import Options
 
 # Variables
-temperatuurSensor = '/sys/bus/w1/devices/28-22cfd2000900/w1_slave'
-mpu = MPU6050(0x68)
+temperatuurSensor = '/sys/bus/w1/devices/28-0417819474ff/w1_slave'
+#mpu = MPU6050(0x68)
 rijKeypad = [9, 6, 22, 27]
 kolumKeypad = [24, 12, 5]
 button = 18
@@ -276,11 +276,11 @@ def schrijfLCD():
     lcd.write_message(f"{wlan.decode()}", 0xC0)  # 0xC0 is lijn 2 van de LCD
 
 
-def leesMPU():
-    while True:
-        mpu.printAlles()
-        time.sleep(10)
-        # Checken voor open en dicht soon...
+# def leesMPU():
+ #   while True:
+  #      mpu.printAlles()
+   #     time.sleep(10)
+    # Checken voor open en dicht soon...
 
 
 def leesTemperatuur():
@@ -539,7 +539,7 @@ def start_thread():
         lcd_thread()
         hist_thread()
         barcode_thread()
-        MPU_thread()
+        # MPU_thread()
         update_thread()
     except Exception as ex:
         print(ex)
@@ -590,13 +590,13 @@ def update_thread():
         print(ex)
 
 
-def MPU_thread():
-    print("**** MPU THREAD ****")
-    try:
-        thread = threading.Thread(target=leesMPU, args=(), daemon=True)
-        thread.start()
-    except Exception as ex:
-        print(ex)
+# def MPU_thread():
+#    print("**** MPU THREAD ****")
+#    try:
+#        thread = threading.Thread(target=leesMPU, args=(), daemon=True)
+#        thread.start()
+#    except Exception as ex:
+#        print(ex)
 
 
 def temperatuur_thread():
@@ -661,10 +661,10 @@ if __name__ == '__main__':
         temp = TemperatuurClass(temperatuurSensor)
         DataRepository.updateDatums()
         overdatum = DataRepository.geefOverdatums()
-        #mails = DataRepository.geefmails()
-        # for email in mails:
-        #    print(email)
-        #    mail = emailPy(overdatum, email['E-mail'])
+        mails = DataRepository.geefmails()
+        for email in mails:
+            print(email)
+            mail = emailPy(overdatum, email['E-mail'])
         setup_gpio()
         start_thread()
         start_chrome_thread()
@@ -673,7 +673,7 @@ if __name__ == '__main__':
     except KeyboardInterrupt:
         print('KeyboardInterrupt exception is caught')
     finally:
-        mpu.sluit()
+        # mpu.sluit()
         temp.sluitTemp()
         lcd.init_LCD()
         GPIO.cleanup()
