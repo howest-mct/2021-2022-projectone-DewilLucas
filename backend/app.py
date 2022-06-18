@@ -372,6 +372,8 @@ def initial_connection():
     data = DataRepository.geef_alle_producten()
     socketio.emit("B2F_connected", data)
     DataRepository.geefOverdatums()
+    socketio.emit('B2F_temperatuur', {
+                  'temperatuur': leesTemperatuur()}, broadcast=True)
     # # Send to the client!
 
 
