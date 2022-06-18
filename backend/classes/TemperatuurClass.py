@@ -29,12 +29,11 @@ class TemperatuurClass:
                         if insert_temp > 0:
                             uitvoer = f"temperatuur succesvol toegevoegd: {round(temperatuur, 2)}"
                             print(uitvoer)
-            time.sleep(20)
+            time.sleep(5)
 
     def leesTemp(self):
         while True:
             self.status = DataRepository.read_temperatuur()
-            time.sleep(5)
             return self.status
 
     def sluitTemp(self):
