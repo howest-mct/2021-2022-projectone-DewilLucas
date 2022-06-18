@@ -59,7 +59,11 @@ def reboot():
         if datumVandaag.hour == 0 and datumVandaag.minute == 0 and datumVandaag.second == 0:
             print("UPDATE")
             DataRepository.updateDatums()
-            mail = emailPy(overdatum)
+            mails = DataRepository.geefmails()
+            overdatum = DataRepository.geefOverdatums()
+            for email in mails:
+                print(email)
+                mail = emailPy(overdatum, email['E-mail'])
         else:
             pass
 
@@ -660,11 +664,7 @@ if __name__ == '__main__':
     try:
         temp = TemperatuurClass(temperatuurSensor)
         DataRepository.updateDatums()
-        overdatum = DataRepository.geefOverdatums()
-        mails = DataRepository.geefmails()
-        for email in mails:
-            print(email)
-            mail = emailPy(overdatum, email['E-mail'])
+
         setup_gpio()
         start_thread()
         start_chrome_thread()
