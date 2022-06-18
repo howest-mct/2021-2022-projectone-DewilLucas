@@ -77,6 +77,7 @@ const showChart = function (datax, dataY) {
       data: dataY
     }],
     xaxis: {
+      type: "datetime",
       labels: {
         style: {
           colors: '#fff'
@@ -107,7 +108,8 @@ const showHistory = function (json) {
   let dataY = [];
   for (let obj of json) {
     datax.push(obj.Tijdstip);
-    dataY.push(obj.Waarde);
+    let num = Number(obj.Waarde.toFixed());
+    dataY.push(num);
   }
   datax.reverse();
   dataY.reverse();
