@@ -108,7 +108,7 @@ const showHistory = function (json) {
   let dataY = [];
   for (let obj of json) {
     datax.push(obj.Tijdstip);
-    let num = Number(obj.Waarde.toFixed());
+    let num = Number(obj.Waarde.toFixed(1));
     dataY.push(num);
   }
   datax.reverse();
