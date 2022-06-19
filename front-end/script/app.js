@@ -23,11 +23,31 @@ let htmlloadDeleteAccount;
 let htmlTest;
 let chart;
 let chartActive = false;
+let datumVandaag = new Date();
+let tdatum = datumVandaag.getDate();
+let month = datumVandaag.getMonth() + 1;
+if (month < 10) {//indien getal geen 2waarden heeft voeg er een nul aan toe
+  month = '0' + month;
+}
+if (tdatum < 10) {
+  tdatum = '0' + tdatum;
+}
+let year = datumVandaag.getUTCFullYear();
+let minimumDatum = year + '-' + month + '-' + tdatum;
 // #endregion 
 // #region ***  Callback-Visualisation - show___         ***********      
 const showTemp = function (temp) {
   let htmlTemp = document.querySelector(".js-temperatuur");
-  let htmlUitvoer = `Huidige temperatuur: ${temp}`;
+  let htmlUitvoer;
+  if (htmlIndex) {
+    htmlUitvoer = `Temperature: 
+    ${temp}`;
+  }
+  else {
+    htmlUitvoer = `Current temperature: 
+    ${temp}`;
+  }
+
   htmlTemp.innerHTML = htmlUitvoer;
 };
 const showChart = function (datax, dataY) {
@@ -57,6 +77,7 @@ const showChart = function (datax, dataY) {
       data: dataY
     }],
     xaxis: {
+      type: "datetime",
       labels: {
         style: {
           colors: '#fff'
@@ -87,7 +108,8 @@ const showHistory = function (json) {
   let dataY = [];
   for (let obj of json) {
     datax.push(obj.Tijdstip);
-    dataY.push(obj.Waarde);
+    let num = Number(obj.Waarde.toFixed(1));
+    dataY.push(num);
   }
   datax.reverse();
   dataY.reverse();
@@ -114,12 +136,22 @@ const showHistory = function (json) {
 const showEdit = function (json) {
   let htmlName = document.querySelector(".js-name");
   let htmlDate = document.querySelector(".js-datum");
+  htmlDate.setAttribute("min", minimumDatum);
   let htmlaantal = document.querySelector(".js-aantall");
   let htmlbarcode = document.querySelector(".js-bar");
+  let htmlImage = document.querySelector('.js-image');
+  let dropdown = document.querySelector(".js-foto");
   htmlName.value = json.Naam;
   htmlDate.value = json.HoudbaarheidsDatum;
   htmlaantal.value = json.Aantal;
   htmlbarcode.value = json.Barcode;
+  let str = json.Afbeelding;
+  dropdown.selectedIndex = 0;
+  if (str != null && str != 'https://fakeimg.pl/400x300/f1db26/000/') {
+    dropdown.value = str;
+  }
+  else { dropdown.selectedIndex = 0; }
+  htmlImage.src = json.Afbeelding == null || json.Afbeelding == 'https://fakeimg.pl/400x300/f1db26/000/' ? json.Afbeelding = 'https://fakeimg.pl/400x300/f1db26/000/' : `images/${json.Afbeelding}`;
 };
 const showFood = function (json) {
   console.log(json);
@@ -127,9 +159,25 @@ const showFood = function (json) {
   let htmlUitvoer = ``;
 
   for (let obj of json) {
-    htmlUitvoer += `<div class="c-card js-card">
+
+    let date = Date.parse(obj.HoudbaarheidsDatum);
+    let vergelijk = Date.parse(datumVandaag);
+    if (date < vergelijk) {
+      htmlUitvoer += `<div class="c-card js-card">
               <div class="c-card__image-container js-img-card" data-id="${obj.idAanwezig}">
-                <a href="edit_product.html?idaanwezig=${obj.idAanwezig}"><img src="https://fakeimg.pl/400x300/f1db26/000/" alt="${obj.Naam}" class="c-card__img">
+                <a style="display: flex;height: 187.5px;width: 250px;" href="edit_product.html?idaanwezig=${obj.idAanwezig}"><img src="${obj.Afbeelding == null || obj.Afbeelding == '' || obj.Afbeelding.length == 0 ? obj.Afbeelding = 'https://fakeimg.pl/400x300/f1db26/000/' : `images/${obj.Afbeelding}`}" alt="${obj.Naam}" class="c-card__img">
+                </a>
+                <h3 class="c-card--name">${obj.Naam}</h3>
+              </div>
+                <div class="c-card__content--overdatum">
+                <span class="c-card--date">${obj.HoudbaarheidsDatum}(ex)</span><a href="edit_product.html?idaanwezig=${obj.idAanwezig}" class="u-icons"><span class="material-icons u-icons js-edit"data-id="${obj.idAanwezig}">edit</span></a><a href="delete.html?idaanwezig=${obj.idAanwezig}" class="u-icons"><span  class="material-icons u-icons js-delete">delete</span></a>
+                </div>
+            </div>`;
+    }
+    else {
+      htmlUitvoer += `<div class="c-card js-card">
+              <div class="c-card__image-container js-img-card" data-id="${obj.idAanwezig}">
+                <a style="display: flex;height: 187.5px;width: 250px;" href="edit_product.html?idaanwezig=${obj.idAanwezig}"><img src="${obj.Afbeelding == null ? obj.Afbeelding = 'https://fakeimg.pl/400x300/f1db26/000/' : `images/${obj.Afbeelding}`}" alt="${obj.Naam}" class="c-card__img">
                 </a>
                 <h3 class="c-card--name">${obj.Naam}</h3>
               </div>
@@ -137,6 +185,8 @@ const showFood = function (json) {
                 <span class="c-card--date">${obj.HoudbaarheidsDatum}</span><a href="edit_product.html?idaanwezig=${obj.idAanwezig}" class="u-icons"><span class="material-icons u-icons js-edit"data-id="${obj.idAanwezig}">edit</span></a><a href="delete.html?idaanwezig=${obj.idAanwezig}" class="u-icons"><span  class="material-icons u-icons js-delete">delete</span></a>
                 </div>
             </div>`;
+    }
+
   }
   htmlCards.innerHTML = htmlUitvoer;
   listenToUI();
@@ -188,6 +238,18 @@ const listenToUI = function () {
     }
   }
 
+};
+const listenToPowerOff = function () {
+  const shutdown = document.querySelector(".js-poweroff");
+  const shutdown2 = document.querySelector(".js-poweroff2");
+  shutdown2.addEventListener("click", function () {
+    console.log("Pi shutdown");
+    socket.emit('F2B_shutdown', 1);
+  });
+  shutdown.addEventListener("click", function () {
+    console.log("Pi shutdown");
+    socket.emit('F2B_shutdown', 1);
+  });
 };
 const listenToClickBurger = function () {
   const burger = document.querySelector(".js-hamburger");
@@ -271,6 +333,14 @@ const listenToChoiceDelete = function () {
     socket.emit("F2B_delete_product", get);
   });
 };
+const listenTochangeDropdown = function () {
+  let dropdown = document.querySelector(".js-foto");
+  let img = document.querySelector(".js-image");
+  dropdown.addEventListener("change", function () {
+    img.src = `images/${dropdown.value}`;
+    console.log(img.src);
+  });
+};
 const listenToInput = function () {
   let barcode = document.querySelector(".js-barcode-offline");
   barcode.focus();
@@ -288,20 +358,20 @@ const listenToInput = function () {
     });
 
   }
-  /*else {
-    window.location.reload(true);
-  }*/
 
 };
 const listenToAdd = function () {
   const htmlButton = document.querySelector(".js-add-button");
+  let datumPicker = document.querySelector(".js-date");
+  datumPicker.setAttribute("min", minimumDatum);
   htmlButton.addEventListener("click", function () {
     console.log("toevoegen van nieuwe product");
     const jsonObj = {
       naam: document.querySelector(".js-naam").value,
-      datum: document.querySelector(".js-date").value,
+      datum: datumPicker.value,
       aantal: document.querySelector(".js-aantal").value,
-      barcode: document.querySelector(".js-barcode").value
+      barcode: document.querySelector(".js-barcode").value,
+      foto: document.querySelector(".js-foto").value == '' ? null : document.querySelector(".js-foto").value
     };
     console.log(jsonObj);
     socket.emit("F2B_add-product", jsonObj);
@@ -319,9 +389,10 @@ const listenToSocket = function () {
       console.log("verbonden met socket");
     });
     socket.on("B2F_temperatuur", function (json) {
+      console.log(json);
       let temp = `${json.temperatuur.waarde}°C`;
       console.log(
-        `huidige temperatuur : ${temp}`
+        `Current temperature : ${temp}`
       );
       showTemp(temp);
     });
@@ -334,9 +405,21 @@ const listenToSocket = function () {
   }
 
   if (htmlHistory) {
+    listenToPowerOff();
     listenToClickBurger();
     socket.on("connect", function () {
       console.log("verbonden met socket");
+    });
+    socket.on("B2F_temperatuur", function (json) {
+      let temp = `${json.temperatuur.waarde}°C`;
+      console.log(
+        `Current temperature : ${temp}`
+      );
+      showTemp(temp);
+    });
+    socket.on("B2F_aantal", function (json) {
+      let htmlAantal = document.querySelector(".js-totaantal");
+      htmlAantal.innerHTML = `Number of products present: ${json.aantal}`;
     });
     console.log("listen B2F_history");
     socket.on("B2F_history", (data) => {
@@ -344,6 +427,7 @@ const listenToSocket = function () {
     });
   }
   if (htmlEditPro) {
+
 
     socket.on("B2F_edit", function (data) {
       console.log(data);
@@ -360,7 +444,8 @@ const listenToSocket = function () {
           naam: document.querySelector(".js-name").value,
           datum: document.querySelector(".js-datum").value,
           aantal: document.querySelector(".js-aantall").value,
-          barcode: document.querySelector(".js-bar").value
+          barcode: document.querySelector(".js-bar").value,
+          foto: document.querySelector(".js-foto").value == '' ? null : document.querySelector(".js-foto").value
         };
         socket.emit("F2B_edit_product", jsonObj);
         window.location.href = "index.html";
@@ -401,6 +486,7 @@ const listenToSocket = function () {
     });
   }
   if (htmlAccount) {
+    listenToPowerOff();
     listenToClickBurger();
     socket.emit("F2B_account", 1);
     socket.on("B2F_account", function (data) {
@@ -438,14 +524,12 @@ const init = function () {
   htmlLoadUpdatedAccount = document.querySelector(".js-update-account-load");
   htmlCreateAccount = document.querySelector(".js-create-account");
   htmlloadDeleteAccount = document.querySelector(".js-delete-account-load");
-  htmlTest = document.querySelector(".js-test");
-  if (htmlTest) {
-    listenToClickBurger();
-  }
+
   if (htmlLogin) {
     listenToLogin();
   }
   if (htmlIndex) {
+    listenToPowerOff();
     listenToClickBurger();
     let loginParam = new URLSearchParams(window.location.search);
     let getUser = loginParam.get("name");
@@ -467,17 +551,21 @@ const init = function () {
     listenToInput();
   }
   if (htmlAdd) {
+    listenToPowerOff();
     listenToAdd();
-
+    listenTochangeDropdown();
   }
   if (htmlEditPro) {
+    listenToPowerOff();
     getrain();
     listenToClickBurger();
+    listenTochangeDropdown();
   }
   if (htmlDeletePage) {
     listenToChoiceDelete();
   }
   if (htmlCreateAccount) {
+    listenToPowerOff();
     let urlParams = new URLSearchParams(window.location.search);
     let get = urlParams.get("id");
     if (get == null || get != 1) {

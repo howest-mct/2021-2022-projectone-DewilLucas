@@ -26,8 +26,10 @@
             <ul class="o-list c-nav__list">
               <li class="c-nav__item"><a href="home.html?name=ld" class="c-nav__link ">Home</a></li>
               <li class="c-nav__item"><a href="loadAccount.html" class="c-nav__link">Account</a></li>
-              <li class="c-nav__item"><a href="#!" class="c-nav__link">Shopping lists</a></li>
-              <li class="c-nav__item"><a href="#!" class="c-nav__link c-active">History</a></li>
+              <li class="c-nav__item"><a href="history.html" class="c-nav__link">Live Fridge</a></li>
+              <li class="c-nav__item"><a href="#!" class="c-nav__link c-active">Add Product</a></li>
+              <li class="c-nav__item"><a class="material-icons c-nav__link c-power js-poweroff">power_settings_new</a>
+              </li>
             </ul>
 
           </div>
@@ -50,22 +52,95 @@
           <span class="c-edit-title">Add Product</span>
           <form class="c-form js-add">
             <div class="c-input--field">
-              <input type="text" class="c-input js-naam" placeholder="Naam product" name="productname" id="productname"
+              <input type="text" class="c-input js-naam" placeholder="Product name" name="productname" id="productname"
                 required>
             </div>
             <div class="c-input--field">
-              <input type="date" name="datum" id="datum" class="c-input js-date" placeholder="datum" required>
+              <input type="date" name="datum" id="datum" class="c-input js-date" placeholder="Date" required>
             </div>
             <div class="c-input--field">
-              <input type="number" name="aantal" id="aantal" class="js-aantal" min="0" max="100" placeholder="Aantal"
-                required>
+              <input type="number" name="aantal" id="aantal" class="js-aantal" min="1" max="100"
+                placeholder="Number of this product" required>
             </div>
             <div class="c-input--field">
-              <input type="text" name="barcode" id="barcode" class="c-input js-barcode" placeholder="barcode" required>
+              <input type="text" name="barcode" id="barcode" class="c-input js-barcode" placeholder="Barcode" required>
             </div>
+            <div class="c-input--field">
+              <select name="foto" id="foto" class="js-foto o-select">
+                <option value="" disabled selected>select an image</option>
+                <option value="bacon.jpg">
+                  Bacon
+                </option>
+                <option value="beef.png">
+                  Beef
+                </option>
+                <option value="ham.jpg">
+                  Ham
+                </option>
+                <option value="salami.jpg">
+                  Salami
+                </option>
+                <option value="zalm.png">
+                  Salmon
+                </option>
+                <option value="broco.jpg">
+                  Brocolli
+                </option>
+                <option value="komkommer.png">
+                  Cucumber
+                </option>
+                <option value="aardbei.jpg">
+                  Strawberry
+                </option>
+                <option value="aubergine.png">
+                  Aubergine
+                </option>
+                <option value="lemon.png">
+                  Lemon
+                </option>
+                <option value="tomato.jpg">
+                  Tomato
+                </option>
+                <option value="butter.png">
+                  Butter
+                </option>
+                <option value="water.jpg">
+                  Water
+                </option>
+                <option value="cola.jpg">
+                  Cola
+                </option>
+                <option value="fanta.jpg">
+                  Fanta
+                </option>
+                <option value="ketchup.png">
+                  Ketchup
+                </option>
+                <option value="lasagne.jpg">
+                  Lasagna
+                </option>
+                <option value="wrap.jpg">
+                  Wrap
+                </option>
+                <option value="egg.jpg">
+                  Egg
+                </option>
+                <option value="cheese.png">
+                  Cheese
+                </option>
+                <option value="yoghurt.png">
+                  Yoghurt
+                </option>
+
+              </select>
+            </div>
+
+            <img class="o-image js-image" src="https://fakeimg.pl/400x300/f1db26/000/">
+
             <div class="c-input--field c-button--edit">
               <button><a href="home.html?add=1" class="js-add-button c-button--edit">send</a></button>
             </div>
+
           </form>
         </div>
 
@@ -96,8 +171,9 @@
         <ul class="o-list c-nav__list">
           <li class="c-nav__item"><a href="home.html?name=ld" class="c-nav__link c-active">Home</a></li>
           <li class="c-nav__item"><a href="loadAccount.html" class="c-nav__link">Account</a></li>
-          <li class="c-nav__item"><a href="#!" class="c-nav__link">Shopping lists</a></li>
-          <li class="c-nav__item"><a href="history.html" class="c-nav__link">History</a></li>
+          <li class="c-nav__item"><a href="history.html" class="c-nav__link">Live Fridge</a></li>
+          <li class="c-nav__item"><a href="#!" class="c-nav__link">Add Product</a></li>
+          <li class="c-nav__item"><a class="material-icons c-nav__link c-power js-poweroff2">power_settings_new</a></li>
         </ul>
         </nav>
       </div>

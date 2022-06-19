@@ -75,18 +75,18 @@ class DataRepository:
 
     @staticmethod
     def geef_alle_producten():
-        sql = "SELECT pa.idAanwezig,pa.idproduct,p.Naam,concat(pa.HoudbaarheidsDatum) as `HoudbaarheidsDatum`,pa.aantal from smartfridgeDB.ProductAanwezig pa join smartfridgeDB.Product p on p.idproduct = pa.idProduct where pa.aanwezig = %s order by `HoudbaarheidsDatum` asc;"
+        sql = "SELECT p.Afbeelding, pa.idAanwezig,pa.idproduct,p.Naam,concat(pa.HoudbaarheidsDatum) as `HoudbaarheidsDatum`,pa.aantal from smartfridgeDB.ProductAanwezig pa join smartfridgeDB.Product p on p.idproduct = pa.idProduct where pa.aanwezig = %s order by `HoudbaarheidsDatum` asc;"
         param = [1]
         return Database.get_rows(sql, param)
 
     @staticmethod
-    def add_product_by_web(naam, datum, verschil, aantal, barcode):
+    def add_product_by_web(naam, datum, verschil, aantal, barcode, afbeelding):
         sql3 = "SELECT idproduct from  smartfridgeDB.Product where naam = %s AND Barcode = %s"
         paraamA = [naam, barcode]
         test1 = Database.get_one_row(sql3, paraamA)
         if test1 == -1 or test1 == None:
-            sql1 = "insert into Product(Naam,Eersteinvoeg,Barcode) values(%s,now(),%s)"
-            param = [naam, barcode]
+            sql1 = "insert into Product(Naam,Eersteinvoeg,Barcode,Afbeelding) values(%s,now(),%s,%s)"
+            param = [naam, barcode, afbeelding]
             Database.execute_sql(sql1, param)
 
             sql2 = "SELECT idproduct from  smartfridgeDB.Product where naam = %s AND Barcode = %s"
@@ -138,19 +138,19 @@ class DataRepository:
 
     @staticmethod
     def zoekbyAanwezigId(id):
-        sql = "SELECT p.Naam,p.Barcode, pa.idProduct, concat(pa.HoudbaarheidsDatum) as `HoudbaarheidsDatum`, pa.Aantal FROM smartfridgeDB.ProductAanwezig as pa join Product as p on pa.idProduct = p.idProduct where pa.idAanwezig = %s"
+        sql = "SELECT p.Naam,p.Barcode, pa.idProduct, concat(pa.HoudbaarheidsDatum) as `HoudbaarheidsDatum`, pa.Aantal,p.Afbeelding FROM smartfridgeDB.ProductAanwezig as pa join Product as p on pa.idProduct = p.idProduct where pa.idAanwezig = %s"
         param = [id]
         return Database.get_one_row(sql, param)
 
     @staticmethod
-    def update_by_website_product(aanwezigID, naam, datum, aantal, barcode, verschil):
+    def update_by_website_product(aanwezigID, naam, datum, aantal, barcode, verschil, afbeelding):
         sql = "SELECT p.Naam,p.Barcode, pa.idProduct FROM smartfridgeDB.ProductAanwezig as pa join Product as p on pa.idProduct = p.idProduct where pa.idAanwezig = %s"
         param = [aanwezigID]
         data = Database.get_one_row(sql, param)
         print(data['idProduct'])
-        sql2 = "UPDATE smartfridgeDB.Product p  join smartfridgeDB.ProductAanwezig pa ON p.idproduct = pa.idProduct SET p.Naam = %s,pa.HoudbaarheidsDatum = %s,pa.aantal = %s,p.barcode = %s,pa.AantalDagenResterend = %s   where p.idProduct = %s and pa.idAanwezig = %s"
+        sql2 = "UPDATE smartfridgeDB.Product p  join smartfridgeDB.ProductAanwezig pa ON p.idproduct = pa.idProduct SET p.Naam = %s,pa.HoudbaarheidsDatum = %s,pa.aantal = %s,p.barcode = %s,pa.AantalDagenResterend = %s,p.Afbeelding=%s   where p.idProduct = %s and pa.idAanwezig = %s"
         param2 = [naam, datum, aantal, barcode,
-                  verschil, data['idProduct'], aanwezigID]
+                  verschil, afbeelding, data['idProduct'], aanwezigID]
         return Database.execute_sql(sql2, param2)
 
     @staticmethod
@@ -200,7 +200,7 @@ class DataRepository:
     @staticmethod
     def geefOverdatums():
         lstOverDatum = []
-        sql = "SELECT p.Naam, pa.idAanwezig, concat(pa.HoudbaarheidsDatum) as HoudbaarheidsDatum from smartfridgeDB.ProductAanwezig pa join Product p on pa.idProduct = p.idproduct WHERE pa.AantalDagenResterend <= 0"
+        sql = "SELECT p.Naam, pa.idAanwezig, concat(pa.HoudbaarheidsDatum) as HoudbaarheidsDatum from smartfridgeDB.ProductAanwezig pa join Product p on pa.idProduct = p.idproduct WHERE pa.AantalDagenResterend <= 0 order by pa.AantalDagenResterend asc"
         over = Database.get_rows(sql)
         for product in over:
             lstOverDatum.append(product)
@@ -227,6 +227,16 @@ class DataRepository:
             param = [id]
             delete = Database.execute_sql(sql, param)
             return delete
+        except Exception as ex:
+            print(ex)
+            return -1
+
+    @staticmethod
+    def geefmails():
+        try:
+            sql = "SELECT `E-mail` FROM smartfridgeDB.Gebruiker;"
+            mails = Database.get_rows(sql)
+            return mails
         except Exception as ex:
             print(ex)
             return -1

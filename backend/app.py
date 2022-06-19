@@ -8,7 +8,7 @@ from flask_cors import CORS
 from flask_socketio import SocketIO, emit, send
 from flask import Flask, jsonify, request, render_template, redirect
 from repositories.DataRepository import DataRepository
-from classes.mpuClass import MPU6050
+#from classes.mpuClass import MPU6050
 from classes.keypadClass import clKeypad
 from selenium import webdriver
 from classes.TemperatuurClass import TemperatuurClass
@@ -23,10 +23,10 @@ from classes.clEmail import emailPy
 # from selenium.webdriver.chrome.options import Options
 
 # Variables
-temperatuurSensor = '/sys/bus/w1/devices/28-22cfd2000900/w1_slave'
-mpu = MPU6050(0x68)
+temperatuurSensor = '/sys/bus/w1/devices/28-0417819474ff/w1_slave'
+#mpu = MPU6050(0x68)
 rijKeypad = [9, 6, 22, 27]
-kolumKeypad = [17, 16, 5]
+kolumKeypad = [24, 12, 5]
 button = 18
 lcdPins = [23, 26, 19, 13]
 E = 20
@@ -59,7 +59,11 @@ def reboot():
         if datumVandaag.hour == 0 and datumVandaag.minute == 0 and datumVandaag.second == 0:
             print("UPDATE")
             DataRepository.updateDatums()
-            mail = emailPy(overdatum)
+            mails = DataRepository.geefmails()
+            overdatum = DataRepository.geefOverdatums()
+            for email in mails:
+                print(email)
+                mail = emailPy(overdatum, email['E-mail'])
         else:
             pass
 
@@ -71,15 +75,21 @@ def geefAantal():
             print(totaalAanwezig)
             return "Geen aanwezige producten"
         else:
-            print(totaalAanwezig)
-            return f"Aantal producten:{totaalAanwezig['totaalAanwezig']}"
+            print(totaalAanwezig['totaalAanwezig'])
+            getal = int(totaalAanwezig['totaalAanwezig'])
+            socketio.emit(
+                "B2F_aantal", {'aantal': getal}, broadcast=True)
+            return f"Number of product:{totaalAanwezig['totaalAanwezig']}"
 
 
 def showOled():
     while True:
         huidigeTemp = leesTemperatuur()
-        print(huidigeTemp)
+        print(huidigeTemp["waarde"])
+
         aanwezig = geefAantal()
+        socketio.emit('B2F_temperatuur', {
+            'temperatuur': huidigeTemp}, broadcast=True)
         print(aanwezig)
         uitvoerTemp = f"{str(huidigeTemp['waarde'])}°C"
         uitvoerAantal = aanwezig
@@ -115,8 +125,8 @@ def barcodeInput(invoer=""):
             thread.start()
             uit = []
             lcd.init_LCD()
-            lcd.write_message("Invoer:#", 0X80)
-            lcd.write_message("uitvoer:*", 0xC0)
+            lcd.write_message("Add product:#", 0X80)
+            lcd.write_message("Delete product:*", 0xC0)
             while len(uit) != 1:
                 inofUit = leesKeypad()
                 if inofUit == "#" or inofUit == "*":
@@ -128,14 +138,14 @@ def barcodeInput(invoer=""):
                 zoek = DataRepository.zoekByBaarcode(barcode)
                 if zoek == -1:
                     DataRepository.write_barcode(barcode)
-                    lcd.write_message("Verander de naam", 0X80)
-                    lcd.write_message("Op de webapp", 0xC0)
+                    lcd.write_message("Change the name", 0X80)
+                    lcd.write_message("On the web app", 0xC0)
                     print("nieuwe product ingevoegd")
                     time.sleep(2)
                     lcd.init_LCD()
                     zoek = DataRepository.zoekByBaarcode(barcode)
                 if uit[0] == "#":
-                    lcd.write_message("Geef vervaldatum", 0x80)
+                    lcd.write_message("Expiry date", 0x80)
                     lstDatum = []
 
                     while len(lstDatum) != 8:
@@ -144,7 +154,7 @@ def barcodeInput(invoer=""):
                             pass
                         elif waarde == "*":
                             lcd.init_LCD()
-                            lcd.write_message("STOPGEZET", 0x80)
+                            lcd.write_message("STOPPED", 0x80)
                             time.sleep(2)
                             schrijfLCD()
                             break
@@ -157,8 +167,8 @@ def barcodeInput(invoer=""):
                     else:
                         eersteGetal = str(lstDatum[0]) + str(lstDatum[1])
                         tweedeGetal = str(lstDatum[2]) + str(lstDatum[3])
-                        jaartal = str(lstDatum[4])+str(lstDatum[5]) + \
-                            str(lstDatum[6]) + str(lstDatum[7])
+                        jaartal = str(
+                            lstDatum[4])+str(lstDatum[5])+str(lstDatum[6]) + str(lstDatum[7])
                         datumke = f"{jaartal}-{tweedeGetal}-{eersteGetal}"
                         try:
                             d = datetime.strptime(datumke, '%Y-%m-%d').date()
@@ -168,7 +178,7 @@ def barcodeInput(invoer=""):
                                 raise(Exception)
                             else:
                                 lcd.init_LCD()
-                                lcd.write_message("Hoeveel?", 0x80)
+                                lcd.write_message("How much?", 0x80)
                                 lstAantal = []
                                 aantal = ""
                                 while aantal != "#":
@@ -188,14 +198,14 @@ def barcodeInput(invoer=""):
                                     zoek['idproduct'], d, verschil.days, int(final))
                                 print(d)
                                 lcd.init_LCD()
-                                lcd.write_message("Dit is een...", 0x80)
+                                lcd.write_message("This is a...", 0x80)
                                 lcd.write_message("Succes! :)", 0XC0)
                                 time.sleep(3)
                                 schrijfLCD()
                         except Exception as ex:
                             print("datum ongeldig")
-                            lcd.write_message("datum ongeldig", 0X80)
-                            lcd.write_message("herscan barcode", 0xC0)
+                            lcd.write_message("date invalid", 0X80)
+                            lcd.write_message("rescan barcode", 0xC0)
                             print(ex)
                 else:
                     try:
@@ -203,7 +213,7 @@ def barcodeInput(invoer=""):
                             barcode)
                         print(zoek_delete)
                         totaalAantal = zoek_delete['aantal']
-                        lcd.write_message("Hoeveel uitlezen", 0x80)
+                        lcd.write_message("How much?", 0x80)
                         lcd.write_message(">", 0xC0)
                         aantalVerwijderen = []
                         vw = ""
@@ -215,12 +225,12 @@ def barcodeInput(invoer=""):
                                     vw = ""
                                     aantalVerwijderen = []
                                     final2 = ">"
-                                    lcd.write_message("TEVEEL!", 0XC0)
+                                    lcd.write_message("TOO MUCH!", 0XC0)
                                     time.sleep(2)
                                     lcd.write_message(final2, 0XC0)
                             elif vw == "*":
                                 lcd.init_LCD()
-                                lcd.write_message("STOPGEZET", 0x80)
+                                lcd.write_message("STOPPED", 0x80)
                                 time.sleep(2)
                                 schrijfLCD()
                                 break
@@ -245,8 +255,8 @@ def barcodeInput(invoer=""):
                                     DataRepository.update_Product(
                                         verschilVerwijdern, zoek_delete['idProduct'], zoek_delete['HoudbaarheidsDatum'])
                                 lcd.init_LCD()
-                                lcd.write_message("Verwijderen", 0x80)
-                                lcd.write_message("Succes!", 0xC0)
+                                lcd.write_message("DELETE...", 0x80)
+                                lcd.write_message("SUCCES!", 0xC0)
                                 time.sleep(3)
                                 schrijfLCD()
                             except Exception as ex:
@@ -270,11 +280,11 @@ def schrijfLCD():
     lcd.write_message(f"{wlan.decode()}", 0xC0)  # 0xC0 is lijn 2 van de LCD
 
 
-def leesMPU():
-    while True:
-        mpu.printAlles()
-        time.sleep(10)
-        # Checken voor open en dicht soon...
+# def leesMPU():
+ #   while True:
+  #      mpu.printAlles()
+   #     time.sleep(10)
+    # Checken voor open en dicht soon...
 
 
 def leesTemperatuur():
@@ -360,10 +370,11 @@ def hallo():
 def initial_connection():
     print('A new client connect')
     data = DataRepository.geef_alle_producten()
-    # leesTemperatuur()
     socketio.emit("B2F_connected", data)
-    # DataRepository.updateDatums()
     DataRepository.geefOverdatums()
+    socketio.emit('B2F_temperatuur', {
+                  'temperatuur': leesTemperatuur()}, broadcast=True)
+
     # # Send to the client!
 
 
@@ -457,10 +468,12 @@ def delete_product(id):
 def edit(data):
     global aanwezigID
     global uitv
+
     aanwezigID = data
     uitv = DataRepository.zoekbyAanwezigId(data)
     if uitv != None or uitv != -1:
         socketio.emit("B2F_edit", uitv)
+        print(uitv)
     else:
         print("Geen data gevonden")
 
@@ -469,12 +482,13 @@ def edit(data):
 def add(data):
     print('new product')
     try:
+        print(data)
         d = datetime.strptime(data["datum"], '%Y-%m-%d').date()
         huidigeDatum = date.today()
         verschil = d-huidigeDatum
         print(verschil.days)
         voegtoe = DataRepository.add_product_by_web(
-            data["naam"], data["datum"], int(verschil.days), int(data["aantal"]), data['barcode'])
+            data["naam"], data["datum"], int(verschil.days), int(data["aantal"]), data['barcode'], data["foto"])
         if voegtoe == -1:
             print("Deze product is al aanwezig")
             socketio.emit("B2F_alAanwezig", {
@@ -489,18 +503,27 @@ def add(data):
 @ socketio.on("F2B_edit_product")
 def update_product(data):
     try:
+        print(data)
         d = datetime.strptime(data["datum"], '%Y-%m-%d').date()
         huidigeDatum = date.today()
         verschil = d-huidigeDatum
         print(verschil)
         if aanwezigID != None or aanwezigID != -1:
             DataRepository.update_by_website_product(
-                aanwezigID, data["naam"], data['datum'], data['aantal'], data["barcode"], int(verschil.days))
+                aanwezigID, data["naam"], data['datum'], data['aantal'], data["barcode"], int(verschil.days), data["foto"])
         else:
             print("Geen data gevonden")
 
     except Exception as ex:
         print(ex)
+
+
+@socketio.on("F2B_shutdown")
+def shutdown_by_web(json):
+    print("TURNED OFF")
+    os.system("sudo shutdown -h now")
+    sys.exit()
+    # quits the code
 
 
 @ socketio.on("F2B_barcode")
@@ -523,7 +546,7 @@ def start_thread():
         lcd_thread()
         hist_thread()
         barcode_thread()
-        MPU_thread()
+        # MPU_thread()
         update_thread()
     except Exception as ex:
         print(ex)
@@ -574,13 +597,13 @@ def update_thread():
         print(ex)
 
 
-def MPU_thread():
-    print("**** MPU THREAD ****")
-    try:
-        thread = threading.Thread(target=leesMPU, args=(), daemon=True)
-        thread.start()
-    except Exception as ex:
-        print(ex)
+# def MPU_thread():
+#    print("**** MPU THREAD ****")
+#    try:
+#        thread = threading.Thread(target=leesMPU, args=(), daemon=True)
+#        thread.start()
+#    except Exception as ex:
+#        print(ex)
 
 
 def temperatuur_thread():
@@ -644,8 +667,7 @@ if __name__ == '__main__':
     try:
         temp = TemperatuurClass(temperatuurSensor)
         DataRepository.updateDatums()
-        overdatum = DataRepository.geefOverdatums()
-        # mail = emailPy(overdatum)
+
         setup_gpio()
         start_thread()
         start_chrome_thread()
@@ -654,7 +676,7 @@ if __name__ == '__main__':
     except KeyboardInterrupt:
         print('KeyboardInterrupt exception is caught')
     finally:
-        mpu.sluit()
+        # mpu.sluit()
         temp.sluitTemp()
         lcd.init_LCD()
         GPIO.cleanup()

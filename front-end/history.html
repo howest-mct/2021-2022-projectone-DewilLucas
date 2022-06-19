@@ -6,6 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>history</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.typekit.net/buv0ixq.css">
     <link rel="stylesheet" href="style/screen.css" />
     <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"
         integrity="sha384-LzhRnpGmQP+lOvWruF/lgkcqD+WDVt9fU3H4BWmwP5u5LTmkUGafMcpZKNObVMLU"
@@ -27,8 +29,9 @@
                         <ul class="o-list c-nav__list">
                             <li class="c-nav__item"><a href="home.html?name=ld" class="c-nav__link ">Home</a></li>
                             <li class="c-nav__item"><a href="loadAccount.html" class="c-nav__link">Account</a></li>
-                            <li class="c-nav__item"><a href="#!" class="c-nav__link">Shopping lists</a></li>
-                            <li class="c-nav__item"><a href="#!" class="c-nav__link c-active">History</a></li>
+                            <li class="c-nav__item"><a href="#!" class="c-nav__link c-active">Live Fridge</a></li>
+                            <li class="c-nav__item"><a
+                                    class="material-icons c-nav__link c-power js-poweroff">power_settings_new</a></li>
                         </ul>
 
                     </div>
@@ -44,12 +47,12 @@
         </div>
 
     </header>
+    <p class="js-temperatuur u-color--temp-history"></p>
+    <p class="js-totaantal u-color--temp-history"></p>
     <div class="o-body-chart">
         <div id="js-chart" style="width:100%;max-width:600px;">
         </div>
-
     </div>
-
     <aside class="c-mobile-nav">
         <div class="c-mobile-nav__bg"></div>
         <div class="c-mobile-nav__body">
@@ -72,8 +75,9 @@
                 <ul class="o-list c-nav__list">
                     <li class="c-nav__item"><a href="home.html?name=ld" class="c-nav__link c-active">Home</a></li>
                     <li class="c-nav__item"><a href="loadAccount.html" class="c-nav__link">Account</a></li>
-                    <li class="c-nav__item"><a href="#!" class="c-nav__link">Shopping lists</a></li>
-                    <li class="c-nav__item"><a href="history.html" class="c-nav__link">History</a></li>
+                    <li class="c-nav__item"><a href="history.html" class="c-nav__link">Live Fridge</a></li>
+                    <li class="c-nav__item"><a
+                            class="material-icons c-nav__link c-power js-poweroff2">power_settings_new</a>
                 </ul>
                 </nav>
             </div>

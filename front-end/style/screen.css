@@ -99,7 +99,7 @@ html {
 objects : container navbar
 */
 .o-container--nav {
-    max-width: 1300px;
+    width: 100%;
     margin: 0 auto;
     display: flex;
     align-items: center;
@@ -191,7 +191,16 @@ components home
     width: 100%;
 }
 
+input[type="text"] {
+    font: 800;
+}
+
+input[type="date"] {
+    font: 800;
+}
+
 .c-input--field input {
+    font-family: 'azo-sans-web';
     position: absolute;
     height: 100%;
     width: 100%;
@@ -218,14 +227,40 @@ components home
 }
 
 .c-input--field a {
+    font-family: 'azo-sans-web';
     text-decoration: none;
     padding: 15px 80px 15px 80px;
     color: #1A1917;
 }
 
+.c-button--add.c-input--field a {
+    font-family: 'azo-sans-web';
+    text-decoration: none;
+    padding: 15px 135px 15px 135px;
+    color: #1A1917;
+}
+
 @media (max-width: 992px) {
     .c-input--field a {
-        padding: 5px 40px 5px 40px;
+        font-family: 'azo-sans-web';
+        padding: 15px 120px 15px 120px;
+        color: #1A1917;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .c-button--add.c-input--field a {
+        font-family: 'azo-sans-web';
+        text-decoration: none;
+        padding: 15px 95px 15px 95px;
+        color: #1A1917;
+    }
+
+    .c-button--login.c-input--field a {
+        font-family: 'azo-sans-web';
+        text-decoration: none;
+        padding: 5px 95px 5px 95px;
         color: #1A1917;
     }
 }
@@ -294,9 +329,6 @@ components home
 /*
     Objects : edit product
 */
-.o-body-add-product {
-    overflow: hidden;
-}
 
 .o-body-edit-product {
     height: 100vh;
@@ -309,16 +341,13 @@ components home
 /*
     objects : chart
 */
-.c-hide {
-    overflow: hidden;
-}
-
 .o-body-chart {
     height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
 }
+
 
 @media (min-width: 992px) {
     .o-body-chart {
@@ -337,13 +366,8 @@ components home
 /*
     Objects: edit account
 */
-.o-body--create-user {
-    overflow: hidden;
-}
 
-.o-body-acc {
-    overflow: hidden;
-}
+
 
 .o-body-account {
     height: 100vh;
@@ -463,11 +487,11 @@ components home
 }
 
 .c-account-form .c-button--login {
-    margin-top: 35px;
+    margin-top: 15px;
 }
 
 .c-account-form .c-button--add {
-    margin-top: 35px;
+    margin-top: 15px;
 }
 
 .c-account-form .c-button--login input {
@@ -525,19 +549,22 @@ components home
 .c-edit-product-forms {
     display: flex;
     align-items: center;
-    height: 440px;
+    height: 560px;
     width: 200%;
+    margin-top: -10px;
 }
 
 .o-container--edit .c-edit-forms {
     display: flex;
     align-items: center;
-    height: 550px;
+    height: 600px;
     width: 200%;
 }
 
 .o-container--edit .c-edit-form .c-edit-title {
     position: relative;
+    margin-top: 20px;
+    display: flex;
     font-size: 24px;
     font-weight: 700;
     color: #1A1917;
@@ -554,9 +581,6 @@ components home
     border-radius: 25px;
 }
 
-.c-edit-form .c-button--edit {
-    margin-top: 35px;
-}
 
 .c-edit-form .c-button--edit button {
     border: none;
@@ -599,12 +623,7 @@ components home
     padding: 30px;
 }
 
-.c-edit-product-forms {
-    display: flex;
-    align-items: center;
-    height: 440px;
-    width: 200%;
-}
+
 
 .o-container--add .c-edit-forms {
     display: flex;
@@ -635,9 +654,6 @@ components home
     margin-top: 35px;
 }
 
-.c-edit-form .c-button--delete {
-    margin-top: 35px;
-}
 
 .c-edit-form .c-button--delete button {
     border: none;
@@ -655,9 +671,6 @@ components home
     background-color: #FFCE33;
 }
 
-.c-edit-form .c-button--delete--no {
-    margin-top: 35px;
-}
 
 .c-edit-form .c-button--delete--no button {
     border: none;
@@ -839,7 +852,7 @@ components : mobile nav
 
 @media (min-width:768px) {
     .o-container {
-        width: 900px;
+        width: 100%;
         margin: 0 auto;
         padding: 1.5rem 1rem;
     }
@@ -848,10 +861,140 @@ components : mobile nav
 @media (min-width:992px) {
     .o-container {
         margin-top: 40px;
-        width: 1300px;
+        width: 100%;
         margin: 0 auto;
         padding: 3rem 2rem;
     }
+}
+
+/*
+objects - select
+*/
+.o-select {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 40px;
+    margin-bottom: -10px;
+}
+
+/*
+    objects : Temperatuur
+*/
+.o-temp-container {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 120px;
+    height: 120px;
+    background: #FFC200;
+    border-radius: 50%;
+    border: solid #1A1917 1px;
+    z-index: 2;
+}
+
+.o-temp-container.o-temp {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.o-temp-container.o-temp p {
+    text-align: center;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #1A1917;
+
+    text-decoration: none;
+    z-index: 2;
+}
+
+.u-color--temp {
+    color: #1A1917;
+    font-size: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.u-color--temp-history {
+    color: #F7F6F2;
+    font-size: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.c-home--melding {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+
+@media (max-width:768px) {
+    .u-color--temp {
+        font-size: 14px;
+    }
+
+    .o-temp-container {
+        margin: 140px 0px 0px 35%;
+    }
+}
+
+@media (max-width:360px) {
+    .u-color--temp {
+        font-size: 14px;
+    }
+
+    .o-temp-container {
+        margin: 140px 0px 0px 33%;
+    }
+}
+
+@media (min-width:768px) {
+    .u-color--temp {
+        font-size: 14px;
+    }
+
+    .o-temp-container {
+        margin: 20px 0px 0px 42%;
+    }
+}
+
+@media (min-width:992px) {
+    .u-color--temp {
+        font-size: 14px;
+    }
+
+    .o-temp-container {
+        margin: 20px 0px 0px 45%;
+    }
+}
+
+/*
+objects : images
+*/
+.o-image {
+    display: flex;
+    max-width: 150px;
+    max-height: 100px;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    border-radius: 5px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /*
@@ -918,6 +1061,15 @@ components : mobile nav
     border-radius: 0 0px 5px 5px;
 }
 
+.c-card__content--overdatum {
+    display: block;
+    line-height: 1.5;
+    font-size: 0.9em;
+    padding: 20px;
+    background: #FFA4A4;
+    border-radius: 0 0px 5px 5px;
+}
+
 .c-card__content>p:last-of-type {
     margin-bottom: 0;
 }
@@ -950,6 +1102,7 @@ components : mobile nav
     }
 
     .u-icons {
+        color: #1A1917;
         font-size: 20px;
         float: right;
         position: relative;
@@ -1117,6 +1270,10 @@ components : mobile nav
     .c-nav__link {
         padding: 8px 20px;
     }
+}
+
+.c-power {
+    margin-top: 5px;
 }
 
 /*
