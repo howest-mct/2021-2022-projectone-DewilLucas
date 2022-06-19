@@ -14,7 +14,6 @@ from selenium import webdriver
 from classes.TemperatuurClass import TemperatuurClass
 from classes.lcdClass import Lcd
 from classes.OLEDCLass import OLED
-import random
 from datetime import datetime
 from datetime import date
 import hashlib

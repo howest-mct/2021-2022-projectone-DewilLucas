@@ -31,7 +31,6 @@ class OLED:
 
         # Get drawing object to draw on image.
         draw = ImageDraw.Draw(image)
-        # image = Image.open('happycat_oled_64.ppm').convert('1')
         # Draw a white background
         draw.rectangle((0, 0, self.oled.width, self.oled.height),
                        outline=255, fill=255)
