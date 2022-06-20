@@ -46,8 +46,12 @@ def setup_gpio():
 
 def pushed(knop):
     time.sleep(5)
+    # lcd.init_LCD()
     print("TURNED OFF")
-    # os.system("sudo shutdown -h now")
+    #lcd.write_message("TURNED OFF", 0x80)
+    # time.sleep(1)
+    #os.system("sudo shutdown -h now")
+    # lcd.init_LCD()
     # sys.exit()
     # quits the code
 
