@@ -37,7 +37,7 @@ class DataRepository:
 
     @staticmethod
     def read_by_minute():
-        sql = 'SELECT idMeting , DeviceID, Waarde,concat(Tijdstip)as `Tijdstip` FROM smartfridgeDB.Historiek WHERE minute(Tijdstip) = minute(now()) LIMIT 100'
+        sql = 'SELECT idMeting,DeviceID,round(avg(Waarde),2) as `Waarde`,concat(time(Tijdstip)) as `Tijdstip` FROM smartfridgeDB.Historiek WHERE day(Tijdstip) = day(now()) and `Waarde` < 100  and hour(`Tijdstip`) = hour(now()) and minute(`Tijdstip`) = minute(now())  group by minute(`Tijdstip`),second(`Tijdstip`) order by second(`Tijdstip`) DESC'
         return Database.get_rows(sql)
 
     @staticmethod
