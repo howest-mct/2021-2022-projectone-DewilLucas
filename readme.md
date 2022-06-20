@@ -1,5 +1,6 @@
 # Project One - SmartFridge
 
+![white logo](https://user-images.githubusercontent.com/91437297/174548596-aaea518d-f75b-499e-823d-c50895515a07.png)
 
 
 Hoe kan een externe persoon (die niets weet over de "ProjectOne" opdracht) het project snel runnen op de eigen pc?
