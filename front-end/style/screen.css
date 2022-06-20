@@ -1277,6 +1277,23 @@ objects : images
 }
 
 /*
+scrollbar
+*/
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+
+    background: linear-gradient(transparent, #FFC200);
+    border-radius: 6px;
+}
+
+::-webkit-scrollbar:hover {
+    background: linear-gradient(transparent, #FFC200);
+}
+
+/*
 components navbar
 */
 nav {

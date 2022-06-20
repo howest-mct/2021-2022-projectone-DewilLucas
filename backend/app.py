@@ -423,10 +423,8 @@ def add_user(data):
 def connection(data):
     email = data['mail']
     passwoordSalted = f"{email}s@lt#{data['passwoord']}#tl@s"
-
     hash_object = hashlib.sha512(passwoordSalted.encode())
     hex_dig = hash_object.hexdigest()
-    print(hex_dig)
     login = DataRepository.user_login(email, hex_dig)
     print(login)
     global user
