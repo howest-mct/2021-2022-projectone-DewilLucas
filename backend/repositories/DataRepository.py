@@ -21,6 +21,26 @@ class DataRepository:
         return Database.get_rows(sql)
 
     @staticmethod
+    def read_by_month():
+        sql = 'SELECT idMeting,DeviceID,avg(Waarde) as `Waarde`,concat(date(Tijdstip)) as `Tijdstip` FROM smartfridgeDB.Historiek WHERE month(Tijdstip) = month(now()) group by DATE(`Tijdstip`),day(`Tijdstip`)'
+        return Database.get_rows(sql)
+
+    @staticmethod
+    def read_by_day():
+        sql = 'SELECT idMeting,DeviceID,round(avg(Waarde),2) as `Waarde`,concat(time(Tijdstip)) as `Tijdstip` FROM smartfridgeDB.Historiek WHERE day(Tijdstip) = day(now()) and `Waarde` < 100  group by DATE(`Tijdstip`),hour(`Tijdstip`) order by hour(`Tijdstip`) DESC'
+        return Database.get_rows(sql)
+
+    @staticmethod
+    def read_by_hour():
+        sql = 'SELECT idMeting,DeviceID,round(avg(Waarde),2) as `Waarde`,concat(time(Tijdstip)) as `Tijdstip` FROM smartfridgeDB.Historiek WHERE day(Tijdstip) = day(now()) and `Waarde` < 100 and hour(`Tijdstip`) = hour(now()) group by DATE(`Tijdstip`),hour(`Tijdstip`),minute(`Tijdstip`) order by minute(`Tijdstip`) DESC'
+        return Database.get_rows(sql)
+
+    @staticmethod
+    def read_by_minute():
+        sql = 'SELECT idMeting , DeviceID, Waarde,concat(Tijdstip)as `Tijdstip` FROM smartfridgeDB.Historiek WHERE minute(Tijdstip) = minute(now()) LIMIT 100'
+        return Database.get_rows(sql)
+
+    @staticmethod
     def write_temperatuur(temp):
         sql = "insert into Historiek(DeviceID,Waarde,Tijdstip) values(%s,%s,now())"
         params = [1, temp]

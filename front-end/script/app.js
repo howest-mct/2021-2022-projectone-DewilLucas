@@ -77,7 +77,7 @@ const showChart = function (datax, dataY) {
       data: dataY
     }],
     xaxis: {
-      type: "datetime",
+      //type: "datetime",
       labels: {
         style: {
           colors: '#fff'
@@ -104,6 +104,7 @@ const showChart = function (datax, dataY) {
   chart.render();
 };
 const showHistory = function (json) {
+  console.log(json);
   let datax = [];
   let dataY = [];
   for (let obj of json) {
@@ -341,6 +342,16 @@ const listenTochangeDropdown = function () {
     console.log(img.src);
   });
 };
+const listenTochangeDropdownHistory = function () {
+  let dropdown = document.querySelector(".js-grafiek");
+  if (dropdown.value == "period") {
+    socket.emit("F2B_historyChange", 'seconds');
+  }
+  dropdown.addEventListener("change", function () {
+    console.log(dropdown.value);
+    socket.emit("F2B_historyChange", dropdown.value);
+  });
+};
 const listenToInput = function () {
   let barcode = document.querySelector(".js-barcode-offline");
   barcode.focus();
@@ -421,8 +432,8 @@ const listenToSocket = function () {
       let htmlAantal = document.querySelector(".js-totaantal");
       htmlAantal.innerHTML = `Number of products present: ${json.aantal}`;
     });
-    console.log("listen B2F_history");
-    socket.on("B2F_history", (data) => {
+    socket.on("B2F_hist", (data) => {
+      console.log(data);
       showHistory(data);
     });
   }
@@ -512,6 +523,9 @@ const init = function () {
 
   htmlIndex = document.querySelector(".js-index");
   htmlHistory = document.querySelector(".js-history");
+  if (htmlHistory) {
+    listenTochangeDropdownHistory();
+  }
   htmlCards = document.querySelector(".js-cards");
   htmlAdd = document.querySelector(".js-form");
   htmlOff = document.querySelector(".js-offline");

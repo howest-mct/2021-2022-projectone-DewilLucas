@@ -35,6 +35,7 @@ oled = OLED(128, 64, 5)
 lees = TemperatuurClass(temperatuurSensor)
 user = -1
 tellerAfzetten = 0
+histMode = "seconds"
 # Code voor Hardware
 
 
@@ -352,8 +353,18 @@ def leesKeypad():
 
 def leesHistoriek():
     while True:
-        hist = DataRepository.read_historiek()
-        socketio.emit("B2F_history", hist, broadcast=True)
+        global histMode
+        #hist = DataRepository.read_historiek()
+        #socketio.emit("B2F_history", hist, broadcast=True)
+        if histMode == "day":
+            uitvoer = DataRepository.read_by_day()
+        if histMode == "hour":
+            uitvoer = DataRepository.read_by_hour()
+        if histMode == "minute":
+            uitvoer = DataRepository.read_by_minute()
+        if histMode == 'seconds':
+            uitvoer = DataRepository.read_historiek()
+        socketio.emit("B2F_hist", uitvoer)
         time.sleep(1)
 
 
@@ -401,6 +412,12 @@ def initial_connection():
                   'temperatuur': leesTemperatuur()}, broadcast=True)
 
     # # Send to the client!
+
+
+@socketio.on("F2B_historyChange")
+def changehist(data):
+    global histMode
+    histMode = data
 
 
 @ socketio.on("F2B_add_user")
