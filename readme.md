@@ -2,9 +2,6 @@
 
 ![white logo](https://user-images.githubusercontent.com/91437297/174548596-aaea518d-f75b-499e-823d-c50895515a07.png)
 
-
-
-# Smart Fridge
 ## Introduction
 As a student, I often had the problem that too much food went to the bin because I didn't really have an inventory of what was in my fridge.
 
