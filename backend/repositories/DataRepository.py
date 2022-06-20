@@ -101,14 +101,14 @@ class DataRepository:
             paraam2 = [naam, barcode]
             uitvoer = Database.get_one_row(sql4, paraam2)
             print(uitvoer)
-            sqlCheck = "SELECT idproduct,concat(HoudbaarheidsDatum) as `HoudbaarheidsDatum`FROM ProductAanwezig WHERE idproduct = %s and HoudbaarheidsDatum =%s and aanwezig =1"
+            sqlCheck = "SELECT idproduct,concat(HoudbaarheidsDatum) as `HoudbaarheidsDatum`,Aantal FROM ProductAanwezig WHERE idproduct = %s and HoudbaarheidsDatum =%s and aanwezig =1"
             param = [uitvoer['idproduct'], datum]
             uitvoerCheck = Database.get_one_row(sqlCheck, param)
             print(uitvoerCheck)
-            print(uitvoerCheck['HoudbaarheidsDatum'])
-            if uitvoerCheck['HoudbaarheidsDatum'] == datum:
-                print("al aanwezig")
-                return -1
+            if uitvoerCheck != -1:
+                if uitvoerCheck['HoudbaarheidsDatum'] == datum and uitvoerCheck['Aantal'] == aantal:
+                    print("al aanwezig")
+                    return -1
             else:
                 sql = "insert into ProductAanwezig(idproduct,invoerdatum,HoudbaarheidsDatum,AantalDagenResterend,aanwezig,aantal,idGebruiker) values(%s,now(),%s,%s,1,%s,%s)"
                 params = [uitvoer['idproduct'], datum, verschil, aantal, 1]
