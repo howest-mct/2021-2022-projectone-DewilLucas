@@ -300,9 +300,9 @@ def schrijfLCD():
         ['hostname', '--all-ip-addresses']).split()
     # Eerste ip die binnenkomt aka de ip van de ethernetpoort
     eth = ips[0]
-    wlan = ips[1]  # de ip van de raspberry
+    # wlan = ips[1]  # de ip van de raspberry
     lcd.write_message(f"{eth.decode()}", 0x80)  # 0x80 is lijn 1 van de LCD
-    lcd.write_message(f"{wlan.decode()}", 0xC0)  # 0xC0 is lijn 2 van de LCD
+    # lcd.write_message(f"{wlan.decode()}", 0xC0)  # 0xC0 is lijn 2 van de LCD
 
 
 # def leesMPU():
@@ -408,7 +408,8 @@ def add_user(data):
     naam = data["naam"]
     voornaam = data['voornaam']
     email = data['email']
-    passwoordSalted = f"s@lt#{data['passwoord']}#tl@s"
+    passwoordSalted = f"{email}s@lt#{data['passwoord']}#tl@s"
+    print(passwoordSalted)
     hash_object = hashlib.sha512(passwoordSalted.encode())
     hex_dig = hash_object.hexdigest()
     voeg = DataRepository.add_user(naam, voornaam, email, hex_dig)
@@ -421,9 +422,11 @@ def add_user(data):
 @ socketio.on("F2B_gebruiker")
 def connection(data):
     email = data['mail']
-    passwoordSalted = f"s@lt#{data['passwoord']}#tl@s"
+    passwoordSalted = f"{email}s@lt#{data['passwoord']}#tl@s"
+
     hash_object = hashlib.sha512(passwoordSalted.encode())
     hex_dig = hash_object.hexdigest()
+    print(hex_dig)
     login = DataRepository.user_login(email, hex_dig)
     print(login)
     global user
@@ -468,7 +471,7 @@ def updateAccount(data):
         hex_dig = user['Passwoord']
         print(hex_dig)
     else:
-        passwoordSalted = f"s@lt#{data['passwoord']}#tl@s"
+        passwoordSalted = f"{email}s@lt#{data['passwoord']}#tl@s"
         hash_object = hashlib.sha512(passwoordSalted.encode())
         hex_dig = hash_object.hexdigest()
         print(hex_dig)
