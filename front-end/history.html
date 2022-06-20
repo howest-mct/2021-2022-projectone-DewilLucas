@@ -49,7 +49,26 @@
     </header>
     <p class="js-temperatuur u-color--temp-history"></p>
     <p class="js-totaantal u-color--temp-history"></p>
+    <select name="grafiek" id="grafiek" class="js-grafiek o-select">
+        <option value="" disabled selected>select a period</option>
+        <option value="month">
+            Month
+        </option>
+        <option value="day">
+            Day
+        </option>
+        <option value="hour">
+            Hour
+        </option>
+        <option value="minutes">
+            Minutes
+        </option>
+        <option value="seconds">
+            Seconds
+        </option>
+    </select>
     <div class="o-body-chart">
+
         <div id="js-chart" style="width:100%;max-width:600px;">
         </div>
     </div>
@@ -73,6 +92,7 @@
             </div>
             <div class="c-mobile-nav__nav">
                 <ul class="o-list c-nav__list">
+
                     <li class="c-nav__item"><a href="home.html?name=ld" class="c-nav__link c-active">Home</a></li>
                     <li class="c-nav__item"><a href="loadAccount.html" class="c-nav__link">Account</a></li>
                     <li class="c-nav__item"><a href="history.html" class="c-nav__link">Live Fridge</a></li>
