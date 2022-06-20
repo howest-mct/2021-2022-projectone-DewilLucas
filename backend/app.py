@@ -47,18 +47,35 @@ def setup_gpio():
 
 def pushed(knop):
     global tellerAfzetten
-    tellerAfzetten += 1
-    if(tellerAfzetten == 10):
-        lcd.init_LCD()
+    print("**** Read keypad THREAD *****")
+    thread = threading.Thread(
+        target=leesKeypad, args=(), daemon=True)
+    thread.start()
+    uit = []
+    lcd.init_LCD()
+    lcd.write_message("close:#", 0X80)
+    lcd.write_message("Don't close?:*", 0XC0)
+    while len(uit) != 1:
+        inofUit = leesKeypad()
+        if inofUit == "#" or inofUit == "*":
+            uit.append(inofUit)
+        tellerAfzetten += 1
+        print(tellerAfzetten)
+        if tellerAfzetten == 5000:
+            uit.append("*")
+            tellerAfzetten = 0
+    if uit[0] == "#":
         print("TURNED OFF")
-        tellerAfzetten = 0
         lcd.write_message("TURNED OFF", 0x80)
         time.sleep(1)
         lcd.init_LCD()
         oled.Clear_oled()
         os.system("sudo shutdown -h now")
         sys.exit()
-    # quits the code
+        # quits the code
+    else:
+        tellerAfzetten = 0
+        schrijfLCD()
 
 
 def reboot():
