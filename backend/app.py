@@ -35,7 +35,7 @@ oled = OLED(128, 64, 5)
 lees = TemperatuurClass(temperatuurSensor)
 user = -1
 tellerAfzetten = 0
-histMode = "seconds"
+histMode = "basic"
 # Code voor Hardware
 
 
@@ -354,17 +354,19 @@ def leesKeypad():
 def leesHistoriek():
     while True:
         global histMode
+
+        socketio.emit("B2F_mode", histMode, broadcast=True)
         #hist = DataRepository.read_historiek()
         #socketio.emit("B2F_history", hist, broadcast=True)
-        if histMode == "day":
+        if histMode == "Day":
             uitvoer = DataRepository.read_by_day()
-        if histMode == "hour":
+        if histMode == "Hour":
             uitvoer = DataRepository.read_by_hour()
-        if histMode == "minute":
+        if histMode == "Minute":
             uitvoer = DataRepository.read_by_minute()
-        if histMode == 'seconds':
+        if histMode == 'Seconds' or histMode == "basic":
             uitvoer = DataRepository.read_historiek()
-        socketio.emit("B2F_hist", uitvoer)
+        socketio.emit("B2F_hist", uitvoer, broadcast=True)
         time.sleep(1)
 
 

@@ -436,6 +436,24 @@ const listenToSocket = function () {
       console.log(data);
       showHistory(data);
     });
+    socket.on("B2F_mode", (data) => {
+      let dropdown = document.querySelector(".js-grafiek");
+      if (data == "basic") {
+        dropdown.selectedIndex = 0;
+      }
+      if (data == "Day") {
+        dropdown.selectedIndex = 1;
+      }
+      if (data == "Hour") {
+        dropdown.selectedIndex = 2;
+      }
+      if (data == "Minute") {
+        dropdown.selectedIndex = 3;
+      }
+      if (data == "Seconds") {
+        dropdown.selectedIndex = 4;
+      }
+    });
   }
   if (htmlEditPro) {
 
@@ -467,7 +485,6 @@ const listenToSocket = function () {
     socket.emit("F2B_loadPage", 1);
     socket.on("B2F_user_delete", function (data) {
       console.log(data);
-
     });
 
     window.location.href = "index.html?del=1";
