@@ -18,7 +18,7 @@ At the end of this project, I want to have achieved the following:
 - Monitor the current temperature, so I can see if it is too high (or too low) for my food
 - Get a notification of what is already past due and what is about to go past due
 - I want to see when the fridge is open
-- I am sharing this instructable with you so that you too can easily do your bit to preserve our environment and make your bills smaller. (And secretly for the smell of food that has been sitting in your fridge for a long time ;))
+- I am sharing this with you so that you too can easily do your bit to preserve our environment and make your bills smaller. (And secretly for the smell of food that has been sitting in your fridge for a long time ;))
 
 
 ## Sensors and actuators used for this project
