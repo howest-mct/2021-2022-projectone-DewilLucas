@@ -34,6 +34,7 @@ lcd = Lcd(E, RS, lcdPins)
 oled = OLED(128, 64, 5)
 lees = TemperatuurClass(temperatuurSensor)
 user = -1
+tellerAfzetten = 0
 # Code voor Hardware
 
 
@@ -45,9 +46,12 @@ def setup_gpio():
 
 
 def pushed(knop):
-    time.sleep(5)
-    # lcd.init_LCD()
-    print("TURNED OFF")
+    global tellerAfzetten
+    tellerAfzetten += 1
+    if(tellerAfzetten == 10):
+        # lcd.init_LCD()
+        print("TURNED OFF")
+        tellerAfzetten = 0
     #lcd.write_message("TURNED OFF", 0x80)
     # time.sleep(1)
     #os.system("sudo shutdown -h now")
