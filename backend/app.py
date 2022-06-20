@@ -53,7 +53,7 @@ def pushed(knop):
     thread.start()
     uit = []
     lcd.init_LCD()
-    lcd.write_message("close:#", 0X80)
+    lcd.write_message("Want to close?:#", 0X80)
     lcd.write_message("Don't close?:*", 0XC0)
     while len(uit) != 1:
         inofUit = leesKeypad()
