@@ -49,14 +49,15 @@ def pushed(knop):
     global tellerAfzetten
     tellerAfzetten += 1
     if(tellerAfzetten == 10):
-        # lcd.init_LCD()
+        lcd.init_LCD()
         print("TURNED OFF")
         tellerAfzetten = 0
-    #lcd.write_message("TURNED OFF", 0x80)
-    # time.sleep(1)
-    #os.system("sudo shutdown -h now")
-    # lcd.init_LCD()
-    # sys.exit()
+        lcd.write_message("TURNED OFF", 0x80)
+        time.sleep(1)
+        lcd.init_LCD()
+        oled.Clear_oled()
+        os.system("sudo shutdown -h now")
+        sys.exit()
     # quits the code
 
 
