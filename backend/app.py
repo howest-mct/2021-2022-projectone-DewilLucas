@@ -102,10 +102,14 @@ def geefAantal():
             return "Geen aanwezige producten"
         else:
             print(totaalAanwezig['totaalAanwezig'])
-            getal = int(totaalAanwezig['totaalAanwezig'])
+            getal = totaalAanwezig['totaalAanwezig']
+            if getal == None:
+                getal = 0
+            else:
+                getal = int(totaalAanwezig['totaalAanwezig'])
             socketio.emit(
                 "B2F_aantal", {'aantal': getal}, broadcast=True)
-            return f"Number of product:{totaalAanwezig['totaalAanwezig']}"
+            return f"Number of product:{getal}"
 
 
 def showOled():
