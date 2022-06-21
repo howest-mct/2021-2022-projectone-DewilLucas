@@ -89,7 +89,7 @@ def reboot():
             overdatum = DataRepository.geefOverdatums()
             for email in mails:
                 print(email)
-                mail = emailPy(overdatum, email['E-mail'])
+                #mail = emailPy(overdatum, email['E-mail'])
         else:
             pass
 
